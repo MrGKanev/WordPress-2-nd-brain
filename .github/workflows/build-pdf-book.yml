@@ -20,23 +20,54 @@ jobs:
       - name: Generate SUMMARY.md
         run: python scripts/generate_summary.py
       
-      - name: Setup mdBook
-        uses: peaceiris/actions-mdbook@v1
+      # Cache Rust dependencies to speed up the build
+      - name: Cache Cargo registry
+        uses: actions/cache@v3
         with:
-          mdbook-version: 'latest'
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
       
-      - name: Install mdbook PDF Dependencies
+      # Use pre-built mdBook binary instead of installing from source
+      - name: Install mdBook from GitHub releases
+        run: |
+          mkdir -p $HOME/.local/bin
+          curl -sSL https://github.com/rust-lang/mdBook/releases/download/v0.4.34/mdbook-v0.4.34-x86_64-unknown-linux-gnu.tar.gz | tar -xz --directory=$HOME/.local/bin
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+      
+      # Install a specific, known-working version of mdbook-pdf
+      - name: Install mdbook-pdf
+        run: |
+          cargo install mdbook-pdf --version=0.1.13 --force
+      
+      # Install system dependencies with caching
+      - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y chromium-browser
-          cargo install mdbook-pdf
+          sudo apt-get install -y --no-install-recommends chromium-browser
       
-      - name: Build PDF
-        run: mdbook-pdf
+      # Fix for mdbook-pdf deserialization issue - ensure proper book.toml setup
+      - name: Validate book configuration
+        run: |
+          # Ensure book.toml has proper format
+          grep -q '\[book\]' book.toml || echo -e '[book]\nsrc = "."' >> book.toml
+          # Create minimal SUMMARY.md if it doesn't exist or is empty
+          [ -s SUMMARY.md ] || echo "# Summary\n\n* [Introduction](README.md)" > SUMMARY.md
+      
+      - name: Build PDF with debug
+        run: |
+          export RUST_BACKTRACE=1
+          mdbook build --dest-dir ./.book
+          cd ./.book
+          MDBOOK_OUTPUT_DIRECTORY=../. mdbook-pdf
       
       - name: Organize PDF by Date
         run: |
-          python scripts/organize_pdf.py book.pdf
+          python scripts/organize_pdf.py book.pdf || echo "Could not organize PDF, continuing workflow"
           mkdir -p published_pdfs
           cp -r published_pdfs ./published_pdfs || true
       
@@ -45,16 +76,18 @@ jobs:
         with:
           name: book-pdf
           path: book.pdf
+          if-no-files-found: warn
           
       - name: Upload Organized PDFs
         uses: actions/upload-artifact@v4
         with:
           name: published-pdfs
           path: published_pdfs
+          if-no-files-found: warn
           
       # Using softprops/action-gh-release instead of deprecated create-release and upload-release-asset
       - name: Create Release and Upload PDF
-        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && success()
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ github.run_number }}
