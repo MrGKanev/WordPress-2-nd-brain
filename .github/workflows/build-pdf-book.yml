@@ -41,13 +41,13 @@ jobs:
           cp -r published_pdfs ./published_pdfs || true
       
       - name: Upload PDF as Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: book-pdf
           path: book.pdf
           
       - name: Upload Organized PDFs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: published-pdfs
           path: published_pdfs
