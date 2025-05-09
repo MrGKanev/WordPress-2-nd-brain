@@ -4,7 +4,7 @@ A personal knowledge repository containing everything I've learned about WordPre
 
 ## About This Book
 
-This book serves as my "second brain" for WordPress maintance, development and mostly everything else. It contains:
+This book serves as my "second brain" for WordPress maintenance, development and mostly everything else. It contains:
 
 - Plugin development best practices
 - WordPress API reference notes
