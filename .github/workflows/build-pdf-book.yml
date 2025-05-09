@@ -32,66 +32,45 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cargo-
       
-      # Use pre-built mdBook binary instead of installing from source
-      - name: Install mdBook from GitHub releases
-        run: |
-          mkdir -p $HOME/.local/bin
-          curl -sSL https://github.com/rust-lang/mdBook/releases/download/v0.4.34/mdbook-v0.4.34-x86_64-unknown-linux-gnu.tar.gz | tar -xz --directory=$HOME/.local/bin
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+      # Use custom strategy to build and copy PDF
+      - name: Setup mdBook
+        uses: peaceiris/actions-mdbook@v1
+        with:
+          mdbook-version: '0.4.34'
       
-      # Install the latest version of mdbook-pdf
-      - name: Install mdbook-pdf
-        run: |
-          cargo install mdbook-pdf
-      
-      # Install system dependencies with caching
-      - name: Install system dependencies
+      - name: Install system dependencies (optimized)
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends chromium-browser
+          sudo apt-get install -y --no-install-recommends chromium-browser wkhtmltopdf
+
+      # Build HTML version first
+      - name: Build HTML
+        run: mdbook build
       
-      # Fix for mdbook-pdf deserialization issue - ensure proper book.toml setup
-      - name: Validate book configuration
+      # Use wkhtmltopdf as a faster alternative to mdbook-pdf
+      - name: Generate PDF directly from HTML
         run: |
-          # Ensure book.toml has proper format
-          grep -q '\[book\]' book.toml || echo -e '[book]\nsrc = "."' >> book.toml
-          # Create minimal SUMMARY.md if it doesn't exist or is empty
-          [ -s SUMMARY.md ] || echo "# Summary\n\n* [Introduction](README.md)" > SUMMARY.md
-      
-      - name: Build PDF with fallbacks
-        run: |
-          export RUST_BACKTRACE=1
+          # Create directory structure
+          mkdir -p published_pdfs/$(date +%Y)/$(date +%m)
           
-          echo "Attempting direct mdbook-pdf build..."
-          mdbook-pdf && echo "Direct build successful!" && exit 0
+          # Combine HTML files into a single file for PDF
+          echo "<html><head><title>WordPress Second Brain</title>" > combined.html
+          echo "<style>$(cat theme/pdf.css)</style></head><body>" >> combined.html
           
-          echo "Direct build failed, trying alternative approach..."
+          # Add TOC
+          echo "<h1>Table of Contents</h1>" >> combined.html
+          cat SUMMARY.md | sed 's/# Summary//g' | sed 's/\* \[\(.*\)\](\(.*\))/\<h2\>\1\<\/h2\>/g' >> combined.html
           
-          # First generate the book with mdbook
-          mdbook build --dest-dir ./.book
+          # Add content
+          find book -name "*.html" -not -path "*/search_index.json" -not -path "*/print.html" | sort | xargs cat | grep -v "<head" | grep -v "<html" | grep -v "</html" | grep -v "<link" | grep -v "<script" >> combined.html
           
-          # Try building the PDF from the book directory
-          cd ./.book
-          echo "Building PDF from book directory..."
-          MDBOOK_OUTPUT_DIRECTORY=../. mdbook-pdf || (
-            # If that fails, try one more alternative approach
-            cd ..
-            echo "Attempting alternative approach with manual copy of SUMMARY.md..."
-            cp SUMMARY.md ./.book/
-            cd ./.book
-            MDBOOK_OUTPUT_DIRECTORY=../. mdbook-pdf
-          )
-      
-      - name: Organize PDF by Date
-        run: |
-          if [ -f book.pdf ]; then
-            echo "PDF file found, organizing..."
-            python scripts/organize_pdf.py book.pdf || echo "Warning: Could not organize PDF, continuing workflow"
-          else
-            echo "Warning: book.pdf not found, skipping organization step"
-          fi
-          mkdir -p published_pdfs
-          cp -r published_pdfs ./published_pdfs || true
+          echo "</body></html>" >> combined.html
+          
+          # Generate PDF
+          wkhtmltopdf --enable-local-file-access --quiet combined.html book.pdf
+          
+          # Copy to the organized structure
+          cp book.pdf published_pdfs/$(date +%Y)/$(date +%m)/wordpress-second-brain_$(date +%Y-%m-%d)_v1.pdf
       
       - name: Upload PDF as Artifact
         uses: actions/upload-artifact@v4
