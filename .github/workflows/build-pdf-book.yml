@@ -1,0 +1,76 @@
+name: Build PDF Book
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          
+      - name: Generate SUMMARY.md
+        run: python scripts/generate_summary.py
+      
+      - name: Setup mdBook
+        uses: peaceiris/actions-mdbook@v1
+        with:
+          mdbook-version: 'latest'
+      
+      - name: Install mdbook PDF Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chromium-browser
+          cargo install mdbook-pdf
+      
+      - name: Build PDF
+        run: mdbook-pdf
+      
+      - name: Organize PDF by Date
+        run: |
+          python scripts/organize_pdf.py book.pdf
+          mkdir -p published_pdfs
+          cp -r published_pdfs ./published_pdfs || true
+      
+      - name: Upload PDF as Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: book-pdf
+          path: book.pdf
+          
+      - name: Upload Organized PDFs
+        uses: actions/upload-artifact@v2
+        with:
+          name: published-pdfs
+          path: published_pdfs
+          
+      - name: Create Release
+        id: create_release
+        if: github.ref == 'refs/heads/main'
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ github.run_number }}
+          release_name: Book Release v${{ github.run_number }}
+          draft: false
+          prerelease: false
+          
+      - name: Upload PDF to Release
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./book.pdf
+          asset_name: my-second-brain-book.pdf
+          asset_content_type: application/pdf

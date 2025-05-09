@@ -1,0 +1,23 @@
+[book]
+title = "My Second Brain"
+authors = ["Your Name"]
+description = "A collection of my thoughts and learning"
+src = "."
+language = "en"
+
+[output.pdf]
+# PDF-specific options
+paper-size = "a4"
+margin-left = 1.5
+margin-right = 1.5
+margin-top = 1.5
+margin-bottom = 1.5
+cover-images = ["images/cover.png"]  # Optional: Add a cover image
+printable-index = true
+use-default-css = false  # Use our custom CSS instead
+additional-css = ["theme/pdf.css"]
+
+# You can completely disable HTML output if desired
+[output.html]
+# Setting 'optional' to true means HTML won't be generated when running mdbook-pdf
+optional = true
