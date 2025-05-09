@@ -10,10 +10,10 @@ jobs:
   build-pdf:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
           
@@ -41,36 +41,27 @@ jobs:
           cp -r published_pdfs ./published_pdfs || true
       
       - name: Upload PDF as Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: book-pdf
           path: book.pdf
           
       - name: Upload Organized PDFs
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: published-pdfs
           path: published_pdfs
           
-      - name: Create Release
-        id: create_release
-        if: github.ref == 'refs/heads/main'
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Using softprops/action-gh-release instead of deprecated create-release and upload-release-asset
+      - name: Create Release and Upload PDF
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ github.run_number }}
-          release_name: Book Release v${{ github.run_number }}
+          name: Book Release v${{ github.run_number }}
+          files: |
+            ./book.pdf
           draft: false
           prerelease: false
-          
-      - name: Upload PDF to Release
-        if: github.ref == 'refs/heads/main'
-        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./book.pdf
-          asset_name: my-second-brain-book.pdf
-          asset_content_type: application/pdf
