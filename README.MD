@@ -1,125 +1,50 @@
-# Second Brain Book Template
+# WordPress Second Brain
 
-A GitHub template for creating and publishing books as PDFs using Markdown and mdBook. This template is designed to be used as a second brain concept, making it easy to organize your knowledge into books.
+A personal knowledge repository containing everything I've learned about WordPress development, organized as a searchable reference book.
 
-## Features
+## About This Book
 
-- **Markdown-Based**: Write your content in simple Markdown
-- **Automated PDF Generation**: Automatically generate PDFs when you push changes
-- **Version Control**: Keep track of your book's evolution with Git
-- **Organized Structure**: Chapters and sections are neatly organized
-- **Automated Table of Contents**: Automatically generate a table of contents (SUMMARY.md)
-- **Customizable Styling**: Easily adjust the appearance of your PDF
+This book serves as my "second brain" for WordPress maintance, development and mostly everything else. It contains:
 
-## Getting Started
+- Plugin development best practices
+- WordPress API reference notes
+- Code snippets and solutions to common problems
+- Architecture patterns and decisions
+- Security considerations and implementation techniques
+- Performance optimization strategies
+- Hack tips and tricks
+- Deployment and hosting considerations
+- SEO and marketing strategies
+- Theme development guidelines
+- Customization techniques
+- Troubleshooting and debugging tips
+- Community resources and links
+- And much more!
 
-### 1. Create a New Repository
+## How To Use This Book
 
-Use this repository as a template to create your own book repository:
+This repository uses the mdBook system to organize content into chapters and sections. You can:
 
-1. Click the "Use this template" button
-2. Name your new repository
-3. Clone your new repository to your local machine
+1. Browse chapters in the `chapters` directory
+2. Search for specific topics using the search function
+3. Generate a PDF version for offline reference
+4. Contribute additions by creating a pull request
 
-### 2. Customize Your Book
+## Building The Book
 
-1. Edit `book.toml` to set your book's title, author, and other metadata
-2. Edit `src/_markdown_pdf_config.yml` to set additional PDF metadata
-3. Customize `theme/pdf.css` if you want to change the styling
-
-### 3. Create Your First Chapter
-
-```bash
-python scripts/create_new_chapter.py "My First Chapter" --sections "Introduction" "Main Content" "Conclusion"
-```
-
-This will create:
-
-- A new chapter directory with the proper numbering
-- A README.md file for the chapter introduction
-- Individual files for each section
-- An images directory for this chapter
-
-### 4. Generate the Table of Contents
-
-After adding or modifying chapters, generate the SUMMARY.md file:
+To generate a PDF version:
 
 ```bash
-python scripts/generate_summary.py
-```
+# Install mdBook and the PDF extension if you haven't already
+cargo install mdbook
+cargo install mdbook-pdf
 
-### 5. Preview Your Book Locally
-
-To preview your book locally, install mdBook and run:
-
-```bash
-mdbook serve
-```
-
-### 6. Build PDF Manually
-
-To build the PDF manually:
-
-```bash
+# Generate the PDF
 mdbook-pdf
 ```
 
-The PDF will be generated in the root directory as `book.pdf`.
+The PDF will be created as `book.pdf` in the root directory.
 
-### 7. Commit and Push
+## License
 
-When you commit and push your changes to GitHub, the GitHub Actions workflow will automatically:
-
-1. Generate the SUMMARY.md file
-2. Build the PDF
-3. Create a new release with the PDF attached
-4. Organize the PDFs by date
-
-## Directory Structure
-
-```
-your-book/
-├── .github/workflows/     # GitHub Actions workflow
-├── chapters/              # Book chapters
-│   ├── 01-chapter-name/   # Chapter directory
-│   │   ├── README.md      # Chapter introduction
-│   │   └── 01-section.md  # Section file
-├── images/                # Images used in the book
-│   └── chapter-01/        # Images for chapter 1
-├── scripts/               # Utility scripts
-├── src/                   # Source files
-├── theme/                 # Custom styling
-├── book.toml              # mdBook configuration
-└── SUMMARY.md             # Table of contents (auto-generated)
-```
-
-## Helpful Scripts
-
-### Create New Chapter
-
-```bash
-python scripts/create_new_chapter.py "Chapter Name" --sections "Section 1" "Section 2"
-```
-
-### Generate SUMMARY.md
-
-```bash
-python scripts/generate_summary.py
-```
-
-### Organize PDFs
-
-```bash
-python scripts/organize_pdf.py book.pdf
-```
-
-## Customization
-
-### Changing the PDF Appearance
-
-Edit `theme/pdf.css` to customize the appearance of your PDF.
-
-### Adding a Cover Image
-
-Add a cover image at `images/cover.png` and it will be automatically used as your book cover.
-
+This repository is licensed under the MIT License - see the LICENSE file for details.

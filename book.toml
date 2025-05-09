@@ -1,6 +1,6 @@
 [book]
 title = "My Second Brain"
-authors = ["Your Name"]
+authors = ["Gabriel Kanev"]
 description = "A collection of my thoughts and learning"
 src = "."
 language = "en"
