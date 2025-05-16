@@ -1,7 +1,7 @@
 [book]
-title = "My Second Brain"
+title = "WordPress Second Brain"
 authors = ["Gabriel Kanev"]
-description = "A collection of my thoughts and learning"
+description = "WordPress Second Brain is a structured knowledge management system that serves as a comprehensive reference for WordPress development, maintenance, and optimization techniques. This book organizes essential WordPress knowledge into categorized chapters covering plugin architecture, SEO strategies, performance optimization, and security hardening."
 src = "."
 language = "en"
 
