@@ -1,0 +1,24 @@
+## Theme vs Plugin Territory: A Pragmatic Approach
+
+While WordPress best practices suggest separating functionality (plugins) from presentation (themes), experienced developers sometimes take a more nuanced approach for custom projects:
+
+### When to Break the Rules
+
+For client-specific sites with custom themes that won't be changed:
+1. **Single Repository Management** - Keeping all code in one place (the theme) simplifies maintenance and version control
+2. **Simplified Deployment** - One codebase to deploy means fewer moving parts to manage
+3. **Contextual Organization** - Custom post types and taxonomies often have theme-specific presentation needs
+
+### When to Follow Best Practices
+
+Always maintain separation when:
+1. Building distributable themes or plugins
+2. Working on sites that may change themes in the future
+3. Creating functionality that might be reused across multiple sites
+
+### Balanced Approach
+
+Consider a hybrid model:
+- Put truly site-specific code in the theme
+- Extract potentially reusable functionality into plugins
+- Document your organization decisions for future developers
