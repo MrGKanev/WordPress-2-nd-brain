@@ -2,6 +2,8 @@
 
 A personal knowledge repository containing everything I've learned about WordPress development, organized as a searchable reference book.
 
+WARNING: This is a work in progress. Content may be incomplete or unverified. The book/2-nd brain was started in 2017 and some content may be outdated. It's being actively updated.
+
 ## About This Book
 
 This book serves as my "second brain" for WordPress maintenance, development and mostly everything else. It contains:
