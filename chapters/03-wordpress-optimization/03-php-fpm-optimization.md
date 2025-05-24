@@ -88,22 +88,6 @@ Always use the latest stable PHP version:
 
 The case study used PHP 8.2 with FPM for optimal performance.
 
-## PHP OPCache Configuration
-
-Enable and optimize OPCache for significant performance gains:
-
-```ini
-[opcache]
-opcache.enable=1
-opcache.memory_consumption=128
-opcache.interned_strings_buffer=8
-opcache.max_accelerated_files=10000
-opcache.revalidate_freq=60
-opcache.save_comments=1
-opcache.enable_file_override=1
-opcache.validate_timestamps=1
-```
-
 ## Implementation Steps
 
 1. Edit your PHP-FPM pool configuration:
