@@ -373,6 +373,6 @@ When optimizing performance for SEO, prioritize in this order:
 
 ## Further Reading
 
-For detailed technical implementation of Core Web Vitals optimizations, see [Core Web Vitals Optimization](../03-wordpress-optimization/08-core-web-vitals-optimizations.md).
+For detailed technical implementation of Core Web Vitals optimizations, see [Core Web Vitals Optimization](../04-performance/08-core-web-vitals-optimizations.md).
 
-For PHP and server-level optimizations, see [PHP Optimization](../03-wordpress-optimization/02-php-optimization.md).
+For PHP and server-level optimizations, see [PHP Optimization](../04-performance/02-php-optimization.md).

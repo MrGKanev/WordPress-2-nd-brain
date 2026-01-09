@@ -1,5 +1,11 @@
 # Plugin Structure
 
+## Overview
+
+Plugin structure determines how maintainable, performant, and extendable your code will be. While WordPress accepts any PHP file with the right header as a plugin, thoughtful organization separates amateur code from professional solutions.
+
+> **Key principle**: Start simple, add structure as needed. A single-file plugin isn't wrong - it's appropriate for simple functionality. Over-engineering a small plugin is as problematic as under-engineering a large one.
+
 ## What Makes a WordPress Plugin?
 
 At its simplest, a WordPress plugin is a PHP file with a special comment header. That's it. One file, a few lines of metadata, and you have a working plugin.

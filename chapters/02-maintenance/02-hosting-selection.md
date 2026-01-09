@@ -70,9 +70,9 @@ gzip_types text/plain text/css application/json application/javascript text/xml 
 
 For self-managed VPS environments:
 
-1. [**PHP-FPM configuration**](../03-wordpress-optimization/03-php-fpm-optimization.md)
+1. [**PHP-FPM configuration**](../04-performance/03-php-fpm-optimization.md)
 
-2. [**MySQL/MariaDB tuning**](../03-wordpress-optimization/07-database-optimizations.md)
+2. [**MySQL/MariaDB tuning**](../04-performance/07-database-optimizations.md)
 
 3. **Web server configuration**
    - Enable HTTP/2 and HTTP/3 where available

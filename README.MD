@@ -45,6 +45,16 @@ This repository uses the mdBook system to organize content into chapters and sec
 3. Generate a PDF version for offline reference
 4. Contribute additions by creating a pull request
 
+## Official Learning Resources
+
+Beyond this book, these are the best places to learn WordPress:
+
+- **[Learn WordPress](https://learn.wordpress.org/)** - Official free courses and workshops from WordPress.org
+- **[Developer.WordPress.org](https://developer.wordpress.org/)** - Official developer documentation for themes, plugins, APIs
+- **[WordPress.org Documentation](https://wordpress.org/documentation/)** - User guides and how-tos
+- **[r/WordPress](https://reddit.com/r/Wordpress)** - Active community with 171k+ members
+- **[r/ProWordPress](https://reddit.com/r/ProWordPress)** - Advanced topics for professional developers
+
 ## License
 
 This repository is licensed under the MIT License - see the LICENSE file for details.

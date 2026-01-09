@@ -1,6 +1,6 @@
 # Technical SEO Fundamentals
 
-## What is Technical SEO?
+## Overview
 
 Technical SEO is the foundation that makes your content discoverable. Think of it as building a house - you can have beautiful furniture (content), but without solid foundations (technical SEO), the house won't stand.
 
