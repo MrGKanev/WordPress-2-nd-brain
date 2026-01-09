@@ -47,6 +47,56 @@ How to store and retrieve data properly. WordPress offers multiple storage mecha
 - When (and when not) to create custom tables
 - Security and performance considerations
 
+### [Custom Post Types & Taxonomies](./04-custom-post-types.md)
+
+Extending WordPress content types beyond posts and pages. Essential for any plugin storing structured content. Covers:
+
+- Registering post types and taxonomies
+- Rewrite rules and permalink handling
+- Meta boxes for custom fields
+- Querying custom post types
+- When to use CPTs vs. custom database tables
+
+### [AJAX Patterns](./05-ajax-patterns.md)
+
+Building interactive features with WordPress AJAX. How to communicate between browser and server securely. Covers:
+
+- The admin-ajax.php system
+- Security with nonces
+- Response handling
+- Common patterns (load more, forms, live search)
+- When to use AJAX vs. REST API
+
+### [REST API](./06-rest-api.md)
+
+Building and consuming WordPress REST endpoints. Essential for headless WordPress and modern integrations. Covers:
+
+- Registering custom routes
+- Authentication methods
+- Request/response handling
+- Extending default endpoints
+- Building complete API controllers
+
+### [Internationalization (i18n)](./07-internationalization.md)
+
+Making your plugin translatable. Required for WordPress.org distribution and multilingual sites. Covers:
+
+- Translation functions (`__()`, `_e()`, `_n()`, `_x()`)
+- Text domains and loading translations
+- JavaScript translations
+- POT/PO/MO file workflow
+- Best practices for translatable strings
+
+### [Block Development](./08-block-development.md)
+
+Creating custom Gutenberg blocks. The modern way to add rich content types to WordPress. Covers:
+
+- Static vs. dynamic blocks
+- block.json metadata
+- Editor components and save functions
+- Attributes and InnerBlocks
+- Build setup with @wordpress/scripts
+
 ## Key Principles
 
 These principles apply across all plugin development:
@@ -73,5 +123,5 @@ This chapter assumes basic familiarity with:
 
 After this chapter, you'll be ready to explore:
 
-- [WordPress Optimization](../03-wordpress-optimization/README.md) - Making your plugins fast
-- [Security](../04-security/README.md) - Protecting your plugins from attacks
+- [WordPress Optimization](../04-performance/README.md) - Making your plugins fast
+- [Security](../05-security/README.md) - Protecting your plugins from attacks

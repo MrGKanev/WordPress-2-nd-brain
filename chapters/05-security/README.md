@@ -36,6 +36,10 @@ Using Cloudflare as a security layer - WAF rules, bot protection, rate limiting,
 
 Nginx security configurations, file permissions, PHP restrictions, and wp-config.php hardening. Server-level security stops attacks before they reach WordPress, making it far more efficient than plugin-based solutions.
 
+### [Input Sanitization & Output Escaping](./03-data-validation.md)
+
+The most critical security knowledge for writing custom code. Sanitization functions, escaping for different contexts, prepared statements with `$wpdb`, and real-world examples of secure form handling.
+
 ## Security Layers
 
 A properly secured WordPress site has multiple layers:
@@ -173,6 +177,6 @@ Gaps in current coverage worth adding:
 
 ## Further Reading
 
-- [Plugin Architecture](../01-wordpress-plugin-architecture/README.md) - Writing secure plugin code
-- [Hosting Selection](../05-maintenance/02-hosting-selection.md) - Choosing secure hosting
+- [Plugin Architecture](../01-plugin-development/README.md) - Writing secure plugin code
+- [Hosting Selection](../06-maintenance/02-hosting-selection.md) - Choosing secure hosting
 - [Tai Hoang's WordPress Security Guide](https://taihoang.com/articles/wordpress-security-in-good-hands/) - Comprehensive handbook on layered WordPress security

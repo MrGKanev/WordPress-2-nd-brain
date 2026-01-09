@@ -650,6 +650,6 @@ Regular audits catch problems before attackers do. Schedule these reviews:
 ## Further Reading
 
 - [Cloudflare Hardening](./01-cloudflare-hardening.md) - Network-level protection with WAF rules and DDoS mitigation
-- [wp-config.php Optimization](../03-wordpress-optimization/01-wp-config-optimization.md) - Performance settings that also affect security
-- [Hosting Selection](../05-maintenance/02-hosting-selection.md) - Choosing hosts with good security practices
+- [wp-config.php Optimization](../04-performance/01-wp-config-optimization.md) - Performance settings that also affect security
+- [Hosting Selection](../06-maintenance/02-hosting-selection.md) - Choosing hosts with good security practices
 - [Tai Hoang's WordPress Security Guide](https://taihoang.com/articles/wordpress-security-in-good-hands/) - Comprehensive handbook on layered WordPress security that informed this guide

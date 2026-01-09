@@ -646,6 +646,6 @@ Before diving into complex optimization, check these:
 ## Further Reading
 
 - [WooCommerce Fundamentals](./01-woocommerce-fundamentals.md) - Data storage architecture
-- [Database Optimization](../03-wordpress-optimization/07-database-optimizations.md) - General DB tips
-- [PHP-FPM Optimization](../03-wordpress-optimization/03-php-fpm-optimization.md) - Server tuning
-- [Core Web Vitals](../03-wordpress-optimization/08-core-web-vitals-optimizations.md) - Frontend metrics
+- [Database Optimization](../04-performance/07-database-optimizations.md) - General DB tips
+- [PHP-FPM Optimization](../04-performance/03-php-fpm-optimization.md) - Server tuning
+- [Core Web Vitals](../04-performance/08-core-web-vitals-optimizations.md) - Frontend metrics

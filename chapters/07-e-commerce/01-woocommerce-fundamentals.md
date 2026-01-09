@@ -525,5 +525,5 @@ Copy to: theme/woocommerce/single-product.php
 
 - [WooCommerce Hooks](./02-woocommerce-hooks.md) - Practical hooks for customization
 - [WooCommerce Performance](./03-woocommerce-performance.md) - Store optimizations
-- [WordPress Database Operations](../01-wordpress-plugin-architecture/03-database-operations.md) - Database basics
+- [WordPress Database Operations](../01-plugin-development/03-database-operations.md) - Database basics
 - [Official WooCommerce Developer Docs](https://developer.woocommerce.com/)

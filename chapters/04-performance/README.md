@@ -56,6 +56,30 @@ Query optimization, table maintenance, and dealing with bloat from revisions, tr
 
 Google's performance metrics that affect search rankings. LCP, INP, CLS - what they measure and how to improve them.
 
+### Scaling
+
+**[Scaling WordPress](./09-scaling-wordpress.md)**
+
+When single-server optimization isn't enough. Horizontal scaling, load balancers, database replication, and enterprise architecture patterns.
+
+### Debugging
+
+**[Debugging & Profiling Tools](./10-debugging-profiling.md)**
+
+Finding performance bottlenecks before fixing them. Query Monitor, debug logging, PHP profiling, and browser DevTools for identifying what's actually slow.
+
+### Caching Strategies
+
+**[Transients Deep Dive](./11-transients-strategies.md)**
+
+Mastering WordPress transients for caching. When to use transients vs. options vs. object cache, expiration strategies, cache invalidation patterns, and avoiding database bloat.
+
+### Core Team Tools
+
+**[Performance Lab Plugin](./12-performance-lab.md)**
+
+The official WordPress Core Performance Team's testing ground for optimizations. Image prioritization, speculative loading, enhanced responsive images, and more—with measured LCP improvements of 25-50%.
+
 ## The Optimization Stack
 
 Performance improvements compound. A well-optimized stack looks like:
@@ -106,5 +130,5 @@ If you're starting from scratch, these typically give the best return on effort:
 
 ## Further Reading
 
-- [Performance Optimization for SEO](../02-wordpress-seo-optimization/04-performance-optimization-for-seo.md) - How performance affects search rankings
-- [Plugin Architecture](../01-wordpress-plugin-architecture/README.md) - Writing performant plugin code
+- [Performance Optimization for SEO](../03-seo/04-performance-optimization-for-seo.md) - How performance affects search rankings
+- [Plugin Architecture](../01-plugin-development/README.md) - Writing performant plugin code

@@ -66,6 +66,6 @@ The store processes personal data and payments. One breach and the business is a
 
 Before continuing, make sure you understand:
 
-- [WordPress Hooks System](../01-wordpress-plugin-architecture/02-hooks-system.md)
-- [Database Operations](../01-wordpress-plugin-architecture/03-database-operations.md)
+- [WordPress Hooks System](../01-plugin-development/02-hooks-system.md)
+- [Database Operations](../01-plugin-development/03-database-operations.md)
 - Basics of PHP and WordPress development

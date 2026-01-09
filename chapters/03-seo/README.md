@@ -66,5 +66,5 @@ This chapter focuses on technical SEO. For related topics, see:
 
 ## Further Reading
 
-- [WordPress Optimization](../03-wordpress-optimization/README.md) - Server and code performance
-- [Plugin Architecture](../01-wordpress-plugin-architecture/README.md) - Building SEO-friendly plugins
+- [WordPress Optimization](../04-performance/README.md) - Server and code performance
+- [Plugin Architecture](../01-plugin-development/README.md) - Building SEO-friendly plugins

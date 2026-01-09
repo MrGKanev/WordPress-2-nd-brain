@@ -32,6 +32,24 @@ Choosing and optimizing hosting for WordPress. Hosting is the foundation everyth
 - VPS optimization
 - When to upgrade
 
+### [WP-CLI Essentials](./03-wp-cli-essentials.md)
+
+Command-line WordPress management. Tasks that take minutes in the admin take seconds via terminal. Covers:
+
+- Core, plugin, and theme management
+- Database operations and search-replace
+- User management and security audits
+- Maintenance automation scripts
+
+### [Multisite Considerations](./04-multisite-basics.md)
+
+Running multiple sites from one WordPress installation. Different rules apply for plugins, data storage, and administration. Covers:
+
+- Network vs. site activation
+- Database structure and table prefixes
+- Super Admin vs. Site Admin
+- Plugin compatibility requirements
+
 ## Core Maintenance Tasks
 
 ### Updates
@@ -227,5 +245,5 @@ Despite best practices, problems happen. Be prepared:
 
 ## Further Reading
 
-- [WordPress Optimization](../03-wordpress-optimization/README.md) - Performance tuning
-- [Security](../04-security/README.md) - Protecting your site
+- [WordPress Optimization](../04-performance/README.md) - Performance tuning
+- [Security](../05-security/README.md) - Protecting your site
