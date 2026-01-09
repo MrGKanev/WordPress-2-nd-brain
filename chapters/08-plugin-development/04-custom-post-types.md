@@ -649,5 +649,5 @@ add_action( 'init', 'register_my_cpt' );
 
 - [WordPress Hooks System](./02-hooks-system.md) - Understanding actions and filters
 - [Database Operations](./03-database-operations.md) - When to use custom tables instead
-- [Input Sanitization & Output Escaping](../05-security/03-data-validation.md) - Securing meta box data
+- [Input Sanitization & Output Escaping](../03-security/03-data-validation.md) - Securing meta box data
 - [WordPress CPT Documentation](https://developer.wordpress.org/plugins/post-types/) - Official reference

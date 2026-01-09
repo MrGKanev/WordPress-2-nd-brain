@@ -671,6 +671,6 @@ Use the schema for IDE validation:
 
 - [Template Hierarchy](./01-template-hierarchy.md) - How templates are selected
 - [Child Themes](./02-child-themes.md) - Block theme child themes
-- [Block Development](../01-plugin-development/08-block-development.md) - Creating custom blocks
+- [Block Development](../08-plugin-development/08-block-development.md) - Creating custom blocks
 - [WordPress Block Theme Documentation](https://developer.wordpress.org/themes/block-themes/) - Official docs
 - [theme.json Reference](https://developer.wordpress.org/themes/advanced-topics/theme-json-reference/) - Complete settings reference

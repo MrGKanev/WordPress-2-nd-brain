@@ -413,5 +413,5 @@ When choosing a provider or building infrastructure:
 
 - [Database Optimization](./07-database-optimizations.md) - Query-level optimizations
 - [PHP-FPM Optimization](./03-php-fpm-optimization.md) - Process management tuning
-- [Hosting Selection](../06-maintenance/02-hosting-selection.md) - Choosing the right host
-- [Cloudflare Hardening](../05-security/01-cloudflare-hardening.md) - CDN and edge caching
+- [Hosting Selection](../02-maintenance/02-hosting-selection.md) - Choosing the right host
+- [Cloudflare Hardening](../03-security/01-cloudflare-hardening.md) - CDN and edge caching

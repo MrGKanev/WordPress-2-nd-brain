@@ -130,5 +130,5 @@ If you're starting from scratch, these typically give the best return on effort:
 
 ## Further Reading
 
-- [Performance Optimization for SEO](../03-seo/04-performance-optimization-for-seo.md) - How performance affects search rankings
-- [Plugin Architecture](../01-plugin-development/README.md) - Writing performant plugin code
+- [Performance Optimization for SEO](../05-seo/04-performance-optimization-for-seo.md) - How performance affects search rankings
+- [Plugin Architecture](../08-plugin-development/README.md) - Writing performant plugin code

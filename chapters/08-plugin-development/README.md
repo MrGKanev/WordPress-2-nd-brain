@@ -124,4 +124,4 @@ This chapter assumes basic familiarity with:
 After this chapter, you'll be ready to explore:
 
 - [WordPress Optimization](../04-performance/README.md) - Making your plugins fast
-- [Security](../05-security/README.md) - Protecting your plugins from attacks
+- [Security](../03-security/README.md) - Protecting your plugins from attacks

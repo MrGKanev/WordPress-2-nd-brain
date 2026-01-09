@@ -246,4 +246,4 @@ Despite best practices, problems happen. Be prepared:
 ## Further Reading
 
 - [WordPress Optimization](../04-performance/README.md) - Performance tuning
-- [Security](../05-security/README.md) - Protecting your site
+- [Security](../03-security/README.md) - Protecting your site

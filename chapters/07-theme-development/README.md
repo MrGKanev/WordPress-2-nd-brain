@@ -433,7 +433,7 @@ wp_enqueue_style( 'handle', get_stylesheet_directory_uri() . '/style.css' );
 
 ## Further Reading
 
-- [Plugin Architecture](../01-plugin-development/README.md) - When to use plugins instead
-- [Block Development](../01-plugin-development/08-block-development.md) - Creating blocks for themes
+- [Plugin Architecture](../08-plugin-development/README.md) - When to use plugins instead
+- [Block Development](../08-plugin-development/08-block-development.md) - Creating blocks for themes
 - [WordPress Theme Handbook](https://developer.wordpress.org/themes/) - Official documentation
 - [Theme Developer Checklist](https://developer.wordpress.org/themes/releasing-your-theme/required-theme-files/) - Requirements for WordPress.org

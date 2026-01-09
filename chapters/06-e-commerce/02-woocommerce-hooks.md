@@ -829,5 +829,5 @@ $order = wc_get_order( $order_id );
 
 - [WooCommerce Fundamentals](./01-woocommerce-fundamentals.md) - Architecture and data model
 - [Checkout Customization](./04-checkout-customization.md) - Detailed checkout guide
-- [WordPress Hooks System](../01-plugin-development/02-hooks-system.md) - Hooks basics
+- [WordPress Hooks System](../08-plugin-development/02-hooks-system.md) - Hooks basics
 - [WooCommerce Hook Reference](https://woocommerce.github.io/code-reference/hooks/hooks.html) - Official documentation

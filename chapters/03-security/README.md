@@ -177,6 +177,6 @@ Gaps in current coverage worth adding:
 
 ## Further Reading
 
-- [Plugin Architecture](../01-plugin-development/README.md) - Writing secure plugin code
-- [Hosting Selection](../06-maintenance/02-hosting-selection.md) - Choosing secure hosting
+- [Plugin Architecture](../08-plugin-development/README.md) - Writing secure plugin code
+- [Hosting Selection](../02-maintenance/02-hosting-selection.md) - Choosing secure hosting
 - [Tai Hoang's WordPress Security Guide](https://taihoang.com/articles/wordpress-security-in-good-hands/) - Comprehensive handbook on layered WordPress security

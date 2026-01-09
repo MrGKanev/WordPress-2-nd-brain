@@ -546,7 +546,7 @@ $service->invalidate_all();          // Clear all
 
 ## Further Reading
 
-- [Database Operations](../01-plugin-development/03-database-operations.md) - Options API and storage
+- [Database Operations](../08-plugin-development/03-database-operations.md) - Options API and storage
 - [Database Optimization](./07-database-optimizations.md) - Cleaning up bloat
 - [Scaling WordPress](./09-scaling-wordpress.md) - Object caching at scale
 - [WordPress Transients API](https://developer.wordpress.org/apis/transients/) - Official documentation

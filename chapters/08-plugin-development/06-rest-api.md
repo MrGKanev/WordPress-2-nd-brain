@@ -822,6 +822,6 @@ add_action( 'rest_api_init', function() {
 ## Further Reading
 
 - [AJAX Patterns](./05-ajax-patterns.md) - When to use AJAX vs REST
-- [Input Sanitization & Output Escaping](../05-security/03-data-validation.md) - Securing API inputs
+- [Input Sanitization & Output Escaping](../03-security/03-data-validation.md) - Securing API inputs
 - [WordPress REST API Handbook](https://developer.wordpress.org/rest-api/) - Official documentation
 - [REST API Authentication](https://developer.wordpress.org/rest-api/using-the-rest-api/authentication/) - Official auth guide

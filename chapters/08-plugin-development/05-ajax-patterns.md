@@ -628,6 +628,6 @@ $.post(ajaxurl, {
 ## Further Reading
 
 - [WordPress Hooks System](./02-hooks-system.md) - Understanding actions and filters
-- [Input Sanitization & Output Escaping](../05-security/03-data-validation.md) - Securing AJAX handlers
+- [Input Sanitization & Output Escaping](../03-security/03-data-validation.md) - Securing AJAX handlers
 - [WordPress REST API Handbook](https://developer.wordpress.org/rest-api/) - Official REST API docs
 - [AJAX in Plugins](https://developer.wordpress.org/plugins/javascript/ajax/) - Official AJAX documentation

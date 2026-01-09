@@ -442,5 +442,5 @@ When deploying plugins on Multisite:
 ## Further Reading
 
 - [WP-CLI Essentials](./03-wp-cli-essentials.md) - Command-line Multisite management
-- [Database Operations](../01-plugin-development/03-database-operations.md) - Table prefixes and queries
+- [Database Operations](../08-plugin-development/03-database-operations.md) - Table prefixes and queries
 - [WordPress Multisite Documentation](https://developer.wordpress.org/advanced-administration/multisite/) - Official guide
