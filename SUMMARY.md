@@ -21,6 +21,7 @@
   * [Core Web Vitals Optimization](chapters/03-wordpress-optimization/08-core-web-vitals-optimizations.md)
 * [Security](chapters/04-security/README.md)
   * [Security Hardening with Cloudflare](chapters/04-security/01-cloudflare-hardening.md)
+  * [Server-Level Hardening](chapters/04-security/02-server-hardening.md)
 * [Maintenance](chapters/05-maintenance/README.md)
   * [Plugin Recommendations](chapters/05-maintenance/01-plugin-recommendations.md)
   * [Hosting Selection and Optimization](chapters/05-maintenance/02-hosting-selection.md)

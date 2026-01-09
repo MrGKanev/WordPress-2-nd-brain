@@ -32,6 +32,10 @@ Understanding how sites get compromised helps prioritize defenses:
 
 Using Cloudflare as a security layer - WAF rules, bot protection, rate limiting, and DDoS mitigation. Cloudflare's free tier provides significant protection that would otherwise require expensive solutions.
 
+### [Server-Level Hardening](./02-server-hardening.md)
+
+Nginx security configurations, file permissions, PHP restrictions, and wp-config.php hardening. Server-level security stops attacks before they reach WordPress, making it far more efficient than plugin-based solutions.
+
 ## Security Layers
 
 A properly secured WordPress site has multiple layers:
@@ -117,7 +121,58 @@ Minimum security baseline:
 - [ ] Debug mode disabled in production
 - [ ] Login attempts limited
 
+## Key Statistics
+
+According to [Patchstack's 2024 report](https://patchstack.com/):
+
+- **96% of vulnerabilities** were found in plugins
+- **4% of vulnerabilities** were found in themes
+- Only **7 vulnerabilities** were found in WordPress core itself
+- **43%** of vulnerabilities don't require authentication to exploit
+- **33%** of vulnerabilities were not patched before public disclosure
+
+This reinforces why minimizing plugins and keeping everything updated is critical.
+
+## Topics to Explore
+
+Gaps in current coverage worth adding:
+
+### Foundational
+- [ ] **Life cycle of a hack** - How attacks progress from reconnaissance to exploitation to persistence
+- [ ] **OWASP Top 10** - Classification of common web vulnerabilities and how they apply to WordPress
+- [ ] **OWASP ASVS** - Application Security Verification Standard as a security requirements checklist
+- [ ] **Risk management** - Prioritizing security efforts based on threat likelihood and impact
+
+### User Security
+- [ ] **User roles deep dive** - Capabilities system, creating custom roles, role auditing
+- [ ] **Single Sign-On (SSO)** - SAML, OAuth integration options for WordPress
+- [ ] **User activity monitoring** - Tracking admin actions, login history, audit trails
+
+### Update Management
+- [ ] **Software Bill of Materials (SBOM)** - Tracking dependencies and their versions
+- [ ] **Auto-updates: pros and cons** - When to enable, testing strategies, rollback plans
+- [ ] **Patching vs updating** - Emergency patches, version pinning, security-only updates
+
+### Browser Security
+- [ ] **Content Security Policy (CSP)** - Preventing XSS with proper CSP headers
+- [ ] **CORS configuration** - Cross-origin resource sharing for APIs and embeds
+
+### Configuration
+- [ ] **SMTP email hardening** - SPF, DKIM, DMARC for WordPress email
+- [ ] **Managing secrets** - Environment variables, secret managers, key rotation
+- [ ] **Database hardening** - User privileges, connection security, encryption at rest
+
+### Compliance
+- [ ] **GDPR for WordPress** - Cookie consent, data export, right to erasure
+- [ ] **PCI-DSS basics** - Requirements for sites handling payment data
+- [ ] **EU Cyber Resilience Act** - Upcoming requirements for software providers
+
+### Practical Guides
+- [ ] **Security from scratch** - Step-by-step guide for new WordPress installations
+- [ ] **Incident response** - What to do when compromised, evidence preservation, recovery
+
 ## Further Reading
 
 - [Plugin Architecture](../01-wordpress-plugin-architecture/README.md) - Writing secure plugin code
 - [Hosting Selection](../05-maintenance/02-hosting-selection.md) - Choosing secure hosting
+- [Tai Hoang's WordPress Security Guide](https://taihoang.com/articles/wordpress-security-in-good-hands/) - Comprehensive handbook on layered WordPress security
