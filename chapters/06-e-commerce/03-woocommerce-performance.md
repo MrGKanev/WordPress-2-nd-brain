@@ -36,7 +36,55 @@ WooCommerce stores have specific performance challenges that standard WordPress 
 
 **Why this matters:** You can't just "install a caching plugin" and expect good performance. WooCommerce requires strategic optimization at multiple levels.
 
+## System Cron for WooCommerce
+
+WooCommerce relies heavily on scheduled tasks. The default HTTP-triggered cron is problematic:
+
+```php
+// In wp-config.php - disable HTTP cron
+define( 'DISABLE_WP_CRON', true );
+```
+
+**Set up system cron (every minute):**
+```bash
+* * * * * nice -n 15 wp cron event run --due-now --path=/PATH/TO/WP/ --quiet
+```
+
+**Why this matters for WooCommerce:**
+- Prevents socket exhaustion on high-traffic stores
+- Background tasks don't delay customer requests
+- More reliable scheduled sale prices and stock updates
+
+### Action Scheduler via CLI
+
+WooCommerce's Action Scheduler handles background jobs. Run it via CLI instead of HTTP:
+
+```bash
+# Install the plugin to disable default queue runner
+# https://github.com/developer developer/action-scheduler-disable-default-runner
+
+# Add to system cron
+* * * * * nice -n 15 wp action-scheduler run --path=/PATH/TO/WP/ --quiet
+```
+
 ## Database Optimization
+
+### Convert to InnoDB
+
+Old installations may have MyISAM tables. InnoDB provides row-level locking (critical for concurrent checkouts):
+
+```sql
+-- Check for MyISAM tables
+SELECT TABLE_NAME, ENGINE
+FROM information_schema.TABLES
+WHERE TABLE_SCHEMA = 'your_database'
+AND ENGINE = 'MyISAM';
+
+-- Convert each table
+ALTER TABLE wp_posts ENGINE=InnoDB;
+```
+
+Use [Servebolt Optimizer](https://wordpress.org/plugins/servebolt-optimizer/) for automated conversion.
 
 ### Product Lookup Tables
 
@@ -405,6 +453,33 @@ $variation_ids = $product->get_children();
 
 ## Frontend Optimization
 
+### HTML Validation
+
+Invalid HTML parses and renders slower than valid HTML:
+
+1. Check pages at [validator.w3.org](https://validator.w3.org/)
+2. Fix structural errors
+3. Check browser console for JavaScript errors (they consume processing time)
+
+### Remove Unused CSS
+
+WooCommerce loads CSS you may not need:
+
+```php
+// Remove specific stylesheets
+add_action( 'wp_enqueue_scripts', function() {
+    // Remove block styles if not using blocks
+    wp_dequeue_style( 'wc-blocks-style' );
+
+    // Remove on non-WooCommerce pages
+    if ( ! is_woocommerce() && ! is_cart() && ! is_checkout() ) {
+        wp_dequeue_style( 'woocommerce-general' );
+    }
+}, 20 );
+```
+
+**Find unused CSS:** Use [purifycss.online](https://purifycss.online/) to identify CSS bloat percentages.
+
 ### Critical CSS
 
 WooCommerce adds substantial CSS. On a typical site:
@@ -425,7 +500,48 @@ Tools:
 - Perfmatters plugin
 - WP Rocket's "Load CSS Asynchronously"
 
-### JavaScript Loading
+### Google Fonts Performance
+
+Loading fonts from fonts.google.com adds ~1 second (render-blocking):
+
+**Solution: Host fonts locally**
+
+1. Download fonts from [google-webfonts-helper.herokuapp.com](https://google-webfonts-helper.herokuapp.com/)
+2. Add to theme's `/fonts/` directory
+3. Use `@font-face` in your CSS:
+
+```css
+@font-face {
+    font-family: 'Open Sans';
+    src: url('fonts/open-sans-v34-latin-regular.woff2') format('woff2');
+    font-display: swap;
+}
+```
+
+**Alternative:** Use Cloudflare/Accelerated Domains to proxy Google Fonts automatically.
+
+### JavaScript Loading Strategies
+
+| Method | Behavior | Use When |
+|--------|----------|----------|
+| In `<head>` | Blocks parsing and rendering | Never (legacy only) |
+| End of `<body>` | Executes after HTML parsed | Better, but not ideal |
+| `async` | Downloads parallel, executes immediately | Analytics, non-critical |
+| `defer` | Downloads parallel, executes after parse | Most WooCommerce scripts |
+
+```php
+// Add defer to WooCommerce scripts
+add_filter( 'script_loader_tag', function( $tag, $handle ) {
+    $defer_scripts = array( 'woocommerce', 'wc-add-to-cart', 'wc-cart-fragments' );
+
+    if ( in_array( $handle, $defer_scripts ) ) {
+        return str_replace( ' src', ' defer src', $tag );
+    }
+    return $tag;
+}, 10, 2 );
+```
+
+### Conditional Script Loading
 
 WooCommerce loads several JavaScript files. Not all are needed everywhere:
 
@@ -628,6 +744,135 @@ Monitor these for problems:
 - Error rate > 1% (something broken)
 - Cart abandonment spike (checkout problem?)
 
+## Theme and Plugin Selection
+
+### Theme Performance Impact
+
+Theme choice dramatically affects WooCommerce performance:
+
+**Avoid:**
+- Multipurpose "Swiss army knife" themes with 100+ features
+- Themes with built-in page builders loading on every page
+- Themes loading 15+ JavaScript files
+
+**Choose:**
+- Lightweight themes built specifically for WooCommerce
+- Themes with only features you actually use
+- Themes from developers who document performance
+
+**Testing themes:**
+1. Test complete demo, not just homepage
+2. Check product pages, category pages, cart
+3. Test **uncached** with unique query strings: `?test=1`, `?test=2`
+4. Use tools: Sitebulb, Screaming Frog, batchspeed.com
+
+### Plugin Performance Audit
+
+Test every plugin's impact individually:
+
+```php
+// Use WP Plugin Manager to disable plugins per-page
+// Example: Disable review plugin on non-product pages
+```
+
+**Red flags in plugins:**
+- License checks on every pageload
+- XML-RPC connections to external servers
+- Loading assets/code on wrong pages
+- Heavy admin code affecting frontend
+
+### Security Plugins Warning
+
+Traditional security plugins (Wordfence, iThemes Security, Sucuri plugin) **hurt performance**:
+
+- Run on every request (including cached)
+- Work inside WordPress (too late to stop real threats)
+- Consume PHP processing time
+
+**Better approach:**
+- Multi-factor authentication for wp-admin
+- WAF/firewall at edge (Cloudflare, Accelerated Domains)
+- Keep everything updated
+- Remove unused plugins/themes
+
+## Product Search Optimization
+
+WooCommerce's built-in search struggles with filtered metadata queries on large catalogs.
+
+### Algolia
+
+Fast, hosted search with excellent relevance:
+
+```bash
+# Install via WebDevStudios plugin
+wp plugin install wp-search-with-algolia --activate
+```
+
+**Best for:** Stores needing instant search, typo tolerance, faceted filtering.
+
+### Elasticsearch
+
+Self-hosted, highly customizable:
+
+```bash
+# Install 10up's plugin
+wp plugin install elasticpress --activate
+```
+
+**Best for:** Stores needing full control, complex custom queries.
+
+## Testing Methodology
+
+### Test Uncached Performance
+
+Cached performance is misleading. Test real server response:
+
+```bash
+# Each request bypasses cache with unique query string
+curl -o /dev/null -s -w "%{time_total}\n" "https://store.com/product/?test=1"
+curl -o /dev/null -s -w "%{time_total}\n" "https://store.com/product/?test=2"
+curl -o /dev/null -s -w "%{time_total}\n" "https://store.com/product/?test=3"
+```
+
+### TTFB Benchmarks
+
+| TTFB | Rating |
+|------|--------|
+| < 250ms | Good |
+| < 500ms | OK |
+| < 1000ms | Needs work |
+| > 1000ms | Critical |
+
+### Performance-First Development
+
+Apply performance testing to ALL future changes:
+- Theme switches
+- Plugin installations/updates
+- Development work
+- Design modifications
+
+Small slowdowns add up. Track cumulative impact.
+
+## Common Misconceptions
+
+**"Increase PHP memory limit for speed"**
+- Memory limit affects capacity, not speed
+- A 256MB limit runs the same speed as 512MB
+- Only increase if hitting actual limits
+
+**"Disable post revisions for performance"**
+- With proper database indexes, revisions don't slow queries
+- Zero performance benefit on well-configured databases
+
+**"Cart Fragments always slows sites"**
+- With proper caching configuration, impact is minimal
+- Only disable if you truly don't use mini-cart widget
+
+**"Redis dramatically speeds up frontend"**
+- Redis helps backend/admin more than frontend
+- Properly cached frontend rarely hits Redis
+- Don't add complexity without measuring benefit
+
 ## Quick Wins Checklist
 
 Before diving into complex optimization, check these:
@@ -649,3 +894,4 @@ Before diving into complex optimization, check these:
 - [Database Optimization](../04-performance/07-database-optimizations.md) - General DB tips
 - [PHP-FPM Optimization](../04-performance/03-php-fpm-optimization.md) - Server tuning
 - [Core Web Vitals](../04-performance/08-core-web-vitals-optimizations.md) - Frontend metrics
+- [Servebolt WooCommerce Guide](https://servebolt.com/articles/how-to-speed-up-woocommerce/) - Comprehensive optimization article
