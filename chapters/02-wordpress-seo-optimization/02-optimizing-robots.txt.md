@@ -1,4 +1,4 @@
-## Optimizing robots.txt
+# Optimizing robots.txt
 
 ### Understanding WordPress robots.txt
 

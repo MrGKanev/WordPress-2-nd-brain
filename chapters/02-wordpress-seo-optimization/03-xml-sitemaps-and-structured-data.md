@@ -1,4 +1,4 @@
-## XML Sitemaps and Structured Data
+# XML Sitemaps and Structured Data
 
 ### WordPress XML Sitemaps
 

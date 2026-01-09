@@ -13,7 +13,7 @@ The typical "top results" hosting providers should be approached with caution. A
 1. **Server technology**
    - LiteSpeed servers offer significant performance advantages for WordPress
    - NGINX typically outperforms Apache for WordPress sites
-   - PHP 8.2+ support is essential for modern WordPress performance
+   - PHP 8.4+ support is essential for modern WordPress performance
    - Redis/Memcached support for object caching
 
 2. **Performance characteristics**
@@ -35,7 +35,7 @@ Based on expert recommendations for e-commerce sites:
 1. **Server baseline**: Ensure adequate hardware before configuration
    - At least 2GB RAM for WooCommerce sites
    - SSD storage (preferably NVMe)
-   - Dedicated resources - avoid oversold shared hosting if possbile
+   - Dedicated resources - avoid oversold shared hosting if possible
 
 2. **Critical server configurations**:
    - FastCGI caching implementation
@@ -70,9 +70,9 @@ gzip_types text/plain text/css application/json application/javascript text/xml 
 
 For self-managed VPS environments:
 
-1. [**PHP-FPM configuration**](./03-wordpress-optimization/01-php-fpm-configuration.md)
+1. [**PHP-FPM configuration**](../03-wordpress-optimization/03-php-fpm-optimization.md)
 
-2. [**MySQL/MariaDB tuning**](./03-wordpress-optimization/06-database-optimizations.md)
+2. [**MySQL/MariaDB tuning**](../03-wordpress-optimization/07-database-optimizations.md)
 
 3. **Web server configuration**
    - Enable HTTP/2 and HTTP/3 where available

@@ -1,4 +1,4 @@
-## Development Workflow Optimization
+# Development Workflow Optimization
 
 While the traditional dev → staging → production workflow is standard, experienced developers sometimes optimize this process:
 
