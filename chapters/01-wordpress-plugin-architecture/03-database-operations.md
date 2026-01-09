@@ -1,10 +1,12 @@
 # Database Operations
 
-## Understanding WordPress Data Storage
+## Overview
 
 WordPress provides multiple ways to store data, each suited for different purposes. Choosing the wrong storage method is a common mistake that leads to performance issues and maintenance headaches.
 
-## Storage Options Overview
+> **Key principle**: Use WordPress APIs whenever possible. They handle caching, multisite compatibility, and security automatically. Custom database queries should be a last resort, not a first choice.
+
+## Storage Methods Comparison
 
 | Method | Best For | Not For |
 |--------|----------|---------|
