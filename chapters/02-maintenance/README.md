@@ -50,6 +50,24 @@ Running multiple sites from one WordPress installation. Different rules apply fo
 - Super Admin vs. Site Admin
 - Plugin compatibility requirements
 
+### [Analytics](./05-analytics.md)
+
+Understanding your visitors without compromising their privacy. Covers:
+
+- The privacy problem with traditional analytics
+- Self-hosted options (Koko Analytics, Matomo)
+- Privacy-focused services (Plausible, Fathom)
+- What metrics actually matter
+
+### [Email Deliverability](./06-email-deliverability.md)
+
+WordPress emails that actually arrive. The default `wp_mail()` function fails more often than it succeeds. Covers:
+
+- Why WordPress emails fail
+- SMTP configuration with plugins
+- Email authentication (SPF, DKIM, DMARC)
+- Transactional vs. marketing email
+
 ## Core Maintenance Tasks
 
 ### Updates

@@ -52,6 +52,15 @@ The new WordPress theme paradigm using Full Site Editing. Covers:
 - Template parts in block themes
 - Migrating from classic to block themes
 
+### [Accessibility](./04-accessibility.md)
+
+Building websites everyone can use. Accessibility isn't optional—it's ethical, often legal, and improves experience for everyone. Covers:
+
+- WCAG principles and conformance levels
+- Common WordPress accessibility issues
+- Testing methods (automated and manual)
+- Quick wins for accessibility
+
 ## Theme Fundamentals
 
 ### Required Files
