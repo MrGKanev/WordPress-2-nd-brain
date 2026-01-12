@@ -335,6 +335,25 @@ Server logs show exactly what search engines crawl. Regular log analysis reveals
 
 Multiple SEO plugins often conflict, creating duplicate meta tags, conflicting canonicals, or multiple sitemaps. Use one comprehensive SEO plugin, not several overlapping ones.
 
+## Recommended SEO Plugins
+
+Choose **one** comprehensive SEO plugin:
+
+| Plugin | Character | Best For |
+|--------|-----------|----------|
+| [Rank Math](https://wordpress.org/plugins/seo-by-rank-math/) | Feature-rich, good free tier | Sites wanting all features included |
+| [SEOPress](https://wordpress.org/plugins/wp-seopress/) | Clean interface, no upsells | Those who dislike cluttered UIs |
+| [Slim SEO](https://wordpress.org/plugins/slim-seo/) | Minimal, automatic | Developers who prefer less configuration |
+| [The SEO Framework](https://developer.wordpress.org/plugins/the-seo-framework/) | Lightweight, privacy-focused | Performance-conscious sites |
+
+**Complementary Tools:**
+
+| Plugin | Purpose |
+|--------|---------|
+| [Bing URL Submissions](https://wordpress.org/plugins/bing-url-submission/) | Submit URLs to Bing automatically |
+| [Safe Redirect Manager](https://wordpress.org/plugins/safe-redirect-manager/) | Manage 301 redirects safely |
+| [Cyr-To-Lat](https://wordpress.org/plugins/cyr-to-lat/) | Convert Cyrillic URLs to Latin |
+
 ## Further Reading
 
 - [Optimizing robots.txt](./02-optimizing-robots.txt.md) - Detailed robots.txt configuration

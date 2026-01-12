@@ -223,19 +223,17 @@ This is covered in depth in the [Plugin Development](../08-plugin-development/02
 - **[WP-CLI](https://wp-cli.org/)** - WordPress command line interface
 - Essential for automation, bulk operations, deployments
 
-## What This Chapter Covers
+## Key Topics Covered Above
 
-### [WordPress Architecture](./01-architecture.md)
+This chapter provides a comprehensive introduction to WordPress fundamentals:
 
-Deeper dive into how WordPress is structured—the loading process, global variables, and how core, plugins, and themes interact.
+- **WordPress Architecture** - The request lifecycle, directory structure, and how core, plugins, and themes interact
+- **Database Structure** - The 12 core tables, what they store, and common queries
+- **Users and Roles** - Built-in roles and their capabilities
 
-### [The Database](./02-database.md)
+For advanced database operations and custom queries, see [Database Operations](../08-plugin-development/03-database-operations.md).
 
-Understanding WordPress database structure, when to use built-in tables vs. custom tables, and common queries.
-
-### [Users and Permissions](./03-users-permissions.md)
-
-User roles, capabilities, and how to properly check permissions in your code.
+For implementing custom user capabilities in plugins, see [Plugin Development](../08-plugin-development/README.md).
 
 ## Learning Path
 

@@ -146,3 +146,10 @@ Theme selection dramatically impacts Core Web Vitals:
 | **Default themes** (Twenty Twenty-Five, etc.) | Good | Well-optimized but may lack features |
 
 > **Expert insight**: "Getting a good score is not important. Google does not care if you get a 20 or a 100. You have to focus on the Core Web Vitals, and you can have a 20 with good or almost good Core Web Vitals. Almost any news site is proof of this."
+
+## Further Reading
+
+- [Performance Optimization for SEO](../05-seo/04-performance-optimization-for-seo.md) - How Core Web Vitals affect search rankings, crawl budget, and mobile-first indexing
+- [PHP Optimization](./02-php-optimization.md) - Server-side improvements for better TTFB
+- [Image Optimization](./06-image-optimizations.md) - Critical for LCP improvement
+- [Database Optimization](./07-database-optimizations.md) - Reduce query time for faster responses

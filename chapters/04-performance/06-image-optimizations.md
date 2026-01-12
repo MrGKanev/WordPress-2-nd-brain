@@ -27,14 +27,22 @@ add_filter('mime_types', 'add_webp_mime_type');
 
 ### Plugin Recommendations
 
-Based on comparative analysis of image optimization plugins:
+| Plugin | Installs | Strengths | Best For |
+|--------|----------|-----------|----------|
+| [EWWW Image Optimizer](https://wordpress.org/plugins/ewww-image-optimizer/) | 1M+ | Local or cloud processing, WebP | Sites wanting local control |
+| [ShortPixel](https://wordpress.org/plugins/shortpixel-image-optimizer/) | 300K+ | Best compression, WebP/AVIF | Most WordPress sites |
+| [ShortPixel Adaptive Images](https://wordpress.org/plugins/shortpixel-adaptive-images/) | 10K+ | CDN-based responsive images | High-traffic sites |
+| [Converter for Media](https://wordpress.org/plugins/webp-converter-for-media/) | 300K+ | Free WebP conversion | Budget-conscious sites |
+| [Imagify](https://wordpress.org/plugins/imagify/) | 600K+ | Good UI, decent compression | WP Rocket users |
 
-| Plugin | Strengths | Best For |
-|--------|-----------|----------|
-| **Converter for Media** | A free WebP converter | Sites with minimal budgets |
-| **ShortPixel** | Best compression results for medium/large images, WebP/AVIF conversion | Most WordPress sites |
-| **reSmush.it** | Free with basic optimization | Sites with minimal budgets |
-| **Imagify** | Good UI, decent compression | Alternative option |
+**Media Management Plugins:**
+
+| Plugin | Purpose |
+|--------|---------|
+| [Enable Media Replace](https://wordpress.org/plugins/enable-media-replace/) | Replace images without changing URLs (600K+ installs) |
+| [Media Cleaner](https://wordpress.org/plugins/media-cleaner/) | Find and remove unused images (90K+ installs) |
+| [Media Deduper](https://wordpress.org/plugins/media-deduper/) | Identify duplicate uploads (9K+ installs) |
+| [Clean Image Filenames](https://wordpress.org/plugins/clean-image-filenames/) | Sanitize uploaded filenames (30K+ installs) |
 
 > **Expert insight**: "DPI settings don't matter for web images (only for print). When you set a fixed compression level (80% for example) to each image, some will be over-compressed and some under-compressed."
 

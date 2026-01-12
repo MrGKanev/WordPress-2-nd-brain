@@ -2,7 +2,9 @@
 
 ## Overview
 
-Site performance is a confirmed Google/search engineda dob ranking factor. While content quality remains paramount, performance directly impacts user experience signals, crawl efficiency, and ultimately, search rankings. This chapter covers the SEO-specific aspects of performance optimization for WordPress sites.
+Site performance is a confirmed Google ranking factor. While content quality remains paramount, performance directly impacts user experience signals, crawl efficiency, and ultimately, search rankings. This chapter covers the SEO-specific aspects of performance optimization for WordPress sites.
+
+> **Note:** For technical implementation details of Core Web Vitals optimizations, see [Core Web Vitals Optimization](../04-performance/08-core-web-vitals-optimizations.md). This chapter focuses on how performance metrics affect SEO specifically.
 
 > **Key insight**: Performance optimization for SEO is not about achieving a perfect PageSpeed score. It's about ensuring your site meets Google's thresholds for Core Web Vitals and provides a good user experience that keeps visitors engaged.
 
