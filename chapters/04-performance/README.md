@@ -80,6 +80,12 @@ Mastering WordPress transients for caching. When to use transients vs. options v
 
 The official WordPress Core Performance Team's testing ground for optimizations. Image prioritization, speculative loading, enhanced responsive images, and more—with measured LCP improvements of 25-50%.
 
+### Frontend Assets
+
+**[Frontend Asset Optimization](./13-frontend-asset-optimization.md)**
+
+Fonts, icons, scripts, and stylesheets often overlooked in optimization. Host fonts locally, replace icon fonts with SVGs, disable unused scripts per page, remove unused CSS, and implement script delay strategies.
+
 ## The Optimization Stack
 
 Performance improvements compound. A well-optimized stack looks like:

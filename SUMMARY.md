@@ -26,6 +26,7 @@
   * [Debugging & Profiling Tools](chapters/04-performance/10-debugging-profiling.md)
   * [Transients Deep Dive](chapters/04-performance/11-transients-strategies.md)
   * [Performance Lab Plugin](chapters/04-performance/12-performance-lab.md)
+  * [Frontend Asset Optimization](chapters/04-performance/13-frontend-asset-optimization.md)
 * [WordPress SEO Optimization](chapters/05-seo/README.md)
   * [Technical SEO Fundamentals](chapters/05-seo/01-technical-seo-fundamentals.md)
   * [Optimizing robots.txt](chapters/05-seo/02-optimizing-robots.txt.md)
