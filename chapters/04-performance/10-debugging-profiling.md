@@ -27,6 +27,31 @@ define( 'SAVEQUERIES', true );
 
 // Show script and style versions
 define( 'SCRIPT_DEBUG', true );
+
+// Set environment type (development, staging, production)
+define( 'WP_ENVIRONMENT_TYPE', 'development' );
+```
+
+### Custom Debug Log Location
+
+By default, debug.log is created in `wp-content/`. For better organization or security:
+
+```php
+// Custom log location (outside web root is more secure)
+define( 'WP_DEBUG_LOG', '/var/log/wordpress/debug.log' );
+
+// Or use a relative path within wp-content
+define( 'WP_DEBUG_LOG', WP_CONTENT_DIR . '/logs/debug.log' );
+```
+
+### PHP Error Logging Alternative
+
+If WordPress debug constants aren't working or you need PHP-level control:
+
+```php
+// In wp-config.php or php.ini
+ini_set( 'log_errors', 1 );
+ini_set( 'error_log', '/var/log/php/wordpress-errors.log' );
 ```
 
 ### Debug Configuration Patterns
@@ -70,6 +95,38 @@ grep "Fatal error" wp-content/debug.log
 # Count error types
 grep -c "Warning" wp-content/debug.log
 ```
+
+### Server Log Locations
+
+When WordPress debug.log doesn't capture the error, check server logs:
+
+| Server | Error Log Location |
+|--------|-------------------|
+| Apache | `/var/log/apache2/error.log` |
+| Nginx | `/var/log/nginx/error.log` |
+| PHP-FPM | `/var/log/php-fpm/error.log` |
+
+```bash
+# Watch Apache logs in real-time
+tail -f /var/log/apache2/error.log
+
+# Watch Nginx logs
+tail -f /var/log/nginx/error.log
+
+# Combine multiple logs
+tail -f /var/log/apache2/error.log /var/log/php-fpm/error.log
+```
+
+### Understanding Error Types
+
+| Error Type | Severity | Behavior |
+|------------|----------|----------|
+| **Fatal Error** | Critical | Stops execution completely |
+| **Warning** | Medium | Execution continues, potential issues |
+| **Notice** | Low | Minor issues, code still works |
+| **Deprecated** | Informational | Feature will be removed in future |
+
+**Fatal errors** require immediate attention—the site won't work. **Notices** and **Deprecated warnings** should be fixed but don't break functionality.
 
 ### Custom Debug Logging
 
@@ -137,9 +194,51 @@ Solution: Add index on meta_key, or use custom table for products
 ### Query Monitor for AJAX/REST
 
 Query Monitor works with AJAX and REST API requests:
+
 1. Make the request normally
 2. Check the Admin Bar dropdown for "AJAX" or "REST API" entries
 3. Click to see query data for that request
+
+## Other Debugging Plugins
+
+Query Monitor is the go-to, but these plugins serve specific needs:
+
+| Plugin | Purpose | When to Use |
+|--------|---------|-------------|
+| **Health Check & Troubleshooting** | Safe testing mode, system info | Diagnosing conflicts without affecting visitors |
+| **Debug Bar** | Admin bar menu with debug info | Lighter alternative to Query Monitor |
+| **WP Crontrol** | View and manage scheduled tasks | Debugging cron issues |
+| **String Locator** | Find text/code across files | Locating where a function is defined |
+| **AAA Option Optimizer** | Analyze autoloaded options | Database bloat from options table |
+
+### Health Check Troubleshooting Mode
+
+This plugin's killer feature: test with all plugins disabled and a default theme while visitors see the normal site.
+
+1. Install and activate Health Check & Troubleshooting
+2. Go to **Tools → Site Health → Troubleshooting**
+3. Click "Enable Troubleshooting Mode"
+4. Your session now runs with plugins disabled
+5. Re-enable plugins one by one to find the culprit
+6. Click "Disable Troubleshooting Mode" when done
+
+### REST API Debugging
+
+For testing REST API endpoints:
+
+```bash
+# Test an endpoint with curl
+curl -s https://example.com/wp-json/wp/v2/posts | jq .
+
+# Test with authentication
+curl -s -u "user:application_password" \
+  https://example.com/wp-json/wp/v2/users/me | jq .
+
+# Check response headers
+curl -I https://example.com/wp-json/wp/v2/posts
+```
+
+For interactive testing, use Postman or similar REST clients.
 
 ## Database Query Analysis
 
@@ -346,6 +445,54 @@ curl http://localhost/status?full
 mysqladmin processlist
 ```
 
+## WP-CLI Debugging Commands
+
+WP-CLI provides powerful debugging capabilities from the command line:
+
+### Common Debugging Commands
+
+| Command | Purpose |
+|---------|---------|
+| `wp plugin list` | List all plugins with status and version |
+| `wp plugin deactivate --all` | Disable all plugins at once |
+| `wp theme list` | Show installed themes and active theme |
+| `wp db check` | Check database for errors |
+| `wp transient list` | Show all transients |
+| `wp transient delete --expired` | Clean up expired transients |
+| `wp cron event list` | Show scheduled cron events |
+| `wp cron event run --due-now` | Run all due cron jobs |
+| `wp core version` | Show WordPress version |
+| `wp --info` | Display PHP and WP-CLI environment info |
+
+### Performance Profiling with WP-CLI
+
+```bash
+# Profile a page load (requires wp-cli/profile-command)
+wp profile stage --url=https://example.com/
+
+# Profile with more detail
+wp profile stage --all --url=https://example.com/
+
+# Profile a specific hook
+wp profile hook init --url=https://example.com/
+```
+
+### Database Debugging
+
+```bash
+# Search for a string in the database
+wp db search "broken_string"
+
+# Export database for inspection
+wp db export debug-backup.sql
+
+# Run a query
+wp db query "SELECT option_name, LENGTH(option_value) as size FROM wp_options WHERE autoload='yes' ORDER BY size DESC LIMIT 10"
+
+# Check for large autoloaded options (common performance issue)
+wp db query "SELECT SUM(LENGTH(option_value)) FROM wp_options WHERE autoload='yes'"
+```
+
 ## Browser DevTools
 
 ### Performance Panel
@@ -395,6 +542,54 @@ Built into Chrome DevTools:
 | TBT (Total Blocking Time) | Time main thread was blocked | <200ms |
 | CLS (Cumulative Layout Shift) | Visual stability | <0.1 |
 | Speed Index | How quickly content is visually complete | <3.4s |
+
+## Initial Troubleshooting Steps
+
+Before diving deep, try these quick fixes that solve most problems:
+
+1. **Clear browser cache** - `Ctrl+F5` (Windows) or `Cmd+Shift+R` (Mac)
+2. **Clear site cache** - Purge any caching plugin (WP Super Cache, W3 Total Cache, etc.)
+3. **Test incognito mode** - Rules out browser extensions and logged-in state
+4. **Disable optimization plugins** - Temporarily disable minification, lazy loading
+5. **Check Site Health** - Go to **Tools → Site Health** for WordPress's diagnostics
+6. **Switch theme temporarily** - Use Twenty Twenty-Five to rule out theme issues
+
+If the problem persists after these steps, move to systematic debugging.
+
+## Plugin/Theme Conflict Isolation
+
+When you suspect a plugin or theme conflict:
+
+### Method 1: Dashboard (if accessible)
+
+1. Go to **Plugins → Installed Plugins**
+2. Deactivate all plugins
+3. Test if the problem is gone
+4. Reactivate plugins in batches of 3-5
+5. When the problem returns, narrow down to the specific plugin
+
+### Method 2: FTP/File Manager (if locked out)
+
+```bash
+# Rename plugins folder to disable all plugins
+mv wp-content/plugins wp-content/plugins.bak
+
+# Test the site, then restore
+mv wp-content/plugins.bak wp-content/plugins
+```
+
+### Method 3: Health Check Plugin (recommended)
+
+Use the [Health Check & Troubleshooting](https://wordpress.org/plugins/health-check/) plugin's troubleshooting mode. It disables plugins and switches themes only for your session while visitors see the normal site.
+
+### Common Conflict Patterns
+
+| Symptom | Likely Culprits |
+|---------|-----------------|
+| White screen | Security plugins, caching plugins, PHP version incompatibility |
+| Broken layout | Theme updates, CSS optimization plugins |
+| Forms not submitting | Security plugins blocking requests, JS optimization |
+| Slow admin | Update checkers, dashboard widgets calling external APIs |
 
 ## Debugging Specific Issues
 
@@ -494,3 +689,5 @@ When investigating performance:
 - [PHP Optimization](./02-php-optimization.md) - PHP configuration for performance
 - [Query Monitor Plugin](https://querymonitor.com/) - Official documentation
 - [Chrome DevTools Performance](https://developer.chrome.com/docs/devtools/performance/) - Google's guide
+- [WordPress Debugging Guide](https://remkusdevries.com/wordpress-debugging-guide/) - Remkus de Vries
+- [Health Check & Troubleshooting Plugin](https://wordpress.org/plugins/health-check/) - WordPress.org
