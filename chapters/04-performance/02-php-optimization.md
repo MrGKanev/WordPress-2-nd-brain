@@ -26,6 +26,56 @@ OPCache is an opcode cache that eliminates expensive PHP parsing operations on e
 
 This optimization can provide 3-10x performance improvements for WordPress sites.
 
+## PHP Version Impact
+
+### Migration Performance Gains
+
+PHP version upgrades provide substantial performance improvements without code changes:
+
+| Migration Path | Performance Gain | Notes |
+|----------------|------------------|-------|
+| PHP 5.6 → 7.0 | 2x faster | Major engine rewrite |
+| PHP 7.0 → 7.4 | 30-50% faster | Continuous optimization |
+| PHP 7.4 → 8.0 | 10-20% faster | JIT compiler (limited WordPress benefit) |
+| PHP 8.0 → 8.2 | 5-10% faster | Memory optimizations |
+
+**Key insight:** Migrating from PHP 5.6 to 7.4+ allows serving **3x more concurrent requests** with the same hardware.
+
+### JIT Compiler (PHP 8.0+)
+
+PHP 8.0 introduced Just-In-Time compilation. For WordPress specifically:
+
+- **Typical WordPress benefit:** ~5% improvement
+- **Computation-heavy plugins:** More significant gains
+- **Why limited:** WordPress is I/O-bound (database, file operations), not CPU-bound
+
+**Enable JIT (optional):**
+
+```ini
+; php.ini - JIT configuration
+opcache.jit_buffer_size=100M
+opcache.jit=1255
+```
+
+For most WordPress sites, the complexity isn't worth the marginal gain. Focus on OPcache and PHP-FPM tuning instead.
+
+### Checking PHP Compatibility Before Upgrade
+
+Before upgrading production:
+
+```bash
+# Using PHP Compatibility Checker plugin
+wp plugin install php-compatibility-checker --activate
+# Run scan from admin panel
+
+# Or via command line with PHPCS
+phpcs -p --standard=PHPCompatibilityWP --runtime-set testVersion 8.2 wp-content/themes/yourtheme/
+```
+
+**Resources:**
+- [php.watch](https://php.watch/) - Version-specific migration guides
+- [PHPCompatibilityWP](https://github.com/PHPCompatibility/PHPCompatibilityWP) - WordPress-specific ruleset
+
 ### Enabling OPCache
 
 Check if OPCache is available:
@@ -77,6 +127,107 @@ opcache.revalidate_freq=0
 
 ```bash
 sudo systemctl reload php8.2-fpm
+```
+
+### Persistent OPcache (File Cache)
+
+By default, OPcache stores compiled opcodes in shared memory. When PHP restarts (server reboot, PHP-FPM reload), the cache is lost and must be rebuilt—causing slow responses during warm-up.
+
+**Solution:** Enable file-based cache for persistence:
+
+```ini
+; Store opcodes on disk for survival across restarts
+opcache.file_cache=/var/cache/php/opcache
+opcache.file_cache_only=0
+opcache.file_cache_consistency_checks=1
+```
+
+**Setup:**
+
+```bash
+# Create cache directory with proper permissions
+sudo mkdir -p /var/cache/php/opcache
+sudo chown www-data:www-data /var/cache/php/opcache
+sudo chmod 755 /var/cache/php/opcache
+```
+
+**How it works:**
+- `file_cache_only=0` - Use shared memory as primary, file as backup
+- `file_cache_only=1` - Use file cache only (useful for shared hosting)
+- On restart, opcodes load from disk instantly instead of recompiling
+
+**Production recommendation:**
+
+```ini
+; Production OPcache with file persistence
+opcache.enable=1
+opcache.memory_consumption=256
+opcache.interned_strings_buffer=16
+opcache.max_accelerated_files=20000
+opcache.validate_timestamps=0
+opcache.revalidate_freq=0
+opcache.file_cache=/var/cache/php/opcache
+opcache.file_cache_only=0
+opcache.save_comments=1
+opcache.enable_file_override=1
+```
+
+### OPcache Preloading (PHP 7.4+)
+
+Preloading compiles specified files at server startup, keeping them permanently in memory:
+
+```php
+// preload.php
+<?php
+// Preload WordPress core files
+$files = [
+    ABSPATH . 'wp-includes/class-wp.php',
+    ABSPATH . 'wp-includes/class-wp-query.php',
+    ABSPATH . 'wp-includes/formatting.php',
+    ABSPATH . 'wp-includes/plugin.php',
+];
+
+foreach ($files as $file) {
+    if (file_exists($file)) {
+        opcache_compile_file($file);
+    }
+}
+```
+
+```ini
+; php.ini
+opcache.preload=/var/www/html/preload.php
+opcache.preload_user=www-data
+```
+
+**Caution:** Preloading is complex with WordPress due to dynamic plugin loading. Test thoroughly before production use. For most sites, standard OPcache with file persistence is sufficient.
+
+### Invalidating OPcache After Deployments
+
+When `validate_timestamps=0`, PHP won't detect file changes. Clear cache after deployments:
+
+```bash
+# Via PHP-FPM reload (clears shared memory cache)
+sudo systemctl reload php8.2-fpm
+
+# Via WP-CLI (if using a cache plugin with OPcache support)
+wp cache flush
+
+# Via PHP script
+php -r "opcache_reset();"
+
+# Via curl to a cache-clear endpoint
+curl -X POST https://yoursite.com/clear-opcache.php
+```
+
+**Deployment script example:**
+
+```bash
+#!/bin/bash
+# deploy.sh
+git pull origin main
+composer install --no-dev
+sudo systemctl reload php8.2-fpm  # Clear OPcache
 ```
 
 ## Advanced PHP-FPM Tuning

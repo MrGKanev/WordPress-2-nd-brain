@@ -161,6 +161,43 @@ For dedicated database servers, the buffer pool should use 60-80% of available R
 
 **Temporary Tables**: Complex queries create temporary tables for sorting and grouping. If these exceed configured limits, MySQL writes to disk, dramatically slowing queries.
 
+### Quick Wins
+
+These settings provide immediate improvement with minimal risk:
+
+**Disable DNS Resolution**:
+```ini
+# my.cnf
+skip-name-resolve
+```
+MySQL resolves hostnames for every connection by default. Disabling this saves a DNS lookup per connection. After enabling, you must use IP addresses (not hostnames) in GRANT statements.
+
+**Use IP Address in wp-config.php**:
+```php
+// Faster than 'localhost' - avoids socket vs TCP ambiguity
+define('DB_HOST', '127.0.0.1');
+```
+Using `127.0.0.1` instead of `localhost` forces TCP connection, which is more predictable and often faster than Unix socket resolution.
+
+**Disable Performance Schema When Not Profiling**:
+```ini
+# my.cnf
+performance_schema = OFF
+```
+The performance schema collects detailed metrics but consumes 200-400MB of RAM and adds CPU overhead. Disable it unless actively troubleshooting. Re-enable temporarily when you need diagnostic data.
+
+### Using MySQLTuner
+
+[MySQLTuner](https://github.com/major/MySQLTuner-perl) analyzes your MySQL configuration and usage patterns, then suggests specific improvements:
+
+```bash
+# Download and run
+wget https://raw.githubusercontent.com/major/MySQLTuner-perl/master/mysqltuner.pl
+perl mysqltuner.pl --user root --pass yourpassword
+```
+
+Run after your site has been live for at least 24-48 hours—the tool needs representative query data. It provides specific recommendations for buffer sizes, connection limits, and other settings based on actual usage.
+
 ### Configuration Approach
 
 Don't blindly apply configuration recommendations. Instead:
@@ -248,16 +285,24 @@ Databases accumulate cruft over time. Regular maintenance keeps them healthy:
 
 **Orphan removal**: Periodically check for orphaned postmeta, commentmeta, and term relationships. Remove them.
 
-**Table optimization**: InnoDB tables fragment over time, especially with frequent updates and deletes. Periodic OPTIMIZE TABLE reclaims space and can improve performance. Monthly is typically sufficient.
+**Table optimization**: InnoDB tables fragment over time, especially with frequent updates and deletes. Periodic OPTIMIZE TABLE reclaims space and can improve performance. Weekly optimization prevents fragmentation from accumulating:
+
+```bash
+# Optimize all WordPress tables
+mysqloptimize -u root -p wordpress
+
+# Or via WP-CLI
+wp db optimize
+```
 
 ### Maintenance Schedule
 
 | Task | Frequency | Method |
 |------|-----------|--------|
 | Delete expired transients | Weekly | WP-CLI or plugin |
+| Table optimization | Weekly | `mysqloptimize` or WP-CLI |
 | Check autoload size | Monthly | Query Monitor or WP-CLI |
 | Orphan cleanup | Monthly | WP-Sweep plugin or SQL |
-| Table optimization | Monthly | WP-CLI `wp db optimize` |
 | Full database backup | Before any maintenance | WP-CLI or hosting tools |
 
 ### Tools for Maintenance

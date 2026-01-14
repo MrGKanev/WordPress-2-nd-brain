@@ -303,25 +303,137 @@ mysqldumpslow -s t /var/log/mysql/slow.log
 
 Xdebug can generate profiling data showing exactly where PHP time is spent.
 
-**Enable in php.ini:**
-```ini
-xdebug.mode = profile
-xdebug.output_dir = /tmp/xdebug
-xdebug.profiler_output_name = cachegrind.out.%p
-```
+#### Xdebug 3 Configuration (Recommended)
 
-**Trigger profiling for specific requests:**
 ```ini
-xdebug.mode = profile
+; /etc/php/8.2/mods-available/xdebug.ini
+zend_extension = xdebug
+
+; Modes: off, develop, debug, profile, trace (can combine with comma)
+xdebug.mode = profile,trace
+
+; Only profile when triggered (saves resources)
 xdebug.start_with_request = trigger
+xdebug.trigger_value = "YOUR_SECRET_TRIGGER"
+
+; Output configuration
+xdebug.output_dir = /tmp/xdebug
+xdebug.profiler_output_name = cachegrind.out.%t.%p
+xdebug.trace_output_name = trace.%H.%p
+
+; For step debugging (IDE integration)
+xdebug.client_host = 127.0.0.1
+xdebug.client_port = 9003
+
+; Don't show local variables in traces (performance)
+xdebug.show_local_vars = 0
 ```
 
-Then add `?XDEBUG_PROFILE=1` to any URL to profile that request.
+#### Xdebug 2 Configuration (Legacy)
 
-**Analyze with KCachegrind/QCachegrind:**
-- Open the cachegrind file
-- Sort by "Self Time" to find expensive functions
-- Check call counts for functions called too often
+```ini
+zend_extension = xdebug.so
+
+xdebug.remote_enable = On
+xdebug.remote_port = 9000
+
+; Profiling
+xdebug.profiler_enable = off
+xdebug.profiler_enable_trigger = On
+xdebug.profiler_enable_trigger_value = YOUR_SECRET_TRIGGER
+xdebug.profiler_output_name = cachegrind.out.%t.%p
+xdebug.profiler_output_dir = "/tmp/xdebug"
+
+; Tracing
+xdebug.trace_enable_trigger = On
+xdebug.trace_enable_trigger_value = YOUR_SECRET_TRIGGER
+xdebug.trace_output_name = trace.%H.%p
+xdebug.trace_output_dir = "/tmp/xdebug"
+xdebug.show_local_vars = 0
+```
+
+#### Browser Extensions
+
+Install browser extensions to easily trigger profiling:
+
+- **Xdebug Helper** (Chrome, Firefox) - Adds toolbar button to enable profiling
+- Configure the trigger value in extension settings to match `xdebug.trigger_value`
+
+#### Output File Naming
+
+| Specifier | Meaning |
+|-----------|---------|
+| `%p` | Process ID |
+| `%t` | Timestamp |
+| `%H` | HTTP host |
+| `%R` | Request URI |
+| `%u` | User ID |
+| `%s` | Session ID |
+
+#### Analyzing Profiler Output
+
+**KCachegrind (Linux) / QCachegrind (macOS/Windows):**
+
+```bash
+# Install on Ubuntu/Debian
+sudo apt install kcachegrind
+
+# Install on macOS
+brew install qcachegrind
+```
+
+**What to look for:**
+- **Self time** - Time spent in the function itself (not called functions)
+- **Cumulative time** - Total time including all called functions
+- **Call count** - Functions called excessively indicate optimization targets
+
+**Example analysis workflow:**
+
+1. Open cachegrind file in KCachegrind
+2. Sort by "Self" column to find expensive functions
+3. Look for WordPress-specific patterns:
+   - `wpdb::query` - Database queries
+   - `get_option` - Option lookups
+   - `apply_filters` - Hook overhead
+4. Check call counts—100,000 calls to a simple function adds up
+
+#### Trace Analysis
+
+Trace files show the complete execution flow:
+
+```bash
+# View trace with xdebug-trace-viewer
+pip install xdebug-trace-viewer
+xdebug-trace-viewer /tmp/xdebug/trace.*.xt
+
+# Or parse manually
+grep "get_option" /tmp/xdebug/trace.*.xt | wc -l
+```
+
+#### Docker Considerations
+
+Docker with seccomp can distort profiling results. For accurate profiling:
+
+```bash
+# Run container with privileges (development only!)
+docker run --privileged your-image
+
+# Or specify seccomp profile
+docker run --security-opt seccomp=unconfined your-image
+```
+
+**Never run privileged containers in production.**
+
+#### When to Use Each Mode
+
+| Mode | Use Case | Overhead |
+|------|----------|----------|
+| `profile` | Finding slow functions | High |
+| `trace` | Understanding execution flow | Very High |
+| `debug` | Step-through debugging | Medium |
+| `develop` | Better error messages | Low |
+
+For performance optimization, use `profile` mode with trigger. Enable `trace` only for specific debugging sessions.
 
 ### Simple Timing
 
@@ -649,6 +761,49 @@ Debugging checklist:
 # Quick TTFB test
 curl -o /dev/null -s -w "TTFB: %{time_starttransfer}s\n" https://example.com/
 ```
+
+### 404 Errors Triggering Full WordPress
+
+Every request for a missing file in `wp-content/` triggers the full WordPress stack—loading all plugins, themes, and running queries—just to return a 404.
+
+**Common culprits:**
+- Missing images referenced in CSS
+- Deleted uploads still linked in content
+- Old favicon paths
+- Broken plugin/theme asset references
+
+**Finding them:**
+
+```bash
+# Check access logs for 404s in wp-content
+grep "wp-content" /var/log/nginx/access.log | grep " 404 "
+
+# Or for Apache
+grep "wp-content" /var/log/apache2/access.log | grep '" 404'
+```
+
+**Fixing at server level (Nginx):**
+
+```nginx
+# Return 404 directly for missing static files, don't hit WordPress
+location ~* ^/wp-content/.*\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$ {
+    try_files $uri =404;
+}
+```
+
+**Fixing at server level (Apache):**
+
+```apache
+# In wp-content/.htaccess
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule .* - [R=404,L]
+</IfModule>
+```
+
+This alone can significantly reduce server load on sites with broken image references or aggressive bot crawling.
 
 ## Debugging Checklist
 

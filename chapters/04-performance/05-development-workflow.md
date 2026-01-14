@@ -76,6 +76,328 @@ How you organize branches depends on your team size and release cadence.
 
 Don't adopt complex workflows because they're "best practice"—adopt them when your actual problems require them.
 
+### Git Submodules for Themes
+
+For complex projects, manage your theme as a separate Git repository and include it via submodule:
+
+**Extract existing theme to separate repo:**
+
+```bash
+# Filter theme from larger repository
+git filter-branch --prune-empty --subdirectory-filter wp-content/themes/yourtheme -- --all
+
+# Push to new repository
+git remote set-url origin git@github.com:yourorg/theme-repo.git
+git push -u origin main
+```
+
+**Add theme back as submodule:**
+
+```bash
+# In your main WordPress repository
+git submodule add git@github.com:yourorg/theme-repo.git wp-content/themes/yourtheme
+git commit -m "Add theme as submodule"
+```
+
+**Prevent dirty status in submodule:**
+
+```gitmodules
+# .gitmodules
+[submodule "wp-content/themes/yourtheme"]
+    path = wp-content/themes/yourtheme
+    url = git@github.com:yourorg/theme-repo.git
+    ignore = dirty
+```
+
+**Working with submodules:**
+
+```bash
+# Clone project with submodules
+git clone --recursive git@github.com:yourorg/main-repo.git
+
+# Update submodules
+git submodule update --remote
+
+# Initialize submodules after clone
+git submodule init && git submodule update
+```
+
+### Commit Message Standards
+
+Consistent commit messages make history readable and enable automation:
+
+**Conventional Commits format:**
+
+```
+type(scope): subject
+
+body (optional)
+
+footer (optional)
+```
+
+**Types:**
+| Type | Usage |
+|------|-------|
+| `feat` | New feature |
+| `fix` | Bug fix |
+| `docs` | Documentation |
+| `style` | Formatting (no code change) |
+| `refactor` | Code restructuring |
+| `perf` | Performance improvement |
+| `test` | Adding tests |
+| `chore` | Build process, dependencies |
+
+**Examples:**
+
+```bash
+feat(checkout): add guest checkout option
+
+fix(theme): resolve header overlap on mobile
+
+perf(images): implement WebP conversion
+```
+
+Tools like [commitlint](https://commitlint.js.org/) can enforce these standards automatically.
+
+## CSS Build Pipeline
+
+### SCSS Workflow
+
+Modern theme development benefits from SCSS for maintainability:
+
+**Project structure:**
+
+```
+theme/
+├── scss/
+│   ├── _variables.scss
+│   ├── _mixins.scss
+│   ├── _base.scss
+│   ├── components/
+│   │   ├── _header.scss
+│   │   └── _footer.scss
+│   └── style.scss (main import file)
+├── css/
+│   ├── style.css (compiled)
+│   └── style.min.css (minified)
+└── package.json
+```
+
+**package.json scripts:**
+
+```json
+{
+  "scripts": {
+    "build:css": "sass scss/style.scss:css/style.css",
+    "build:min": "postcss css/style.css --use cssnano -o css/style.min.css",
+    "build": "npm run build:css && npm run build:min",
+    "watch": "sass --watch scss/style.scss:css/style.css"
+  },
+  "devDependencies": {
+    "sass": "^1.50.0",
+    "postcss-cli": "^10.0.0",
+    "cssnano": "^5.1.0",
+    "postcss-combine-media-query": "^1.0.1"
+  }
+}
+```
+
+### PostCSS Processing
+
+PostCSS plugins transform compiled CSS:
+
+**postcss.config.js:**
+
+```javascript
+module.exports = {
+    plugins: [
+        require('postcss-combine-media-query'),  // Combine duplicate media queries
+        require('cssnano')({                     // Minification
+            preset: ['default', {
+                discardComments: { removeAll: true }
+            }]
+        })
+    ]
+};
+```
+
+**Processing command:**
+
+```bash
+postcss css/style.css --no-map --use postcss-combine-media-query --use cssnano -o css/style.min.css
+```
+
+### IDE File Watchers
+
+PhpStorm/WebStorm can compile automatically on save:
+
+**SCSS watcher:**
+- Program: `sass`
+- Arguments: `$FileName$:$FileNameWithoutExtension$.css`
+- Output paths: `$FileNameWithoutExtension$.css:$FileNameWithoutExtension$.css.map`
+
+**PostCSS watcher (on .css files):**
+- Program: `postcss`
+- Arguments: `--no-map --use cssnano -o $FileNameWithoutExtension$.min.css $FileName$`
+- Output paths: `$FileNameWithoutExtension$.min.css`
+
+### .gitignore for Build Files
+
+Don't track generated files:
+
+```gitignore
+# Compiled CSS (track SCSS source instead)
+/css/*.css
+/css/*.css.map
+
+# Node
+/node_modules/
+
+# But DO track minified production file if needed for deployment without build step
+# !/css/style.min.css
+```
+
+## Code Quality Tools
+
+### PHP_CodeSniffer (PHPCS)
+
+PHPCS enforces coding standards:
+
+**Installation:**
+
+```bash
+composer global require squizlabs/php_codesniffer
+composer global require wp-coding-standards/wpcs
+composer global require phpcsstandards/phpcsextra
+composer global require dealerdirect/phpcodesniffer-composer-installer
+```
+
+**Usage:**
+
+```bash
+# Check files
+phpcs --standard=WordPress wp-content/themes/yourtheme/
+
+# Auto-fix what's possible
+phpcbf --standard=WordPress wp-content/themes/yourtheme/
+
+# Check specific file
+phpcs --standard=WordPress functions.php
+```
+
+**Custom ruleset (phpcs.xml):**
+
+```xml
+<?xml version="1.0"?>
+<ruleset name="Theme Standards">
+    <description>Custom coding standards for theme</description>
+
+    <file>.</file>
+    <exclude-pattern>/vendor/</exclude-pattern>
+    <exclude-pattern>/node_modules/</exclude-pattern>
+
+    <arg name="extensions" value="php"/>
+    <arg value="ps"/>
+
+    <rule ref="WordPress">
+        <exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+    </rule>
+</ruleset>
+```
+
+### PHPStan (Static Analysis)
+
+PHPStan finds bugs without running code:
+
+**Installation:**
+
+```bash
+composer global require phpstan/phpstan
+composer global require szepeviktor/phpstan-wordpress
+```
+
+**Configuration (phpstan.neon):**
+
+```yaml
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+    level: 5
+    paths:
+        - wp-content/themes/yourtheme
+        - wp-content/plugins/yourplugin
+
+    scanDirectories:
+        - wp-content/plugins/woocommerce
+
+    ignoreErrors:
+        - '#^Function apply_filters invoked with \d+ parameters, 2 required\.$#'
+```
+
+**Usage:**
+
+```bash
+phpstan analyse
+```
+
+### Pre-commit Hooks
+
+Run checks automatically before commits:
+
+**Using husky (Node):**
+
+```bash
+npm install husky --save-dev
+npx husky install
+npx husky add .husky/pre-commit "npm run lint"
+```
+
+**Simple Git hook (.git/hooks/pre-commit):**
+
+```bash
+#!/bin/bash
+
+# Run PHPCS on staged PHP files
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".php$")
+
+if [ -n "$STAGED_FILES" ]; then
+    phpcs --standard=WordPress $STAGED_FILES
+    if [ $? -ne 0 ]; then
+        echo "PHPCS errors found. Fix them before committing."
+        exit 1
+    fi
+fi
+```
+
+### Composer Scripts for Development
+
+**composer.json:**
+
+```json
+{
+    "scripts": {
+        "lint": "phpcs --standard=phpcs.xml",
+        "lint:fix": "phpcbf --standard=phpcs.xml",
+        "analyse": "phpstan analyse",
+        "test": "phpunit",
+        "check": [
+            "@lint",
+            "@analyse"
+        ]
+    }
+}
+```
+
+**Usage:**
+
+```bash
+composer check  # Run all quality checks
+composer lint   # Just coding standards
+composer analyse # Just static analysis
+```
+
 ## Database Synchronization
 
 ### The Database Challenge

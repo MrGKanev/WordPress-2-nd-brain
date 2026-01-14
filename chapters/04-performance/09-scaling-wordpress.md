@@ -126,6 +126,67 @@ The difference: plugin caching still loads PHP for every request. Reverse proxy 
 - FastCGI cache is simple to configure
 - Less flexible cache invalidation
 
+### Nginx FastCGI Cache Configuration
+
+FastCGI cache stores rendered pages at the Nginx level, before PHP:
+
+```nginx
+# Define cache zone in http block
+fastcgi_cache_path /var/cache/nginx levels=1:2 keys_zone=WORDPRESS:100m inactive=60m;
+fastcgi_cache_key "$scheme$request_method$host$request_uri";
+
+server {
+    # Cache settings
+    set $skip_cache 0;
+
+    # Don't cache POST requests
+    if ($request_method = POST) {
+        set $skip_cache 1;
+    }
+
+    # Don't cache URLs with query strings
+    if ($query_string != "") {
+        set $skip_cache 1;
+    }
+
+    # Don't cache admin, login, or specific WordPress paths
+    if ($request_uri ~* "/wp-admin/|/xmlrpc.php|wp-.*.php|/feed/|sitemap.*\.xml") {
+        set $skip_cache 1;
+    }
+
+    # Don't cache logged-in users or commenters
+    if ($http_cookie ~* "comment_author|wordpress_[a-f0-9]+|wp-postpass|wordpress_logged_in") {
+        set $skip_cache 1;
+    }
+
+    # Mobile device detection (optional - separate cache for mobile)
+    set $device "desktop";
+    if ($http_user_agent ~* "Mobile|Android|iPhone|iPad") {
+        set $device "mobile";
+    }
+
+    location ~ \.php$ {
+        fastcgi_cache WORDPRESS;
+        fastcgi_cache_valid 200 48h;  # Cache 200 responses for 48 hours
+        fastcgi_cache_valid 404 1h;   # Cache 404s briefly
+        fastcgi_cache_bypass $skip_cache;
+        fastcgi_no_cache $skip_cache;
+
+        # Add cache status header for debugging
+        add_header X-FastCGI-Cache $upstream_cache_status;
+
+        # Include device in cache key for responsive sites
+        fastcgi_cache_key "$scheme$request_method$host$request_uri$device";
+
+        # Standard PHP-FPM settings
+        fastcgi_pass unix:/var/run/php/php-fpm.sock;
+        include fastcgi_params;
+    }
+}
+```
+
+**Cache purging** requires the `ngx_cache_purge` module or Redis-based invalidation. The [Nginx Helper](https://wordpress.org/plugins/nginx-helper/) plugin integrates with WordPress to purge on content changes.
+
 **CDN Edge Caching** - Cloudflare, Fastly, AWS CloudFront
 - Geographically distributed
 - Handles DDoS protection too

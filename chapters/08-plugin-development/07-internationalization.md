@@ -525,6 +525,43 @@ Or use logical properties:
 }
 ```
 
+## Performance Considerations
+
+### MO File Parsing
+
+WordPress parses MO translation files on every request. For sites with many translations, this adds overhead.
+
+**Caching with translations:**
+
+If your site uses full-page caching without URL-based language detection (e.g., using cookies or browser preferences), include the language in your cache key:
+
+```php
+// For page caching, include locale in cache key
+$cache_key = 'page_cache_' . get_locale() . '_' . md5($url);
+```
+
+Otherwise, a French user may receive a cached English page, or vice versa.
+
+**Translation file locations:**
+
+WordPress loads translations from multiple locations in order:
+
+| Location | Priority | Use Case |
+|----------|----------|----------|
+| `WP_LANG_DIR/plugins/` | First | Custom/override translations |
+| Plugin's `/languages/` | Second | Bundled translations |
+| `WP_LANG_DIR/` | Fallback | System translations |
+
+For themes:
+```
+wp-content/languages/themes/theme-slug-fr_FR.mo (priority)
+wp-content/themes/theme-slug/languages/fr_FR.mo (bundled)
+```
+
+### Translation Caching
+
+For high-traffic sites, consider caching parsed translations in object cache. See the [Frontend Asset Optimization](../04-performance/13-frontend-asset-optimization.md) chapter for the MO caching technique that reduces function calls from ~168,000 to ~360.
+
 ## Further Reading
 
 - [Plugin Structure](./01-plugin-structure.md) - Where to put translation files
