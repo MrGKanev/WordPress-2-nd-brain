@@ -86,6 +86,34 @@ The official WordPress Core Performance Team's testing ground for optimizations.
 
 Fonts, icons, scripts, and stylesheets often overlooked in optimization. Host fonts locally, replace icon fonts with SVGs, disable unused scripts per page, remove unused CSS, and implement script delay strategies.
 
+### Caching Deep Dives
+
+**[Object Caching](./14-object-caching.md)**
+
+Persistent object caching with Redis or Memcached. Implementation, configuration, cache hit monitoring, and multi-server considerations. Often the biggest performance win after page caching.
+
+### Plugin & Builder Performance
+
+**[Plugin Performance Evaluation](./15-plugin-performance.md)**
+
+How to measure plugin impact, identify performance offenders, and decide when to replace or remove plugins. Includes profiling techniques with Query Monitor and systematic testing workflows.
+
+**[Page Builders & DOM Bloat](./16-page-builders-dom-bloat.md)**
+
+The performance cost of Elementor, Divi, WPBakery and other visual builders. DOM bloat, excessive CSS/JS, and optimization strategies. When to use builders and when to avoid them.
+
+### Network Layer
+
+**[DNS & HTTP Protocols](./17-dns-http-protocols.md)**
+
+DNS optimization, TTL configuration, preconnect and prefetch hints. HTTP/2 and HTTP/3 protocol differences, TLS performance tuning. The invisible latency before your server even responds.
+
+### Multisite
+
+**[Multisite Performance](./18-multisite-performance.md)**
+
+WordPress Multisite-specific performance challenges. switch_to_blog() overhead, global table bloat, cross-site queries, and object cache considerations for networks.
+
 ## The Optimization Stack
 
 Performance improvements compound. A well-optimized stack looks like:

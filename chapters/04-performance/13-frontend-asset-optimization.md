@@ -111,6 +111,222 @@ add_action( 'wp_head', function() {
 
 **Limit to 1-2 fonts**—excessive preloading delays other resources.
 
+### Font Splitting (Unicode Range Subsetting)
+
+Large fonts like CJK (Chinese, Japanese, Korean) can be 10+ MB. Split them into subsets that load on-demand based on characters used.
+
+**How Google Fonts does it:**
+
+Google Fonts splits Noto Sans JP (Japanese) into 120+ subsets. Only subsets containing characters on the page are downloaded.
+
+```css
+/* Google serves rules like this */
+@font-face {
+    font-family: 'Noto Sans JP';
+    font-style: normal;
+    font-weight: 400;
+    src: url(/fonts/noto-jp-subset-1.woff2) format('woff2');
+    unicode-range: U+4E00-4E9F;  /* Only these characters */
+}
+
+@font-face {
+    font-family: 'Noto Sans JP';
+    font-style: normal;
+    font-weight: 400;
+    src: url(/fonts/noto-jp-subset-2.woff2) format('woff2');
+    unicode-range: U+4EA0-4EFF;  /* Different character range */
+}
+```
+
+**Creating your own subsets:**
+
+Using [font-range](https://github.com/nicholasgriffintn/font-ranger):
+
+```bash
+npm install -g font-ranger
+
+# Split font by Unicode ranges
+font-ranger -f NotoSansJP-Regular.otf -o output/ -s
+```
+
+Using [glyphhanger](https://github.com/filamentgroup/glyphhanger):
+
+```bash
+npm install -g glyphhanger
+
+# Analyze what characters a page uses
+glyphhanger https://example.com/
+
+# Create subset with only needed characters
+glyphhanger --subset=*.ttf --whitelist="ABC123" --formats=woff2
+```
+
+**For Latin fonts:** Usually unnecessary—woff2 compression is efficient. Subset CJK and other large character sets.
+
+## CSS Performance Tips
+
+### Modern Flexbox vs Legacy
+
+Old flexbox syntax (`display: box`) is **2x slower** than modern flexbox:
+
+```css
+/* OLD - Avoid */
+.container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    -webkit-box-orient: horizontal;
+    -webkit-box-pack: center;
+}
+
+/* MODERN - Use this */
+.container {
+    display: flex;
+    justify-content: center;
+}
+```
+
+If you're using autoprefixer, ensure it's not adding legacy prefixes unnecessarily:
+
+```javascript
+// postcss.config.js
+module.exports = {
+    plugins: [
+        require('autoprefixer')({
+            flexbox: 'no-2009'  // Skip legacy flexbox
+        })
+    ]
+};
+```
+
+### CSS Specificity Optimization
+
+Lower specificity = faster selector matching and easier overrides:
+
+```css
+/* HIGH specificity (slow, hard to override) */
+#main-content .article-list .article-card .card-title a:hover { }
+
+/* LOW specificity (fast, maintainable) */
+.card-title-link:hover { }
+```
+
+**Specificity order:** `[IDs], [Classes], [Tags]`
+
+- `#id` = `1,0,0`
+- `.class` = `0,1,0`
+- `element` = `0,0,1`
+
+Avoid `!important` except for utility classes—it indicates specificity problems.
+
+### Mobile-First Media Queries
+
+Load base styles for mobile, then enhance for larger screens:
+
+```css
+/* Base: Mobile */
+.container {
+    width: 100%;
+    padding: 1rem;
+}
+
+/* Tablet and up */
+@media (min-width: 768px) {
+    .container {
+        width: 750px;
+        padding: 2rem;
+    }
+}
+
+/* Desktop */
+@media (min-width: 1200px) {
+    .container {
+        width: 1140px;
+    }
+}
+```
+
+**Benefits:**
+- Mobile users download only mobile CSS
+- No overriding needed for small screens
+- Progressive enhancement pattern
+
+### Avoid Expensive CSS Properties
+
+Some CSS properties trigger expensive repaints or reflows:
+
+| Property | Impact | Alternative |
+|----------|--------|-------------|
+| `box-shadow` (large blur) | Repaint | Use subtle shadows |
+| `filter: blur()` | Repaint | Limit to small areas |
+| `position: fixed` (with transforms) | Composite layer | Use sparingly |
+| `width`/`height` animations | Reflow | Use `transform: scale()` |
+| `top`/`left` animations | Reflow | Use `transform: translate()` |
+
+**GPU-accelerated (prefer these for animations):**
+- `transform`
+- `opacity`
+- `filter`
+
+## Validation and Accessibility
+
+### HTML Validation
+
+Valid HTML parses faster and renders more predictably:
+
+**Tools:**
+- [W3C Validator](https://validator.w3.org/) - Official HTML validator
+- [Nu Html Checker](https://validator.w3.org/nu/) - Modern HTML5 validator
+
+**Common issues affecting performance:**
+- Unclosed tags causing DOM parser recovery
+- Invalid nesting triggering layout recalculation
+- Missing doctype forcing quirks mode
+
+**Validate programmatically:**
+
+```bash
+# Install vnu (Nu Html Checker)
+npm install -g vnu-jar
+
+# Validate a file
+vnu-jar path/to/file.html
+
+# Validate URL
+curl -s https://example.com/ | vnu-jar -
+```
+
+### CSS Validation
+
+- [W3C CSS Validator](https://jigsaw.w3.org/css-validator/)
+
+Invalid CSS causes parsing errors and unpredictable rendering.
+
+### Accessibility Testing
+
+Accessibility issues often indicate performance-affecting DOM problems:
+
+**Tools:**
+- [WAVE](https://wave.webaim.org/) - Browser extension and API
+- [axe DevTools](https://www.deque.com/axe/) - Chrome/Firefox extension
+- [Lighthouse Accessibility](https://developer.chrome.com/docs/lighthouse/accessibility/) - Built into Chrome
+
+**WordPress-specific:**
+
+```bash
+# Test with pa11y
+npm install -g pa11y
+pa11y https://example.com/
+
+# Test WordPress admin
+pa11y https://example.com/wp-admin/ --ignore "color-contrast"
+```
+
+**Quick accessibility wins that also improve performance:**
+- Add `alt` attributes (screen readers + SEO)
+- Use semantic HTML (cleaner DOM)
+- Ensure sufficient color contrast (no need for larger text)
+- Add `lang` attribute to `<html>` (faster parsing)
+
 ## Icon Optimization
 
 Icon libraries like Font Awesome load hundreds of icons when you use only a few.
@@ -153,6 +369,16 @@ Build a custom font with only the icons you need:
 
 1. [IcoMoon](https://icomoon.io/) - Select individual icons, export custom font
 2. [Fontello](https://fontello.com/) - Similar icon picker and builder
+
+**Process for Font Awesome extraction:**
+1. Download Font Awesome's SVG files
+2. Upload only needed icons to IcoMoon
+3. Export as custom font (select woff2 format)
+4. Preload the custom font:
+
+```html
+<link rel="preload" href="/fonts/custom-icons.woff2" as="font" type="font/woff2" crossorigin>
+```
 
 Result: 5-10KB instead of 100KB+.
 
@@ -295,6 +521,46 @@ add_action( 'wp_enqueue_scripts', function() {
     );
 });
 ```
+
+## Framework Optimization
+
+### Bootstrap Trimming
+
+Many themes include all of Bootstrap when only the grid system is used:
+
+| What You Load | Size |
+|---------------|------|
+| Full Bootstrap CSS | ~190KB |
+| Bootstrap Grid only | ~50KB |
+| Custom build (grid + utilities) | ~30-60KB |
+
+**Use grid-only build:**
+```php
+// Replace full Bootstrap with grid-only
+wp_dequeue_style( 'bootstrap' );
+wp_enqueue_style( 'bootstrap-grid', 'path/to/bootstrap-grid.min.css' );
+```
+
+**Build custom Bootstrap:**
+1. Clone Bootstrap source
+2. Edit `scss/bootstrap.scss`
+3. Comment out unused imports:
+```scss
+// Core (keep)
+@import "functions";
+@import "variables";
+@import "mixins";
+@import "grid";
+@import "utilities";
+
+// Components (comment out what you don't use)
+// @import "carousel";
+// @import "modal";
+// @import "tooltip";
+```
+4. Compile: `npm run css`
+
+This approach works for any SCSS-based framework.
 
 ## Unused CSS Removal
 
@@ -475,6 +741,103 @@ Beyond PageSpeed Insights and Lighthouse:
 | [HTML Size Analyzer](https://www.debugbear.com/html-size-analyzer) | Oversized inline code detection |
 | [WebPageTest](https://www.webpagetest.org/) | Detailed waterfall analysis |
 | [Bundlephobia](https://bundlephobia.com/) | JavaScript package size analysis |
+
+## WordPress Core Caching Tricks
+
+Some overhead comes from WordPress core operations that can be cached.
+
+### Translation File Caching
+
+WordPress parses `.mo` translation files on every page load using PHP's `unpack()` function. For sites with many translations, this adds measurable overhead.
+
+**The impact:** One test showed 168,000 function calls reduced to 360, and 3.3 seconds reduced to 146ms—just by caching parsed translations.
+
+**Solution:** Use an mu-plugin that caches parsed translations:
+
+```php
+<?php
+/**
+ * Plugin Name: MO Cache
+ * Description: Caches parsed .mo files to avoid repeated parsing
+ */
+
+add_filter( 'override_load_textdomain', function( $override, $domain, $mofile ) {
+    global $l10n;
+
+    if ( ! is_readable( $mofile ) ) {
+        return false;
+    }
+
+    $cache_key = 'mo_' . md5( $mofile );
+    $data = get_transient( $cache_key );
+
+    if ( false === $data ) {
+        // Parse the MO file normally
+        $mo = new MO();
+        if ( ! $mo->import_from_file( $mofile ) ) {
+            return false;
+        }
+
+        // Cache the entries
+        $data = $mo->entries;
+        set_transient( $cache_key, $data, DAY_IN_SECONDS );
+    }
+
+    // Restore from cache
+    $mo = new MO();
+    $mo->entries = $data;
+
+    if ( isset( $l10n[ $domain ] ) ) {
+        $mo->merge_with( $l10n[ $domain ] );
+    }
+
+    $l10n[ $domain ] = &$mo;
+
+    return true;
+}, 10, 3 );
+```
+
+**Note:** Clear transients when updating translations or plugins.
+
+### Menu Caching
+
+Navigation menus trigger multiple database queries on every page load. For complex menus, this adds up.
+
+**Cache the rendered menu:**
+
+```php
+function get_cached_menu( $location, $args = array() ) {
+    $cache_key = 'nav_menu_' . $location . '_' . md5( serialize( $args ) );
+    $menu = get_transient( $cache_key );
+
+    if ( false === $menu ) {
+        $args['echo'] = false;
+        $args['theme_location'] = $location;
+        $menu = wp_nav_menu( $args );
+        set_transient( $cache_key, $menu, HOUR_IN_SECONDS );
+    }
+
+    return $menu;
+}
+
+// Usage in theme
+echo get_cached_menu( 'primary', array( 'container' => 'nav' ) );
+```
+
+**Clear on menu update:**
+
+```php
+add_action( 'wp_update_nav_menu', function() {
+    global $wpdb;
+    $wpdb->query(
+        "DELETE FROM {$wpdb->options}
+         WHERE option_name LIKE '_transient_nav_menu_%'
+         OR option_name LIKE '_transient_timeout_nav_menu_%'"
+    );
+});
+```
+
+**When to use:** Sites with complex menus (50+ items) or many submenus. Simple menus won't see significant benefit.
 
 ## Quick Wins Checklist
 
