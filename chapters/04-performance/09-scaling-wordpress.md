@@ -53,6 +53,43 @@ Single Server (Vertical)          Multi-Server (Horizontal)
 | **Shared Filesystem** | Media uploads accessible to all nodes | NFS, GlusterFS, AWS EFS, S3 |
 | **Shared Cache** | Object cache accessible to all nodes | Redis, Memcached |
 
+### Load Balancer Headers
+
+When SSL terminates at the load balancer, your application servers receive unencrypted traffic and lose the original client IP. Configure nginx to pass these headers:
+
+```nginx
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
+```
+
+WordPress needs to trust these headers. Add to `wp-config.php`:
+
+```php
+// Trust X-Forwarded-Proto for SSL detection behind load balancer
+if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+    $_SERVER['HTTPS'] = 'on';
+}
+```
+
+Without this, WordPress may generate HTTP URLs when your site runs on HTTPS, causing mixed content warnings or redirect loops.
+
+### File Sync for Simpler Setups
+
+For content-only sites without user uploads, a simpler alternative to clustered filesystems is rsync-based deployment:
+
+```bash
+# Push changes from admin/staging instance to production servers
+rsync -avz --delete /var/www/html/ server2:/var/www/html/
+rsync -avz --delete /var/www/html/ server3:/var/www/html/
+```
+
+Run via cron or trigger from your deployment pipeline. This works well when:
+- Content changes are infrequent
+- You have a designated "admin" server for edits
+- You want to avoid GlusterFS complexity
+
+For sites with user-generated uploads, stick with shared storage (S3, EFS) or a proper distributed filesystem.
+
 ### Key Principle: Stateless Application Servers
 
 For horizontal scaling to work, any request must be handleable by any server. This means:
