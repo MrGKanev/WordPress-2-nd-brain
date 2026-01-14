@@ -42,7 +42,9 @@ Plugins that use `wp_cache_get()` and `wp_cache_set()` also benefit automaticall
 
 ## Redis vs Memcached
 
-Both work. Redis is the modern standard.
+[Redis](https://redis.io/) and [Memcached](https://memcached.org/) are both in-memory data stores, but they evolved with different philosophies. Memcached was designed purely as a cache—simple, fast, and ephemeral. Redis started as a cache but grew into a data structure server with persistence, replication, and rich data types.
+
+For WordPress object caching, both work. Redis has become the modern standard because its features align better with how WordPress uses caching, and its ecosystem (tooling, documentation, hosting support) is more mature.
 
 | Factor | Redis | Memcached |
 |--------|-------|-----------|
@@ -71,13 +73,17 @@ redis-cli ping
 
 ### 2. Install a Drop-in
 
-WordPress needs a drop-in file at `wp-content/object-cache.php` to use external caching. Don't write this yourself—use a maintained solution:
+WordPress's object cache is pluggable through a special mechanism called "drop-ins." Unlike regular plugins that live in the plugins directory, drop-ins are specific files that WordPress looks for in `wp-content/`. When WordPress finds `object-cache.php` there, it uses that file's implementation instead of the default non-persistent cache.
+
+This drop-in file contains the code that actually talks to Redis or Memcached. It implements the same interface (`wp_cache_get()`, `wp_cache_set()`, etc.) but stores data in external memory instead of PHP's request-local memory.
+
+Don't write this yourself—the implementation needs to handle edge cases, connection failures, and serialization correctly. Use a maintained solution:
 
 | Plugin | Notes |
 |--------|-------|
-| **Redis Object Cache** | Most popular, good admin UI |
-| **Object Cache Pro** | Commercial, best performance, supports Relay |
-| **WP Redis** | Pantheon's plugin, solid alternative |
+| [Redis Object Cache](https://wordpress.org/plugins/redis-cache/) | Most popular, good admin UI |
+| [Object Cache Pro](https://objectcache.pro/) | Commercial, best performance, supports [Relay](https://relay.so/) |
+| [WP Redis](https://wordpress.org/plugins/wp-redis/) | Pantheon's plugin, solid alternative |
 
 Install the plugin, then enable the drop-in through its settings.
 
@@ -85,7 +91,7 @@ Install the plugin, then enable the drop-in through its settings.
 
 Check that cache hits are happening:
 
-**With Query Monitor:**
+**With [Query Monitor](https://wordpress.org/plugins/query-monitor/):**
 Look for the "Object Cache" panel. You should see cache hits increasing and a connected status.
 
 **With Redis CLI:**
@@ -144,17 +150,25 @@ If Redis runs out of memory, it evicts keys (usually oldest first). This causes 
 
 ### Redis Configuration
 
+Redis runs as a separate service with its own configuration. The settings that matter most for WordPress caching are memory limits and eviction policies.
+
+**Memory limit** caps how much RAM Redis can use. Without a limit, Redis grows until system memory is exhausted, potentially crashing your server. Set a reasonable limit based on your site's needs and available RAM.
+
+**Eviction policy** determines what happens when Redis reaches its memory limit. The `allkeys-lru` policy removes the least recently used keys to make room for new ones—ideal for caching where old, unused data is expendable. Other policies exist for specialized use cases, but LRU (Least Recently Used) works well for WordPress.
+
+**Persistence** controls whether Redis saves data to disk. For pure caching, persistence is unnecessary—if Redis restarts, WordPress simply regenerates cached data from the database. Disabling persistence (`save ""` and `appendonly no`) improves performance slightly and avoids disk I/O.
+
 Key settings in `/etc/redis/redis.conf`:
 
 ```ini
-# Memory limit
+# Memory limit - adjust based on available RAM
 maxmemory 256mb
 
 # Eviction policy when memory is full
-# allkeys-lru: Remove least recently used keys (recommended)
+# allkeys-lru removes least recently used keys (recommended for caching)
 maxmemory-policy allkeys-lru
 
-# Persistence (optional - disable for pure cache)
+# Persistence - disable for pure cache use
 save ""
 appendonly no
 ```
@@ -250,6 +264,12 @@ Page cache is faster (serves static HTML). Object cache helps when page cache ca
 
 ## Further Reading
 
+**Internal:**
 - [Transients Deep Dive](./11-transients-strategies.md) - Application-level caching patterns
 - [Database Optimization](./07-database-optimizations.md) - Reducing what needs caching
 - [Scaling WordPress](./09-scaling-wordpress.md) - Object cache in multi-server setups
+
+**External:**
+- [Redis documentation](https://redis.io/docs/) - Official Redis documentation
+- [WordPress Object Cache documentation](https://developer.wordpress.org/reference/classes/wp_object_cache/) - Official WordPress docs
+- [DigitalOcean Redis tutorials](https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-redis-on-ubuntu-22-04) - Practical Redis setup guides

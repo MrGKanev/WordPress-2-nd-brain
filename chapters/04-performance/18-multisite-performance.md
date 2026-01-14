@@ -6,6 +6,8 @@ WordPress Multisite introduces performance challenges that don't exist in single
 
 ## Multisite Architecture
 
+WordPress Multisite runs multiple sites from a single WordPress installation. Instead of installing WordPress five times for five sites, you install it once and create five sites within it. This provides centralized management (one codebase, one plugin set, one update process) but introduces shared resources that can become bottlenecks.
+
 Understanding the database structure helps diagnose performance issues:
 
 ```
@@ -25,13 +27,15 @@ Per-Site Tables (multiplied):
 └── ... (grows with each site)
 ```
 
-A network with 100 sites has 100+ copies of each core table.
+The main site (site ID 1) uses the base prefix (`wp_posts`). Additional sites get numbered prefixes (`wp_2_posts`, `wp_3_posts`). This means a network with 100 sites has 100+ copies of each core table—and the global tables (users, usermeta) contain data for all sites combined.
+
+This architecture creates two distinct scaling concerns: global tables that grow with total users across all sites, and the sheer number of tables that database operations (backups, maintenance) must handle.
 
 ## Common Performance Issues
 
 ### 1. switch_to_blog() Overhead
 
-The `switch_to_blog()` function changes context to another site:
+The `switch_to_blog()` function is multisite's way of working with data from different sites. It changes WordPress's internal context—the database table prefix, the site URL, options, and cache—so that functions like `get_posts()` or `get_option()` work against a different site's data.
 
 ```php
 // Common pattern that causes problems
@@ -44,11 +48,15 @@ foreach ($sites as $site) {
 }
 ```
 
+This looks simple but hides significant overhead. Each `switch_to_blog()` call:
+
 **Problems:**
-- Clears and rebuilds object cache on each switch
-- Reloads site options
-- Creates memory overhead from stack of switched sites
-- Doesn't scale—100 sites = 100 context switches
+- Clears and rebuilds object cache on each switch—cached data from the previous site is irrelevant, so WordPress resets cache state
+- Reloads site options—queries the database for the new site's options
+- Creates memory overhead from stack of switched sites—WordPress tracks the "stack" of switches so `restore_current_blog()` can return to the right place
+- Doesn't scale—100 sites = 100 context switches, each with its own overhead
+
+In a loop processing 500 sites, you're paying this cost 500 times. What looks like a simple foreach becomes the performance bottleneck of your entire operation.
 
 **Solutions:**
 
@@ -111,7 +119,7 @@ function get_network_post_counts() {
 
 ### 2. Global Table Bloat
 
-Tables shared across the network grow with network size:
+Unlike per-site tables that are isolated to one site, global tables accumulate data from the entire network. Every user who registers on any site ends up in `wp_users`. Every plugin that stores user preferences adds rows to `wp_usermeta` for every user on every site.
 
 **wp_users / wp_usermeta:**
 
@@ -121,7 +129,9 @@ SELECT COUNT(*) as users FROM wp_users;
 SELECT COUNT(*) as meta_rows FROM wp_usermeta;
 ```
 
-Large networks can have millions of usermeta rows. Each user adds 20+ meta entries by default.
+The math is concerning: if you have 10,000 users and each user has 25 meta rows (WordPress defaults plus a few plugins), that's 250,000 rows in `wp_usermeta`. Add a plugin that stores per-site preferences for users, and each user gets additional meta for each site they're on. The table can grow explosively.
+
+Large networks can have millions of usermeta rows. Each user adds 20+ meta entries by default, and many plugins add their own.
 
 **Solutions:**
 - Clean orphaned usermeta: `DELETE FROM wp_usermeta WHERE user_id NOT IN (SELECT ID FROM wp_users)`
@@ -143,7 +153,9 @@ SELECT COUNT(*) FROM wp_sitemeta;
 
 ### 3. Object Cache Key Collisions
 
-Without proper prefixing, sites can share cache keys incorrectly:
+Object caching (see [Object Caching](./14-object-caching.md)) stores data by key. In single-site WordPress, the key `my_data` is unambiguous. In multisite, `my_data` could mean data from any site—leading to one site receiving another site's cached data.
+
+WordPress core handles this by automatically prefixing keys with the blog ID for most cache groups. But plugins writing custom caching code might not be aware:
 
 ```php
 // Dangerous in multisite - same key on all sites
@@ -154,16 +166,22 @@ $data = wp_cache_get('my_data');
 $data = wp_cache_get('my_data', 'my_plugin_' . get_current_blog_id());
 ```
 
-Redis/Memcached configuration must account for multisite:
+The danger isn't just getting stale data—it's getting another site's private data. A poorly-written plugin could cache user-specific information without site prefixing, leading to Site B's users seeing Site A's private content.
+
+Redis/Memcached configuration must account for multisite, especially if you're running multiple WordPress installations on the same cache server:
 
 ```php
 // wp-config.php
 define('WP_CACHE_KEY_SALT', 'mynetwork_');
 ```
 
+This salt ensures your network's cache keys don't collide with another WordPress installation sharing the same Redis server.
+
 ### 4. Cross-Site Queries
 
-Plugins that query across sites often perform poorly:
+A common multisite feature request is "show recent posts from all sites" or "display network-wide search results." This requires querying across site boundaries—something WordPress's standard functions don't support directly. Each site's posts live in separate tables (`wp_2_posts`, `wp_3_posts`, etc.), so there's no single query that covers them all.
+
+Developers often resort to the switch-and-loop pattern, creating the N+1 query problem:
 
 ```php
 // BAD: N+1 query pattern
@@ -174,6 +192,8 @@ foreach (get_sites() as $site) {
     $all_recent_posts = array_merge($all_recent_posts, $posts);
     restore_current_blog();
 }
+
+For 100 sites, this executes 100+ queries plus all the `switch_to_blog()` overhead. Even with caching, the first uncached run can take several seconds. The solution is a SQL UNION query that hits all tables in a single database round-trip:
 
 // BETTER: Union query (requires custom SQL)
 global $wpdb;
@@ -193,17 +213,20 @@ $posts = $wpdb->get_results($sql);
 
 ### 5. Network Admin Slowness
 
-The network admin dashboard queries all sites:
+The network admin dashboard (at `/wp-admin/network/`) presents a unique challenge: its interface is designed to provide an overview of the entire network, which means querying all sites on many pages.
 
 **Sites list:**
-- Each page load queries wp_blogs
-- Large networks (1000+ sites) slow significantly
+- Each page load queries `wp_blogs` to build the site list
+- Statistics (post counts, user counts) require querying each site's tables
+- Large networks (1000+ sites) slow significantly—the admin wasn't designed for this scale
+
+The core issue is architectural: WordPress's network admin assumes you have tens or maybe hundreds of sites. University networks or hosting platforms with thousands of sites push beyond its design limits.
 
 **Solutions:**
-- Increase PHP memory limit for network admin
-- Use pagination strictly
-- Disable admin features that scan all sites
-- Consider custom admin solutions for very large networks
+- Increase PHP memory limit for network admin (the admin user needs more than frontend visitors)
+- Use pagination strictly—never try to load "all" sites on one page
+- Disable admin features that scan all sites (some plugins add network-wide statistics)
+- Consider custom admin solutions for very large networks—build a separate management interface that queries efficiently
 
 ## Caching Strategies for Multisite
 
@@ -227,10 +250,10 @@ wp_cache_get('network_data', 'site-transient');
 
 | Approach | Multisite Compatibility |
 |----------|------------------------|
-| WP Super Cache | Good - handles multisite natively |
-| W3 Total Cache | Good - multisite aware |
-| WP Rocket | Good - per-site configuration |
-| Varnish/Nginx | Requires proper VCL/config for subdirectory installs |
+| [WP Super Cache](https://wordpress.org/plugins/wp-super-cache/) | Good - handles multisite natively |
+| [W3 Total Cache](https://wordpress.org/plugins/w3-total-cache/) | Good - multisite aware |
+| [WP Rocket](https://wp-rocket.me/) | Good - per-site configuration |
+| [Varnish](https://varnish-cache.org/)/Nginx | Requires proper VCL/config for subdirectory installs |
 
 **Subdomain vs Subdirectory:**
 
@@ -346,6 +369,12 @@ For existing multisite networks:
 
 ## Further Reading
 
+**Internal:**
 - [Object Caching](./14-object-caching.md) - Deep dive into Redis/Memcached
 - [Database Optimization](./07-database-optimizations.md) - Query and table optimization
 - [Scaling WordPress](./09-scaling-wordpress.md) - Horizontal scaling patterns
+
+**External:**
+- [WordPress Multisite Developer Resources](https://developer.wordpress.org/advanced-administration/multisite/) - Official documentation
+- [WP-CLI Multisite commands](https://developer.wordpress.org/cli/commands/) - Command-line management
+- [Developer Blog - Multisite](https://developer.wordpress.org/news/tag/multisite/) - Latest multisite updates and guidance

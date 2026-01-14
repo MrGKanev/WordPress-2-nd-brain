@@ -6,6 +6,8 @@ Page builders like Elementor, Divi, and WPBakery enable visual editing but come 
 
 ## The Performance Tax
 
+Page builders trade performance for convenience. They enable non-developers to create complex layouts, but that flexibility comes at a cost. Understanding what you're paying helps you decide when the trade-off makes sense.
+
 Page builders add overhead in several ways:
 
 | Issue | Impact | Why It Happens |
@@ -16,6 +18,8 @@ Page builders add overhead in several ways:
 | **Inline styles** | Cache inefficiency, large HTML | Per-element customization |
 | **Font loading** | Multiple font requests | Builder fonts + theme fonts |
 | **Duplicate assets** | Wasted bandwidth | Builder + addons + theme conflicts |
+
+The fundamental issue is that builders are designed for flexibility, not performance. A developer writing CSS can create a two-column layout with 20 bytes. A page builder creates the same layout with wrapper divs, responsive breakpoint classes, spacing utilities, and JavaScript positioning—hundreds of bytes for the same visual result. Multiply this by every element on the page.
 
 ### Measuring the Impact
 
@@ -34,7 +38,9 @@ These are generalizations—well-optimized builder pages can perform better, but
 
 ## DOM Bloat Explained
 
-Page builders create nested structures for layout flexibility:
+The DOM (Document Object Model) is the browser's internal representation of your page. Every HTML element becomes a DOM node that the browser must parse, store in memory, apply styles to, and potentially animate or manipulate with JavaScript.
+
+Page builders create nested structures for layout flexibility. They need wrapper divs to apply spacing, positioning, responsive behavior, and the drag-and-drop interface. Each wrapper level adds DOM nodes:
 
 ```html
 <!-- What you want -->
@@ -52,7 +58,7 @@ Page builders create nested structures for layout flexibility:
 </div>
 ```
 
-Multiply this by every element on the page.
+A simple heading becomes 5 DOM nodes. Multiply this by every element on the page, and a 20-element design becomes 100+ DOM nodes. A complex landing page easily reaches 1,500+ nodes—the threshold where Google starts flagging performance concerns.
 
 ### Why It Matters
 
@@ -66,13 +72,17 @@ Google specifically flags pages with >1,500 DOM elements in Lighthouse audits.
 
 ## Builder-Specific Issues
 
+Each page builder has its own performance characteristics. Understanding the specific issues helps you configure them optimally—or decide which to use.
+
 ### Elementor
 
+[Elementor](https://elementor.com/) is the most popular page builder with over 5 million installations. Its popularity means extensive third-party add-ons, but also means performance issues are well-documented with known solutions. The [Elementor performance documentation](https://elementor.com/help/speed-up-a-slow-site/) covers their recommended settings.
+
 **Common problems:**
-- Google Fonts loaded twice (builder + theme)
-- Font Awesome loaded even when not used
-- Frontend JS loads on every page
-- Swiper/lightbox libraries always included
+- Google Fonts loaded twice (builder + theme)—Elementor loads its own font picker's fonts alongside your theme's fonts
+- [Font Awesome](https://fontawesome.com/) loaded even when not used—the entire icon library loads even if you only use one icon (or none)
+- Frontend JS loads on every page—including pages not built with Elementor
+- Swiper/lightbox libraries always included—slider and lightbox code loads even without those widgets
 
 **Mitigations in Elementor settings:**
 - Settings → Experiments → Improved Asset Loading
@@ -83,11 +93,13 @@ Google specifically flags pages with >1,500 DOM elements in Lighthouse audits.
 
 ### Divi
 
+[Divi](https://www.elegantthemes.com/gallery/divi/) is an all-in-one theme and builder from Elegant Themes. It's tightly integrated with its theme, which can be an advantage (single vendor) or disadvantage (locked into Divi's ecosystem). Performance-wise, Divi historically prioritized features over speed, though recent versions have improved. Check their [performance features documentation](https://www.elegantthemes.com/documentation/divi/performance/) for current optimization options.
+
 **Common problems:**
-- Large CSS framework loaded entirely
-- jQuery dependency on frontend
-- Builder JS loads even on non-builder pages
-- Shortcode parsing overhead
+- Large CSS framework loaded entirely—Divi's CSS framework covers every possible layout combination, even ones you're not using
+- jQuery dependency on frontend—Divi's JavaScript relies on jQuery, adding ~90KB even if your theme doesn't need it
+- Builder JS loads even on non-builder pages—standard posts and pages load builder code unnecessarily
+- Shortcode parsing overhead—Divi stores content as shortcodes, requiring PHP parsing on every uncached page view
 
 **Mitigations:**
 - Theme Options → General → Performance (enable all options)
@@ -97,18 +109,22 @@ Google specifically flags pages with >1,500 DOM elements in Lighthouse audits.
 
 ### WPBakery (Visual Composer)
 
+[WPBakery](https://wpbakery.com/) was the first major WordPress page builder, bundled with thousands of [ThemeForest](https://themeforest.net/) themes. Its age shows—the architecture predates modern performance expectations and can't easily be updated without breaking compatibility for millions of sites.
+
 **Common problems:**
-- Legacy architecture (older than modern builders)
-- Shortcode-heavy approach hurts caching
-- Outdated JavaScript libraries
-- Inline styles everywhere
+- Legacy architecture (older than modern builders)—built before HTTP/2, Core Web Vitals, or mobile-first design
+- Shortcode-heavy approach hurts caching—content stored as complex shortcodes requires processing even with object caching (see [Object Caching](./14-object-caching.md))
+- Outdated JavaScript libraries—older jQuery plugins and custom code that modern alternatives have replaced
+- Inline styles everywhere—styling saved directly in HTML rather than in external stylesheets
 
 **Mitigations:**
-- Limited—WPBakery's architecture is inherently heavy
+- Limited—WPBakery's architecture is inherently heavy; the mitigation options aren't as extensive as newer builders
 - Consider migrating to Gutenberg for new content
-- Use page caching aggressively
+- Use page caching aggressively (see [Scaling WordPress](./09-scaling-wordpress.md) for caching strategies)
 
 ### Gutenberg (Block Editor)
+
+Gutenberg is WordPress's native block editor, introduced in WordPress 5.0. It was designed with performance as a consideration from the start—a reaction to the bloat of third-party builders. As a core feature, it has advantages third-party builders can't match.
 
 **Relative performance:**
 Gutenberg is significantly lighter than third-party builders:
@@ -120,7 +136,14 @@ Gutenberg is significantly lighter than third-party builders:
 | DOM output | Cleaner | Heavily nested |
 | Core integration | Native | Plugin layer |
 
-If considering a builder, Gutenberg with block patterns often achieves similar results with less overhead.
+**Why Gutenberg performs better:**
+
+1. **Static HTML output** - Gutenberg saves content as clean HTML, not shortcodes or proprietary formats. No runtime processing.
+2. **No frontend JavaScript** by default - Editor code only loads in the admin. Visitors get plain HTML.
+3. **Block-specific CSS** - Only the CSS for blocks actually used on the page loads (with proper theme support).
+4. **Native integration** - No plugin overhead, no compatibility layers, no separate update cycles.
+
+If considering a builder, Gutenberg with [block patterns](https://developer.wordpress.org/block-editor/reference-guides/block-api/block-patterns/) often achieves similar results with less overhead. The ecosystem of Gutenberg block libraries ([Stackable](https://wpstackable.com/), [Spectra](https://wpspectra.com/), [GenerateBlocks](https://generateblocks.com/)) adds functionality while staying much lighter than traditional builders.
 
 ## Optimization Strategies
 
@@ -172,7 +195,7 @@ add_action('wp_enqueue_scripts', function() {
 }, 100);
 ```
 
-Some optimization plugins (Perfmatters, Asset CleanUp) provide UI for this.
+Some optimization plugins ([Perfmatters](https://perfmatters.io/), [Asset CleanUp](https://wordpress.org/plugins/wp-asset-clean-up/)) provide UI for this.
 
 ### 4. Critical CSS
 
@@ -190,10 +213,10 @@ Page builders load entire frameworks, but each page uses a fraction:
 
 | Tool | Approach |
 |------|----------|
-| **PurgeCSS** | Build-time removal of unused selectors |
-| **WP Rocket** | Remove Unused CSS feature |
-| **Perfmatters** | Unused CSS removal |
-| **FlyingPress** | Automatic unused CSS removal |
+| [PurgeCSS](https://purgecss.com/) | Build-time removal of unused selectors |
+| [WP Rocket](https://wp-rocket.me/) | Remove Unused CSS feature |
+| [Perfmatters](https://perfmatters.io/) | Unused CSS removal |
+| [FlyingPress](https://flying-press.com/) | Automatic unused CSS removal |
 
 Caution: These tools can break styles if not configured correctly. Test thoroughly.
 
@@ -251,6 +274,12 @@ If you must use a page builder:
 
 ## Further Reading
 
+**Internal:**
 - [Core Web Vitals Optimization](./08-core-web-vitals-optimizations.md) - Metrics affected by DOM bloat
 - [Frontend Asset Optimization](./13-frontend-asset-optimization.md) - Managing CSS/JS
 - [Plugin Performance Evaluation](./15-plugin-performance.md) - Auditing builder add-ons
+
+**External:**
+- [web.dev - DOM size](https://developer.chrome.com/docs/lighthouse/performance/dom-size/) - Google's guidance on DOM size limits
+- [WordPress Block Editor Handbook](https://developer.wordpress.org/block-editor/) - Official Gutenberg documentation
+- [GeneratePress](https://generatepress.com/) - Example of lightweight theme approach

@@ -78,113 +78,145 @@ Don't adopt complex workflows because they're "best practice"—adopt them when 
 
 ### Git Submodules for Themes
 
-For complex projects, manage your theme as a separate Git repository and include it via submodule:
+When a theme becomes complex enough to warrant its own development lifecycle, Git submodules let you manage it as a separate repository while still including it in your main project. This is particularly useful when multiple WordPress installations share the same theme, or when the theme team works independently from the main site team.
 
-**Extract existing theme to separate repo:**
+Submodules work like pointers—your main repository doesn't contain the theme files directly, but instead references a specific commit in the theme's repository. When you clone the main project, Git fetches the theme from its own repository at the specified version.
+
+**Why use submodules?** They solve the problem of having shared code that evolves independently. Without submodules, you'd either duplicate theme code across projects (making updates painful) or use some external synchronization system. Submodules make Git itself handle the coordination.
+
+**The tradeoff:** Submodules add complexity. Team members must learn additional Git commands, and forgetting to update submodules is a common source of confusion. For simple projects with a single WordPress installation, keeping everything in one repository is usually simpler.
+
+To extract an existing theme into its own repository, Git's filter-branch command rewrites history to include only the theme directory:
 
 ```bash
-# Filter theme from larger repository
 git filter-branch --prune-empty --subdirectory-filter wp-content/themes/yourtheme -- --all
-
-# Push to new repository
 git remote set-url origin git@github.com:yourorg/theme-repo.git
 git push -u origin main
 ```
 
-**Add theme back as submodule:**
+To add a theme repository as a submodule in your main project:
 
 ```bash
-# In your main WordPress repository
 git submodule add git@github.com:yourorg/theme-repo.git wp-content/themes/yourtheme
 git commit -m "Add theme as submodule"
 ```
 
-**Prevent dirty status in submodule:**
-
-```gitmodules
-# .gitmodules
-[submodule "wp-content/themes/yourtheme"]
-    path = wp-content/themes/yourtheme
-    url = git@github.com:yourorg/theme-repo.git
-    ignore = dirty
-```
-
-**Working with submodules:**
+When cloning a project that uses submodules, you need the `--recursive` flag to also fetch submodule contents. Otherwise you'll get empty directories where submodules should be:
 
 ```bash
-# Clone project with submodules
 git clone --recursive git@github.com:yourorg/main-repo.git
+```
 
-# Update submodules
-git submodule update --remote
+If you already cloned without `--recursive`, initialize and fetch submodules manually:
 
-# Initialize submodules after clone
+```bash
 git submodule init && git submodule update
 ```
 
 ### Commit Message Standards
 
-Consistent commit messages make history readable and enable automation:
+When you look back at a project's Git history months later, commit messages are your only guide to understanding what changed and why. Vague messages like "fixed stuff" or "updates" make the history useless. Consistent, descriptive messages transform the commit log into valuable documentation.
 
-**Conventional Commits format:**
+The Conventional Commits standard provides a structured format that both humans and automated tools can parse. Each commit message starts with a type (what kind of change), an optional scope (what part of the codebase), and a subject (what specifically changed). This consistency enables automated changelog generation, semantic versioning, and easier code review.
+
+**Format:**
 
 ```
 type(scope): subject
 
-body (optional)
+body (optional - explains the "why")
 
-footer (optional)
+footer (optional - references issues, breaking changes)
 ```
 
-**Types:**
-| Type | Usage |
-|------|-------|
-| `feat` | New feature |
-| `fix` | Bug fix |
-| `docs` | Documentation |
-| `style` | Formatting (no code change) |
-| `refactor` | Code restructuring |
-| `perf` | Performance improvement |
-| `test` | Adding tests |
-| `chore` | Build process, dependencies |
+**Types indicate the nature of the change:**
 
-**Examples:**
+| Type | When to Use |
+|------|-------------|
+| `feat` | Adding new functionality users will notice |
+| `fix` | Correcting broken behavior |
+| `docs` | Documentation changes only |
+| `style` | Code formatting, whitespace, missing semicolons—no logic changes |
+| `refactor` | Restructuring code without changing its behavior |
+| `perf` | Performance improvements |
+| `test` | Adding or modifying tests |
+| `chore` | Build process, dependencies, tooling |
 
-```bash
+**The scope** narrows down which part of the codebase changed. For WordPress themes, you might use scopes like `header`, `checkout`, `api`, or `admin`. This helps when scanning history for changes to a specific feature.
+
+**Good commit messages:**
+
+```
 feat(checkout): add guest checkout option
 
-fix(theme): resolve header overlap on mobile
+fix(header): resolve mobile menu overlap on iOS
 
-perf(images): implement WebP conversion
+perf(images): implement lazy loading for product galleries
 ```
 
-Tools like [commitlint](https://commitlint.js.org/) can enforce these standards automatically.
+Tools like commitlint can enforce these standards automatically, rejecting commits that don't follow the format. This is especially valuable on teams where consistent habits vary.
 
 ## CSS Build Pipeline
 
+Writing CSS directly in large projects becomes unwieldy—you end up repeating colors and spacing values, duplicating media queries, and struggling to organize thousands of lines of styles. CSS preprocessors like SCSS solve these problems by adding variables, nesting, mixins, and file organization to your stylesheet workflow.
+
+The tradeoff is a build step. Your browser doesn't understand SCSS; it needs plain CSS. You write SCSS, a compiler transforms it to CSS, and optionally a minifier compresses the output. This pipeline runs during development and before deployment.
+
+### Why SCSS?
+
+SCSS (Sassy CSS) extends CSS with programming-like features while remaining syntactically similar to regular CSS. Any valid CSS is also valid SCSS, so you can adopt it gradually without rewriting existing styles.
+
+**Variables** eliminate repetition. Define a color once, reference it everywhere. Change the variable, and every usage updates automatically:
+
+```scss
+$primary-color: #3a7bd5;
+$spacing-unit: 8px;
+
+.button {
+    background: $primary-color;
+    padding: $spacing-unit * 2;
+}
+```
+
+**Nesting** mirrors HTML structure, making stylesheets more readable. Instead of repeating parent selectors, nest child styles within them:
+
+```scss
+.nav {
+    background: white;
+
+    .nav-item {
+        padding: 1rem;
+
+        &:hover {
+            background: #f0f0f0;
+        }
+    }
+}
+```
+
+**Partials and imports** split styles into logical files. A `_buttons.scss` partial contains only button styles. The main `style.scss` imports all partials, and the compiler combines them into one CSS file.
+
 ### SCSS Workflow
 
-Modern theme development benefits from SCSS for maintainability:
-
-**Project structure:**
+A typical project structure separates source files from compiled output. Files starting with underscore (like `_variables.scss`) are partials—they don't compile to separate CSS files but get included into the main stylesheet. This convention helps organize styles by purpose: variables in one file, mixins in another, component styles in their own folder.
 
 ```
 theme/
 ├── scss/
-│   ├── _variables.scss
-│   ├── _mixins.scss
-│   ├── _base.scss
+│   ├── _variables.scss      (colors, fonts, spacing)
+│   ├── _mixins.scss         (reusable patterns)
+│   ├── _base.scss           (resets, typography)
 │   ├── components/
 │   │   ├── _header.scss
 │   │   └── _footer.scss
-│   └── style.scss (main import file)
+│   └── style.scss           (imports all partials)
 ├── css/
-│   ├── style.css (compiled)
-│   └── style.min.css (minified)
+│   ├── style.css            (compiled, human-readable)
+│   └── style.min.css        (minified for production)
 └── package.json
 ```
 
-**package.json scripts:**
+NPM scripts automate the build process. The `build:css` script compiles SCSS to CSS. The `build:min` script runs PostCSS to minify the output. The `watch` script recompiles automatically when files change—essential during development.
 
 ```json
 {
@@ -203,7 +235,16 @@ theme/
 }
 ```
 
+Run `npm run build` before deployment. Run `npm run watch` during development to see changes immediately without manual compilation.
+
 ### PostCSS Processing
+
+PostCSS is a tool for transforming CSS with JavaScript plugins. Unlike SCSS which extends CSS syntax, PostCSS works on standard CSS and modifies it programmatically. You can chain multiple plugins to achieve different optimizations.
+
+Common PostCSS plugins for WordPress themes:
+- **cssnano** minifies CSS by removing whitespace, shortening colors, and eliminating redundant rules
+- **autoprefixer** adds vendor prefixes for browser compatibility (so you write standard CSS and it adds `-webkit-`, `-moz-` etc. where needed)
+- **postcss-combine-media-query** merges duplicate media queries that appear throughout your stylesheet into single blocks, reducing file size
 
 PostCSS plugins transform compiled CSS:
 
@@ -260,11 +301,17 @@ Don't track generated files:
 
 ## Code Quality Tools
 
+Code quality tools catch mistakes before they become bugs. They examine your code without running it, looking for common errors, style inconsistencies, and potential problems. Running these tools regularly—especially before committing—prevents technical debt from accumulating.
+
+Two tools dominate PHP quality checking: **PHP_CodeSniffer** enforces coding standards (consistent formatting, naming conventions), while **PHPStan** performs static analysis (finds bugs, type errors, unreachable code). They complement each other—CodeSniffer focuses on style, PHPStan focuses on correctness.
+
 ### PHP_CodeSniffer (PHPCS)
 
-PHPCS enforces coding standards:
+PHP_CodeSniffer reads your code and reports violations of coding standards. The WordPress coding standards define how WordPress core and community plugins should be formatted: spaces vs tabs, brace placement, naming conventions, and hundreds of other rules.
 
-**Installation:**
+Why bother? Consistent code is easier to read, review, and maintain. When everyone follows the same standards, you spend less mental energy parsing unfamiliar formatting and more time understanding logic.
+
+Install PHPCS globally so it's available across all projects. The WordPress Coding Standards ruleset (WPCS) teaches PHPCS WordPress-specific rules:
 
 ```bash
 composer global require squizlabs/php_codesniffer
@@ -273,18 +320,19 @@ composer global require phpcsstandards/phpcsextra
 composer global require dealerdirect/phpcodesniffer-composer-installer
 ```
 
-**Usage:**
+Run PHPCS against your theme or plugin directory. It reports each violation with file, line number, and explanation:
 
 ```bash
-# Check files
 phpcs --standard=WordPress wp-content/themes/yourtheme/
-
-# Auto-fix what's possible
-phpcbf --standard=WordPress wp-content/themes/yourtheme/
-
-# Check specific file
-phpcs --standard=WordPress functions.php
 ```
+
+Many violations can be fixed automatically. PHPCBF (PHP Code Beautifier and Fixer) reformats code to match standards:
+
+```bash
+phpcbf --standard=WordPress wp-content/themes/yourtheme/
+```
+
+Not everything can be auto-fixed—logical issues and some formatting decisions require human judgment. Run PHPCS again after PHPCBF to see what remains.
 
 **Custom ruleset (phpcs.xml):**
 
@@ -308,16 +356,18 @@ phpcs --standard=WordPress functions.php
 
 ### PHPStan (Static Analysis)
 
-PHPStan finds bugs without running code:
+While PHPCS checks how your code looks, PHPStan checks what your code does. It performs static analysis—examining code without executing it—to find bugs that would otherwise appear only at runtime.
 
-**Installation:**
+PHPStan catches errors like: calling methods on potentially null values, passing wrong argument types, using undefined variables, unreachable code branches, and hundreds of other patterns that indicate bugs. The stricter your PHPStan level (1-9), the more issues it reports.
+
+WordPress's dynamic nature complicates static analysis. Functions like `apply_filters()` accept variable arguments, global variables appear throughout, and hooks make control flow hard to trace. The phpstan-wordpress extension teaches PHPStan about WordPress-specific patterns, reducing false positives.
 
 ```bash
 composer global require phpstan/phpstan
 composer global require szepeviktor/phpstan-wordpress
 ```
 
-**Configuration (phpstan.neon):**
+Configuration lives in `phpstan.neon`. The `level` setting controls strictness—start at level 5 and increase as you fix issues. The `paths` setting specifies what to analyze. The `scanDirectories` setting tells PHPStan about external code (like WooCommerce) that your code references, so it understands those function signatures.
 
 ```yaml
 includes:
@@ -336,17 +386,23 @@ parameters:
         - '#^Function apply_filters invoked with \d+ parameters, 2 required\.$#'
 ```
 
-**Usage:**
+The `ignoreErrors` section handles WordPress patterns that PHPStan misunderstands. WordPress's `apply_filters()` accepts unlimited arguments, but PHPStan sees the function signature showing only two required parameters. The regex pattern tells PHPStan to ignore this specific false positive.
+
+Run analysis with:
 
 ```bash
 phpstan analyse
 ```
 
+Fix reported issues iteratively. Some represent real bugs you'll be grateful to catch before production.
+
 ### Pre-commit Hooks
 
-Run checks automatically before commits:
+Quality tools only help if you actually run them. Pre-commit hooks automate this by running checks every time you try to commit. If checks fail, the commit is rejected until you fix the problems.
 
-**Using husky (Node):**
+This shifts bug detection earlier—catching issues when you're still focused on the code rather than days later during code review or (worse) after deployment. The few seconds spent on each commit saves hours of debugging later.
+
+**Husky** is a popular Node.js tool for managing Git hooks. It integrates well with npm scripts:
 
 ```bash
 npm install husky --save-dev
@@ -354,12 +410,12 @@ npx husky install
 npx husky add .husky/pre-commit "npm run lint"
 ```
 
-**Simple Git hook (.git/hooks/pre-commit):**
+For projects without Node.js, write Git hooks directly as shell scripts. Git looks for executable files in `.git/hooks/`. Create `.git/hooks/pre-commit` with your checks:
 
 ```bash
 #!/bin/bash
 
-# Run PHPCS on staged PHP files
+# Only check PHP files being committed (not entire project)
 STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".php$")
 
 if [ -n "$STAGED_FILES" ]; then
@@ -369,6 +425,9 @@ if [ -n "$STAGED_FILES" ]; then
         exit 1
     fi
 fi
+```
+
+Make the hook executable with `chmod +x .git/hooks/pre-commit`. Now every commit runs PHPCS on changed PHP files.
 ```
 
 ### Composer Scripts for Development

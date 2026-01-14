@@ -23,7 +23,7 @@ A plugin might be "lightweight" in one dimension but heavy in another. A simple 
 
 ### Method 1: Query Monitor
 
-The most practical tool for plugin performance analysis.
+[Query Monitor](https://wordpress.org/plugins/query-monitor/) is the most practical tool for plugin performance analysis.
 
 **Setup:**
 1. Install Query Monitor plugin
@@ -45,7 +45,7 @@ The most practical tool for plugin performance analysis.
 Disable plugins systematically to measure their impact.
 
 **Baseline test:**
-1. Use a tool like GTmetrix or WebPageTest
+1. Use a tool like [GTmetrix](https://gtmetrix.com/) or [WebPageTest](https://www.webpagetest.org/)
 2. Record TTFB (Time to First Byte) and full load time
 3. Document with all plugins active
 
@@ -64,13 +64,15 @@ For deeper analysis, use PHP profilers:
 
 | Tool | Best For | Complexity |
 |------|----------|------------|
-| **Query Monitor** | Quick checks | Low |
-| **Debug Bar** + extensions | Hook timing | Low |
-| **Blackfire** | Production profiling | Medium |
-| **New Relic** | Ongoing monitoring | Medium |
-| **Xdebug + Profiler** | Deep code analysis | High |
+| [Query Monitor](https://wordpress.org/plugins/query-monitor/) | Quick checks | Low |
+| [Debug Bar](https://wordpress.org/plugins/debug-bar/) + extensions | Hook timing | Low |
+| [Blackfire](https://www.blackfire.io/) | Production profiling | Medium |
+| [New Relic](https://newrelic.com/) | Ongoing monitoring | Medium |
+| [Xdebug](https://xdebug.org/) + Profiler | Deep code analysis | High |
 
 ### Method 4: WP-CLI Profile
+
+The [WP-CLI profile command](https://developer.wordpress.org/cli/commands/profile/) is a powerful command-line profiling tool:
 
 ```bash
 # Profile WordPress load time
@@ -83,20 +85,26 @@ wp profile hook init
 wp profile stage --url=https://example.com/shop/
 ```
 
-This shows where time is spent during WordPress initialization.
+This shows where time is spent during WordPress initialization. Note: requires the [profile-command package](https://github.com/wp-cli/profile-command) to be installed.
 
 ## Common Performance Offenders
 
+Understanding common patterns helps you identify problems faster. These categories cover most plugin performance issues you'll encounter.
+
 ### Plugins That Phone Home
 
-Some plugins make HTTP requests on every page load:
+"Phoning home" means making external HTTP requests—contacting remote servers for license checks, updates, analytics, or API data. Each request adds latency: DNS lookup, TCP connection, SSL handshake, waiting for response. On a slow external server or unreliable connection, this can add seconds to page load.
 
-- License verification checks
-- Update checks (beyond WordPress's built-in)
-- Analytics/tracking
-- CDN/API connections
+The worst offenders make these requests on every frontend page load, not just in the admin. A license check that runs once per admin page is annoying but manageable. The same check running on every visitor request is a performance disaster.
 
-**Detection:** Query Monitor → HTTP API Calls panel. Look for requests on frontend page loads.
+Common culprits:
+
+- License verification checks (premium plugins validating your purchase)
+- Update checks (beyond WordPress's built-in update system)
+- Analytics/tracking (sending usage data to plugin developers)
+- CDN/API connections (fetching remote content or configuration)
+
+**Detection:** Query Monitor → HTTP API Calls panel. Look for requests on frontend page loads. Any external request during a normal visitor page view deserves scrutiny.
 
 **Solutions:**
 - Check plugin settings for "check for updates" options
@@ -105,16 +113,22 @@ Some plugins make HTTP requests on every page load:
 
 ### Plugins Loading Assets Everywhere
 
-Many plugins load their CSS/JS on every page even when not needed:
+WordPress's enqueue system makes it easy to add CSS and JavaScript files—perhaps too easy. Many plugin developers take the simple approach: enqueue their assets on every page and let the browser figure it out. This works functionally but wastes bandwidth and slows rendering.
+
+Every CSS file the browser encounters blocks rendering until it downloads and parses. Every JavaScript file (without async/defer) blocks HTML parsing. A plugin adding 50KB of CSS and 100KB of JavaScript to pages that don't use its features adds pure overhead.
+
+The pattern is predictable:
 
 ```
 Contact form plugin loads on every page
   → Even though form is only on /contact
 Slider plugin loads on every page
   → Even though slider is only on homepage
+Gallery lightbox loads on every page
+  → Even though galleries only exist on portfolio pages
 ```
 
-**Detection:** Query Monitor → Scripts/Styles → check "on this page" vs "could be loaded"
+**Detection:** Query Monitor → Scripts/Styles panel shows which assets loaded on the current page. Compare what's loaded versus what's actually used. Chrome DevTools' Coverage tab reveals how much of loaded CSS/JS actually executes.
 
 **Solutions:**
 - Plugin settings (some offer conditional loading)
@@ -333,7 +347,15 @@ General guidance—individual plugins vary widely:
 
 ## Further Reading
 
+**Internal:**
 - [Debugging & Profiling](./10-debugging-profiling.md) - Deep dive into profiling tools
 - [Database Optimization](./07-database-optimizations.md) - Fixing slow queries
 - [Frontend Asset Optimization](./13-frontend-asset-optimization.md) - Managing plugin CSS/JS
 - [Page Builders & DOM Bloat](./16-page-builders-dom-bloat.md) - Special case of heavy plugins
+
+**External:**
+- [Query Monitor](https://querymonitor.com/) - Essential debugging plugin documentation
+- [GTmetrix](https://gtmetrix.com/) - Performance testing tool
+- [WebPageTest](https://www.webpagetest.org/) - Detailed waterfall analysis
+- [WordPress Plugin Directory](https://wordpress.org/plugins/) - Check reviews and "tested up to" versions
+- [WPScan Vulnerability Database](https://wpscan.com/plugins) - Check plugin security history
