@@ -2,7 +2,7 @@
 
 ## Overview
 
-Hosting provider selection is one of the most critical decisions affecting WordPress performance.
+Hosting provider selection is one of the most critical decisions affecting WordPress performance. Your hosting is the foundation—no amount of optimization, caching, or plugin tuning can fix a slow server. Think of it this way: if your server takes 500ms to respond before WordPress even starts processing, you've already lost half a second before any code runs.
 
 ## Hosting Selection Criteria
 
@@ -35,7 +35,7 @@ Based on expert recommendations for e-commerce sites:
 1. **Server baseline**: Ensure adequate hardware before configuration
    - At least 2GB RAM for WooCommerce sites
    - SSD storage (preferably NVMe)
-   - Dedicated resources - avoid oversold shared hosting if possible
+   - Dedicated resources - avoid oversold shared hosting if possible (when a host puts 500 sites on one server, everyone suffers when one site gets traffic)
 
 2. **Critical server configurations**:
    - FastCGI caching implementation
@@ -83,7 +83,7 @@ For self-managed VPS environments:
 
 Signs your WordPress site has outgrown its current hosting:
 
-1. **High TTFB** (Time To First Byte) consistently above 600ms
+1. **High TTFB** (Time To First Byte) consistently above 600ms—TTFB measures how long it takes for the server to start sending data back to the browser. This is pure server performance before any frontend loading begins
 2. **Memory exhaustion errors** in PHP logs
 3. **Database connection issues** during peak traffic
 4. **CPU throttling** by the hosting provider

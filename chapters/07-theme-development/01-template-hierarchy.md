@@ -6,6 +6,8 @@ The template hierarchy is WordPress's system for choosing which template file to
 
 WordPress checks for templates in a specific order. The first one found wins.
 
+**Why this matters:** Instead of writing complex `if/else` statements like "if this is a product page, show this layout; if it's a blog post, show that layout," you create separate template files. WordPress automatically picks the right one based on what's being displayed. This keeps your code clean, maintainable, and easy to understand.
+
 ## How It Works
 
 ```

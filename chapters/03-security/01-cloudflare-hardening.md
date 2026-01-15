@@ -4,6 +4,8 @@
 
 Security is a critical aspect of any WordPress installation. Implementing Cloudflare's security features drastically reduced these attacks and improved overall performance.
 
+**Why Cloudflare instead of a WordPress security plugin?** When a security plugin like Wordfence blocks an attack, the malicious request has already reached your server, PHP has already loaded WordPress, and the plugin runs its checks. This happens on every single request. With Cloudflare, attacks are blocked at the edge—your server never sees them. This means less CPU usage, faster responses for legitimate visitors, and protection even during DDoS attacks that would overwhelm your server.
+
 ## Cloudflare WAF Setup
 
 ### Basic WAF Configuration
@@ -50,7 +52,14 @@ Configure Cloudflare to protect your login page with Managed Challenge:
 
 ### XMLRPC Protection
 
-XMLRPC is a common attack vector but may be needed for some functionality:
+XMLRPC (`xmlrpc.php`) is a legacy API that allows external applications to communicate with WordPress. It's a massive security problem because:
+
+1. **Amplification attacks**: A single XMLRPC request can try hundreds of username/password combinations at once (via `system.multicall`)
+2. **No rate limiting**: WordPress doesn't limit XMLRPC attempts like it does for wp-login.php
+3. **Pingback abuse**: Can be used for DDoS attacks against other sites
+4. **Largely obsolete**: The REST API has replaced most XMLRPC use cases
+
+XMLRPC may still be needed for some functionality:
 
 1. If you don't use XMLRPC:
    - Expression: `http.request.uri.path eq "/xmlrpc.php"`

@@ -29,6 +29,8 @@ This book focuses on **WordPress.org** (self-hosted).
 
 ### The Request Lifecycle
 
+Understanding this flow helps you debug problems and optimize performance. When a page loads slowly, you can pinpoint where the delay happens—is it the database query? A slow plugin loading in `wp-settings.php`? The template rendering?
+
 ```
 Browser Request
       ↓
@@ -53,13 +55,15 @@ Output HTML
 Browser renders page
 ```
 
+Every plugin you install adds code that runs during `wp-settings.php`. Every theme function runs before the template loads. This is why having 50 plugins can slow down your site—each one adds processing time to every single page load.
+
 ### Key Concepts
 
-**Everything is a hook.** WordPress uses actions and filters to allow plugins and themes to modify behavior without editing core files.
+**Everything is a hook.** WordPress uses actions and filters to allow plugins and themes to modify behavior without editing core files. Think of hooks as "announcement points"—WordPress announces "I'm about to show the title" and any plugin can respond "Wait, let me modify that first." This is how a security plugin can block login attempts without touching WordPress core, or how an SEO plugin adds meta tags to every page.
 
-**Everything is a post.** Posts, pages, attachments, menu items—they're all stored in the `wp_posts` table with different `post_type` values.
+**Everything is a post.** Posts, pages, attachments, menu items—they're all stored in the `wp_posts` table with different `post_type` values. This might seem strange at first, but it's elegant: one table, one set of functions, infinite content types. When you add a WooCommerce product, it's just a post with `post_type = 'product'`.
 
-**Configuration lives in the database.** Site settings, plugin options, widget configurations—stored in `wp_options`.
+**Configuration lives in the database.** Site settings, plugin options, widget configurations—stored in `wp_options`. This means you can't just copy WordPress files to migrate a site; you need the database too. It also means careless plugins can bloat your options table with thousands of rows that never get cleaned up.
 
 ## Directory Structure
 
@@ -75,7 +79,7 @@ wordpress/
 │   ├── uploads/           # Media library files
 │   │   └── 2024/01/       # Organized by year/month
 │   ├── upgrade/           # Temp files during updates
-│   └── mu-plugins/        # Must-use plugins (auto-activated)
+│   └── mu-plugins/        # Must-use plugins (always active, can't be disabled)
 ├── wp-includes/           # Core WordPress files
 ├── wp-config.php          # Database credentials, constants
 ├── .htaccess              # Apache rewrite rules
@@ -83,6 +87,8 @@ wordpress/
 ```
 
 **Golden rule:** Only modify files in `wp-content/`. Everything else gets overwritten on updates.
+
+**Why mu-plugins exist:** Must-use plugins load before regular plugins and can't be deactivated from the admin panel. This is useful for critical functionality that should never be accidentally disabled—like custom security rules, performance optimizations, or client-specific code that shouldn't be touched.
 
 ## Database Structure
 
@@ -101,6 +107,8 @@ WordPress uses ~12 core tables (default prefix `wp_`):
 | `wp_comments` | Comments on posts |
 | `wp_commentmeta` | Comment metadata |
 | `wp_links` | Blogroll (legacy, rarely used) |
+
+**Why separate "meta" tables?** WordPress uses a flexible key-value pattern for custom data. Instead of adding columns to the main tables (which would require schema changes), plugins store custom fields in meta tables. A post can have unlimited custom fields without changing the database structure. The trade-off: meta queries can be slower than direct column lookups, especially at scale.
 
 ### The Posts Table
 
@@ -154,7 +162,7 @@ Built-in roles:
 
 ### The Loop
 
-The fundamental pattern for displaying content:
+The Loop is WordPress's way of iterating through query results and displaying content. It's called "The Loop" because it literally loops through posts one by one, setting up global variables for each post so template tags like `the_title()` know which post to display.
 
 ```php
 <?php if ( have_posts() ) : ?>
@@ -165,7 +173,9 @@ The fundamental pattern for displaying content:
 <?php endif; ?>
 ```
 
-Every WordPress page uses some form of The Loop.
+**How it works:** Before the template loads, WordPress runs a database query based on the URL (e.g., "get all posts in category X" or "get the page with slug Y"). The Loop then iterates through those results. The `the_post()` function is crucial—it advances to the next post and sets up all the global variables that template tags rely on.
+
+Every WordPress page uses some form of The Loop—even a single page view loops through one result.
 
 ## The Hooks System (Preview)
 
@@ -207,10 +217,12 @@ This is covered in depth in the [Plugin Development](../08-plugin-development/02
 
 ### Local Development
 
-- **[Local](https://localwp.com/)** - Easiest local WordPress setup
-- **[DDEV](https://ddev.com/)** - Docker-based, more flexible
+Never develop directly on a live site. Local development gives you a safe environment to experiment, make mistakes, and test changes without risking your production site. You can break things, restore quickly, and work offline.
+
+- **[Local](https://localwp.com/)** - Easiest local WordPress setup (one-click install, great for beginners)
+- **[DDEV](https://ddev.com/)** - Docker-based, more flexible (better for teams with complex setups)
 - **[Lando](https://lando.dev/)** - Another Docker option
-- **MAMP/XAMPP** - Traditional approach
+- **MAMP/XAMPP** - Traditional approach (works but harder to manage multiple sites)
 
 ### Browser Tools
 

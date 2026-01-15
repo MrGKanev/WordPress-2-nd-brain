@@ -100,7 +100,10 @@ define('EMPTY_TRASH_DAYS', 14);
 
 ```php
 // Use IP address instead of 'localhost' for faster connection
-// Avoids socket vs TCP resolution ambiguity
+// Why? When you use 'localhost', PHP tries to connect via Unix socket first,
+// then falls back to TCP if that fails. This detection takes time.
+// Using '127.0.0.1' tells PHP to use TCP directly, avoiding the overhead.
+// On some servers this saves 10-50ms per database connection.
 define('DB_HOST', '127.0.0.1');
 
 // Database charset and collation (usually set correctly by installer)

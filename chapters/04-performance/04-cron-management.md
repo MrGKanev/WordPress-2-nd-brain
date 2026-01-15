@@ -4,6 +4,10 @@
 
 WordPress's default cron system (WP-Cron) can be a significant resource drain on any environments, especially on limited hardware. The default implementation triggers on page loads, leading to inconsistent execution and potential CPU spikes. This chapter explores optimizations for cron jobs and background task management.
 
+**Why is page-load triggered cron bad?** Imagine a visitor loads your homepage. WordPress checks "are any scheduled tasks due?" If yes, it runs them *before* sending the page to the visitor. That visitor's page load now includes the time to process email queues, backup tasks, or whatever else is scheduled. They experience a slow page through no fault of their own.
+
+Even worse: on low-traffic sites, scheduled tasks might not run for hours because nobody visited. And on high-traffic sites, every visitor triggers the cron check—adding overhead to every request even when nothing is due.
+
 ## Disabling WP-Cron
 
 ### Step 1: Disable in wp-config.php

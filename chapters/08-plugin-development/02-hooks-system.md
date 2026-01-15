@@ -15,6 +15,8 @@ WordPress has two types of hooks:
 | **Actions** | Execute code at specific points | None (void) | Send emails, save data, enqueue scripts |
 | **Filters** | Modify data before it's used | Modified data | Change content, alter queries, modify options |
 
+**The simplest way to remember:** Actions are for *doing* things (send email, create file, log something). Filters are for *changing* things (modify text, alter a value, transform data). If you're wondering which to use: Does the hook pass you data that you need to return? It's a filter. Does it just announce "this is happening now"? It's an action.
+
 ### Actions
 
 Actions let you add functionality at specific execution points:
