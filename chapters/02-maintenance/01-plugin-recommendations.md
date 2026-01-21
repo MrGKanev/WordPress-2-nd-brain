@@ -1,124 +1,413 @@
 # Plugin Recommendations
 
-## Overview
+Plugin selection significantly impacts WordPress performance, security, and maintainability. A plugin can be 2 lines of efficient code or a massive resource hog. The quantity matters less than whether each plugin earns its place.
 
-Plugin selection significantly impacts WordPress performance, security, and maintainability. This section outlines key considerations and links to topic-specific recommendations throughout the book.
+**Guiding principle:** Fewer plugins, better quality.
 
-The guiding principle: **fewer plugins, better quality**. A plugin can be 2 lines of efficient code or a massive resource hog. Quantity matters less than whether each plugin earns its place.
+## Understanding Plugin Performance Impact
 
-## Topic-Specific Recommendations
+Before choosing plugins, understand how they affect your site.
 
-Plugins are covered within their relevant topic areas:
+### How Plugins Impact Performance
 
-| Topic | Location | Examples |
-|-------|----------|----------|
-| Image optimization | [Image Optimizations](../04-performance/06-image-optimizations.md) | ShortPixel, EWWW, Converter for Media |
-| Database maintenance | [Database Optimization](../04-performance/07-database-optimizations.md) | WP-Sweep, Index WP MySQL For Speed |
-| Caching | [PHP Optimization](../04-performance/02-php-optimization.md) | Redis Object Cache, LiteSpeed Cache |
-| Security | [Server Hardening](../03-security/02-server-hardening.md) | Two-Factor, Simple Cloudflare Turnstile |
-| SEO | [Technical SEO](../05-seo/01-technical-seo-fundamentals.md) | Rank Math, Slim SEO, SEOPress |
-| WooCommerce | [WooCommerce Performance](../06-e-commerce/03-woocommerce-performance.md) | Disable Cart Fragments, Product filters |
-| Debugging | [Debugging & Profiling](../04-performance/10-debugging-profiling.md) | Query Monitor, Code Profiler |
+| Area | Impact | Measurement |
+|------|--------|-------------|
+| **PHP execution** | Plugins load on every request | Query Monitor → PHP time |
+| **Database queries** | Extra queries per page load | Query Monitor → Queries by Component |
+| **JavaScript** | Frontend scripts blocking render | Browser DevTools → Network |
+| **CSS** | Stylesheet loading | Browser DevTools → Network |
+| **External requests** | API calls, license checks | Query Monitor → HTTP API Calls |
+| **Cron jobs** | Background processing | WP Crontrol |
 
-## Essential Plugins by Role
+### Typical Performance Overhead
+
+| Plugin Type | Typical Impact | Notes |
+|-------------|----------------|-------|
+| **Page builder** | +200-500ms | Elementor, Divi load heavy assets |
+| **Security plugin** | +50-150ms | Wordfence scans every request |
+| **SEO plugin** | +20-50ms | Acceptable for the functionality |
+| **Form plugin** | +10-30ms | Only on pages with forms ideally |
+| **Slider plugin** | +100-300ms | Consider if really needed |
+| **Social sharing** | +50-200ms | External API calls |
+| **Live chat** | +100-400ms | Heavy third-party scripts |
+
+### Measuring Plugin Impact
+
+```bash
+# Install Query Monitor
+wp plugin install query-monitor --activate
+```
+
+Then check:
+1. **Queries by Component:** Which plugins run most queries
+2. **PHP execution time:** Total time and per-component breakdown
+3. **HTTP API Calls:** External requests slowing things down
+4. **Scripts/Styles:** Which plugins add most assets
+
+---
+
+## Essential Plugins by Site Type
 
 ### Every WordPress Site
 
-| Plugin | Purpose | Why Essential |
-|--------|---------|---------------|
-| [Query Monitor](https://wordpress.org/plugins/query-monitor/) | Debugging | Understand what's slowing your site |
-| Backup solution | Recovery | UpdraftPlus, WPvivid, or host backups |
-| Object cache | Performance | Redis Object Cache (if Redis available) |
+| Plugin | Purpose | Performance Impact | Alternative |
+|--------|---------|-------------------|-------------|
+| **Query Monitor** | Debugging & profiling | Minimal (dev only) | Code Profiler |
+| **Backup solution** | Disaster recovery | Varies | Host backups |
+| **Object cache** | Database query cache | Major positive | Built into some hosts |
 
-### Content-Heavy Sites
+**Object cache options:**
 
-| Plugin | Purpose |
-|--------|---------|
-| [Safe SVG](https://wordpress.org/plugins/safe-svg/) | Secure SVG uploads |
-| [Enable Media Replace](https://wordpress.org/plugins/enable-media-replace/) | Update images without changing URLs |
-| [Media Cleaner](https://wordpress.org/plugins/media-cleaner/) | Remove unused media |
+| Plugin | When to Use |
+|--------|-------------|
+| Redis Object Cache | Redis available on server |
+| LiteSpeed Cache | LiteSpeed server |
+| W3 Total Cache | Multiple cache types needed |
+
+### Blog / Content Site
+
+| Plugin | Purpose | Why |
+|--------|---------|-----|
+| **Rank Math** or **SEOPress** | SEO | Full-featured, reasonable performance |
+| **ShortPixel** or **EWWW** | Image optimization | Auto-converts to WebP |
+| **Converter for Media** | WebP/AVIF | Lightweight, free |
+| **Enable Media Replace** | Update images | Keep URLs when replacing |
+| **Safe SVG** | SVG uploads | Security-sanitized SVG support |
+
+### WooCommerce Store
+
+| Plugin | Purpose | Why |
+|--------|---------|-----|
+| **WooCommerce** | E-commerce | The standard |
+| **Disable Cart Fragments** | Performance | Eliminates admin-ajax on every page |
+| **High-Performance Order Storage** | Performance | Enable HPOS in WooCommerce settings |
+| **WP-Sweep** or **Advanced DB Cleaner** | Database cleanup | Cleans WooCommerce session data |
+| **Solid Security** | Security | Lighter than Wordfence |
+| **Payment gateway plugin** | Payments | Stripe/PayPal official plugins |
+
+**WooCommerce-specific performance:**
+
+| Issue | Solution |
+|-------|----------|
+| Cart fragments AJAX | Disable Cart Fragments AJAX plugin |
+| Order storage | Enable HPOS (built into WooCommerce) |
+| Session bloat | Regular database cleanup |
+| Admin slowness | Disable WooCommerce marketing hub |
+
+```php
+// Disable WooCommerce marketing hub
+add_filter( 'woocommerce_marketing_menu_items', '__return_empty_array' );
+add_filter( 'woocommerce_admin_features', function( $features ) {
+    return array_diff( $features, ['marketing', 'analytics'] );
+});
+```
+
+### Agency / Client Sites
+
+| Plugin | Purpose | Why |
+|--------|---------|-----|
+| **Admin and Site Enhancements** | Admin cleanup | Removes clutter, simplifies for clients |
+| **Simple History** | Audit log | Track who changed what |
+| **Limit Login Attempts Reloaded** | Security | Basic brute force protection |
+| **WP Mail SMTP** | Email deliverability | Reliable email sending |
+| **MainWP** (external) | Multi-site management | Manage many sites from one dashboard |
 
 ### Developer Sites
 
-| Plugin | Purpose |
-|--------|---------|
-| [Code Snippets](https://wordpress.org/plugins/code-snippets/) | Manage custom PHP without theme editing |
-| [ACF](https://wordpress.org/plugins/advanced-custom-fields/) or Meta Box | Custom fields |
-| [Custom Post Type UI](https://wordpress.org/plugins/custom-post-type-ui/) | Register post types without code |
+| Plugin | Purpose | Notes |
+|--------|---------|-------|
+| **Query Monitor** | Debugging | Essential for development |
+| **Code Snippets** | Custom PHP | Safer than editing functions.php |
+| **ACF** or **Meta Box** | Custom fields | ACF simpler, Meta Box more performant |
+| **Custom Post Type UI** | CPT/taxonomy UI | Or register in code |
+| **WP Crontrol** | Cron management | Debug scheduled tasks |
+| **User Switching** | Testing roles | Quick user switching |
 
-### Client Sites
+---
 
-| Plugin | Purpose |
-|--------|---------|
-| [Admin and Site Enhancements](https://wordpress.org/plugins/admin-site-enhancements/) | Simplify admin, hide clutter |
-| [Simple History](https://wordpress.org/plugins/simple-history/) | Track user changes |
-| [LoginWP](https://wordpress.org/plugins/peter-login-redirect/) | Role-based login redirects |
+## Plugin Alternatives
+
+Often there's a lighter alternative to popular heavy plugins.
+
+### Page Builders
+
+| Heavy Option | Lighter Alternative | Notes |
+|--------------|---------------------|-------|
+| Elementor Pro | Gutenberg + GenerateBlocks | Native, much faster |
+| Divi | Gutenberg + Kadence Blocks | Better performance |
+| WPBakery | Gutenberg (native) | Modern approach |
+
+**Page builder impact:**
+
+```
+Elementor typical page:
+├── 200-400KB JavaScript
+├── 100-200KB CSS
+├── +300-500ms load time
+
+Gutenberg + GenerateBlocks:
+├── 30-50KB JavaScript
+├── 20-40KB CSS
+├── +50-100ms load time
+```
+
+### SEO Plugins
+
+| Plugin | Size | Features | Recommendation |
+|--------|------|----------|----------------|
+| **Yoast SEO** | Heavy | Full featured | Established, but bloated |
+| **Rank Math** | Medium | Full featured | Good balance |
+| **SEOPress** | Medium | Full featured | Clean code |
+| **Slim SEO** | Light | Basic | Minimal overhead |
+| **The SEO Framework** | Light | Automated | Set and forget |
+
+### Security Plugins
+
+| Plugin | Approach | Impact | Recommendation |
+|--------|----------|--------|----------------|
+| **Wordfence** | PHP-level firewall | High (every request scanned) | Use only if no WAF |
+| **Sucuri** | Cloud + PHP | Medium | Redundant with Cloudflare |
+| **Solid Security** | Focused features | Low | Good lightweight option |
+| **Two-Factor** | 2FA only | Minimal | Does one thing well |
+
+**Better approach:** Use Cloudflare for WAF, server-level security (fail2ban), and minimal WordPress security plugin.
+
+### Caching Plugins
+
+| Plugin | Best For | Complexity |
+|--------|----------|------------|
+| **LiteSpeed Cache** | LiteSpeed servers | Low |
+| **WP Rocket** | Most sites | Low (paid) |
+| **W3 Total Cache** | Advanced users | High |
+| **WP Super Cache** | Basic caching | Low |
+| **Redis Object Cache** | Object caching only | Low |
+
+**Note:** Don't stack caching plugins. Pick one full solution or separate page cache + object cache.
+
+---
 
 ## Plugins to Avoid
 
-### Heavy Security Plugins
+### Known Performance Problems
 
-Plugins like Wordfence scan every request through PHP. Server-level security (Cloudflare, Nginx rules) provides better protection with less overhead. See [Server Hardening](../03-security/02-server-hardening.md).
+| Plugin | Issue | Alternative |
+|--------|-------|-------------|
+| **Jetpack** (full) | 30+ modules, heavy | Use individual solutions |
+| **Broken Link Checker** | Constant DB/HTTP activity | Use external service (Ahrefs, Screaming Frog) |
+| **Revive Old Posts** | Constant API calls | Schedule manually or use Buffer |
+| **WP Smush (heavy scan)** | Scans entire library repeatedly | ShortPixel (on-upload only) |
+| **Heavy sliders** | Large JS/CSS, often unnecessary | Static images or CSS-only solutions |
 
-### Bloated All-in-One Solutions
+### Plugin Categories to Question
 
-Plugins that do "everything" usually mean:
-- 90% of features unused
-- Higher attack surface
-- Performance overhead from unused code
-- Settings complexity
+| Category | Why Questionable | Better Approach |
+|----------|------------------|-----------------|
+| **Social sharing buttons** | External scripts, tracking | Static SVG icons with share URLs |
+| **Related posts** | Often inefficient queries | FLAVOR Related Posts (or none) |
+| **Popup builders** | Heavy JS, UX issues | Simple CSS/JS popup |
+| **Live chat widgets** | Massive third-party JS | Defer loading until interaction |
+| **Performance "boosters"** | Often snake oil | Proper caching and optimization |
 
-Choose focused plugins that do one thing well.
+### Red Flags When Evaluating
 
-### Outdated or Abandoned Plugins
+| Red Flag | Why It Matters |
+|----------|----------------|
+| "Speed up your site instantly!" | Usually doesn't work that way |
+| Installs tracking pixels | Privacy and performance concern |
+| Makes external requests on every page load | Slows TTFB |
+| No changelog or documentation | Likely abandoned |
+| Single developer, no recent updates | Risk of abandonment |
+| Requires constant "optimization" runs | Doing work on every visit |
 
-WordPress and its ecosystem evolve rapidly. Core updates, PHP version changes, and major plugin updates (especially WooCommerce) can break plugins that haven't kept pace. While there are exceptions—simple plugins that do one thing may not need frequent updates—the risk grows with complexity.
-
-**The HPOS Example**: When WooCommerce introduced High-Performance Order Storage (HPOS), many popular plugins that integrated with orders weren't updated in time. Sites that enabled HPOS found major functionality broken—order management, reporting, shipping integrations. Even well-established plugins with hundreds of thousands of installs caused problems because they weren't updated for this architectural change.
-
-This pattern repeats with every major change: Gutenberg's introduction broke page builders, PHP 8 compatibility issues affected countless plugins, and WooCommerce's block-based checkout continues to cause integration issues.
-
-**Check before installing:**
-
-- **Last updated**: Within 6-12 months ideally, 18 months maximum
-- **Support forum**: Active responses to issues
-- **Compatibility**: Tested with your WordPress and WooCommerce versions
-- **Changelog**: Shows awareness of ecosystem changes (HPOS support, PHP 8 compatibility, etc.)
-
-**For WooCommerce integrations specifically**, verify HPOS compatibility before installing. Check the plugin's documentation or support forum for "HPOS", "High-Performance Order Storage", or "Custom Order Tables" mentions.
+---
 
 ## Plugin Selection Criteria
 
-When evaluating any plugin:
+### Before Installing Any Plugin
 
-| Factor | What to Check |
-|--------|---------------|
-| **Necessity** | Can this be done without a plugin? |
-| **Reputation** | Active installations, reviews, known developer |
-| **Performance** | Does Query Monitor show impact? |
-| **Updates** | Regular maintenance, security patches |
-| **Alternatives** | Are there lighter options? |
-| **Exit strategy** | Can you remove it without breaking the site? |
+| Question | Action |
+|----------|--------|
+| Can this be done without a plugin? | 3-line code snippet often better |
+| Can I use a lighter alternative? | Check alternatives table |
+| What's the performance impact? | Test with Query Monitor |
+| Is it actively maintained? | Check last update, support forum |
+| Is there an exit strategy? | Can you remove it cleanly? |
+| Does it duplicate existing functionality? | Check for conflicts |
+
+### Quality Indicators
+
+**Good signs:**
+
+- Regular updates (every 1-6 months)
+- Active support forum with developer responses
+- Clear documentation
+- Tested with your WP/WooCommerce version
+- Code available for review
+- Known developer/company
+
+**Warning signs:**
+
+- Last updated 2+ years ago
+- Support requests go unanswered
+- No documentation
+- Only tested with old WP versions
+- Obfuscated code
+- Unknown developer, no website
+
+### Performance Testing Process
+
+```
+1. Install Query Monitor
+2. Note baseline metrics:
+   - Page load time
+   - Database queries
+   - HTTP API calls
+
+3. Install plugin (don't activate)
+4. Activate plugin
+5. Measure again
+6. Calculate difference
+
+7. If impact > acceptable threshold:
+   - Look for alternatives
+   - Consider if benefit justifies cost
+```
+
+---
+
+## WooCommerce Plugin Compatibility
+
+### HPOS (High-Performance Order Storage)
+
+WooCommerce's HPOS moves order data from meta tables to dedicated tables. This breaks plugins that directly query order meta.
+
+**Before installing WooCommerce plugins, verify HPOS compatibility:**
+
+| Status | Meaning |
+|--------|---------|
+| **Compatible** | Works with HPOS enabled |
+| **Uncertain** | Hasn't been tested |
+| **Incompatible** | Will break with HPOS |
+
+Check: WooCommerce → Settings → Advanced → Features → See "Order data storage" compatible plugins.
+
+### Block Checkout Compatibility
+
+WooCommerce's new block-based checkout breaks many checkout customizations.
+
+**Before customizing checkout:**
+
+1. Check if plugin supports block checkout
+2. Test thoroughly in staging
+3. Have fallback to classic checkout if needed
+
+```php
+// Force classic checkout (temporary workaround)
+add_filter( 'woocommerce_use_block_based_cart', '__return_false' );
+add_filter( 'woocommerce_use_block_based_checkout', '__return_false' );
+```
+
+---
 
 ## Plugin Audit Process
 
-Quarterly, review installed plugins:
+### Monthly Quick Check
 
-1. **Is it still needed?** Remove if not actively used
-2. **Is it still maintained?** Check for updates and support activity
-3. **Is there a better option?** Ecosystem evolves constantly
-4. **Does it conflict?** Multiple plugins doing similar things cause issues
+```
+[ ] Any plugins need updates? Update in staging first
+[ ] Any security advisories for installed plugins?
+[ ] Any plugins showing errors in logs?
+```
 
-## Implementation Strategy
+### Quarterly Deep Audit
 
-1. **Start minimal** - Add plugins only when necessary
-2. **Test impact** - Use Query Monitor before and after
-3. **Document why** - Note why each plugin was added
-4. **Audit regularly** - Review quarterly
+```
+1. List all active plugins
+2. For each plugin:
+   [ ] Is it still being used?
+   [ ] Is it still maintained?
+   [ ] Is there a better alternative?
+   [ ] Does Query Monitor show excessive impact?
 
-> **Expert insight**: "It's all about the plugins themselves. A plugin can be 2 lines of code, or a huge monster like WooCommerce. Or it can also be 2 lines of code that are anything but efficient. So it's not about the quantity, but the quality."
+3. Remove unnecessary plugins
+4. Replace outdated with alternatives
+5. Document reasoning for each remaining plugin
+```
+
+### Annual Review
+
+```
+[ ] Full performance audit with/without each plugin
+[ ] Check for functionality overlap
+[ ] Evaluate new alternatives that have emerged
+[ ] Review security advisories from past year
+[ ] Update documentation for plugin choices
+```
+
+---
+
+## Topic-Specific Plugin Lists
+
+Detailed plugin recommendations are found in their relevant sections:
+
+| Topic | Location | Key Plugins |
+|-------|----------|-------------|
+| Image optimization | [Image Optimizations](../04-performance/06-image-optimizations.md) | ShortPixel, EWWW, Converter for Media |
+| Database maintenance | [Database Optimization](../04-performance/07-database-optimizations.md) | WP-Sweep, Index WP MySQL For Speed |
+| Caching | [PHP Optimization](../04-performance/02-php-optimization.md) | Redis Object Cache, LiteSpeed Cache |
+| Security | [Cloudflare Hardening](../03-security/01-cloudflare-hardening.md) | Two-Factor, Simple Cloudflare Turnstile |
+| SEO | [Technical SEO](../05-seo/01-technical-seo-fundamentals.md) | Rank Math, Slim SEO, SEOPress |
+| WooCommerce | [WooCommerce Performance](../06-e-commerce/03-woocommerce-performance.md) | Disable Cart Fragments |
+| Debugging | [Debugging & Profiling](../04-performance/10-debugging-profiling.md) | Query Monitor, Code Profiler |
+| Payment | [Payment Gateways](../06-e-commerce/05-payment-gateways.md) | Stripe, PayPal official plugins |
+
+---
+
+## Quick Reference: Recommended Stacks
+
+### Minimal Blog
+
+```
+Plugins (5):
+├── Rank Math (SEO)
+├── ShortPixel (images)
+├── Redis Object Cache (if Redis available)
+├── UpdraftPlus (backup)
+└── Query Monitor (dev only)
+```
+
+### Business Site
+
+```
+Plugins (7):
+├── Rank Math (SEO)
+├── ShortPixel (images)
+├── WP Rocket or LiteSpeed Cache
+├── WP Mail SMTP
+├── Solid Security
+├── UpdraftPlus (backup)
+└── Query Monitor (dev only)
+```
+
+### WooCommerce Store
+
+```
+Plugins (10):
+├── WooCommerce
+├── Payment gateway (Stripe/PayPal)
+├── Rank Math (SEO)
+├── ShortPixel (images)
+├── WP Rocket or LiteSpeed Cache
+├── Redis Object Cache
+├── Disable Cart Fragments AJAX
+├── WP-Sweep (database cleanup)
+├── UpdraftPlus (backup)
+└── Query Monitor (dev only)
+```
 
 ## Further Reading
 
-- [Hosting Selection](./02-hosting-selection.md) - Host-provided functionality vs plugins
-- [Performance Optimization](../04-performance/README.md) - Measuring plugin impact
+- [Hosting Selection](./02-hosting-selection.md) — Host-provided functionality vs plugins
+- [Performance Optimization](../04-performance/README.md) — Measuring plugin impact
+- [Debugging & Profiling](../04-performance/10-debugging-profiling.md) — Query Monitor usage
+- [WooCommerce Performance](../06-e-commerce/03-woocommerce-performance.md) — Store-specific optimizations
