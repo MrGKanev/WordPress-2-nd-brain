@@ -1,10 +1,6 @@
 # Accessibility Basics
 
-## Overview
-
-Accessibility means building websites that everyone can use, including people with visual, auditory, motor, or cognitive disabilities. This isn't just ethical—it's increasingly legal, affects a significant portion of your audience, and often improves experience for everyone.
-
-The web was designed to be accessible. HTML is inherently accessible when used correctly. Most accessibility problems come from overriding sensible defaults or using the wrong elements for the job.
+15-20% of people have some form of disability. Add everyone on a slow connection, using a phone in bright sunlight, or navigating with a broken hand, and "accessible" stops being a niche concern. HTML was designed to be accessible out of the box—most accessibility problems come from developers overriding sensible defaults or using the wrong elements for the job.
 
 ## Why Accessibility Matters
 

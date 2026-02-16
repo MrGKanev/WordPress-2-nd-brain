@@ -1,10 +1,6 @@
 # Gutenberg Block Development
 
-## Overview
-
-The Block Editor (Gutenberg) is the default WordPress editing experience. Creating custom blocks allows plugins to add rich, interactive content types that editors can use without touching code. Understanding block development is increasingly important as WordPress moves toward Full Site Editing.
-
-This guide covers the fundamentals. Block development is JavaScript-heavy and changes frequently—the official documentation should be your primary reference for current APIs.
+Custom blocks let your plugin add content types that editors can drag, drop, and configure visually—pricing tables, testimonials, maps, anything that doesn't fit a paragraph or image. The development workflow is JavaScript-heavy (React under the hood) and the APIs evolve fast, so treat the official documentation as your source of truth for current syntax. This chapter covers the fundamentals that don't change: how blocks are structured, how they store data, and how they render on the frontend.
 
 ## Block Basics
 

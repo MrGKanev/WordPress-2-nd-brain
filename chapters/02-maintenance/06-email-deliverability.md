@@ -1,10 +1,8 @@
 # Email Deliverability
 
-## Overview
+WordPress sends emails for password resets, order confirmations, contact forms, and admin notifications. Out of the box, most of them land in spam or vanish entirely.
 
-WordPress sends emails for everything—password resets, order confirmations, contact form submissions, user notifications. When these emails don't arrive, users assume your site is broken, orders get missed, and support tickets pile up.
-
-The problem: WordPress's default email function (`wp_mail()`) uses PHP's `mail()` function, which sends emails directly from your server. Most hosting environments aren't configured for reliable email delivery, and spam filters increasingly distrust emails sent this way.
+The reason: `wp_mail()` uses PHP's `mail()` function, which fires emails directly from your web server. No authentication, no DKIM signature, shared IP with every other site on that server. Gmail sees an unsigned email from a shared hosting IP and does the reasonable thing—ignores it.
 
 ## Why WordPress Emails Fail
 

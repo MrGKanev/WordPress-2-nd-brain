@@ -1,8 +1,6 @@
 # AJAX Patterns in WordPress
 
-## Overview
-
-AJAX lets you update parts of a page without reloading. In WordPress, this means communicating with the server through `admin-ajax.php` or the REST API. Understanding WordPress AJAX is essential for any interactive plugin.
+Any time your plugin needs to talk to the server without a full page reload—loading more posts, submitting a form, running a live search—you're doing AJAX. WordPress routes these requests through `admin-ajax.php`, a system that's been around since WordPress 2.1. It's not elegant, but it's reliable and every WordPress developer needs to know how it works.
 
 ## How WordPress AJAX Works
 

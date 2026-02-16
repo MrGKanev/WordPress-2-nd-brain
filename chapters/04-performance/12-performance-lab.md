@@ -1,10 +1,6 @@
 # Performance Lab Plugin
 
-## Overview
-
-Performance Lab is the official WordPress Core Performance Team's testing ground for performance improvements. Like Gutenberg incubates editor features, Performance Lab develops and validates performance optimizations before they merge into WordPress core.
-
-Installing it helps the team validate improvements with real-world data while giving your site immediate performance benefits.
+Performance Lab is the WordPress Core Performance Team's testing ground—think of it as Gutenberg but for speed. Features get developed and battle-tested here before merging into WordPress core. Installing it gives you early access to optimizations (image prioritization, speculative loading, enhanced responsive images) while helping the team validate them with real traffic.
 
 ## Why Use Performance Lab
 

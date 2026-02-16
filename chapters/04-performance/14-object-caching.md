@@ -1,10 +1,6 @@
 # Object Caching
 
-## Overview
-
-WordPress's built-in object cache only survives a single page request. Every new request rebuilds the cache from scratch—querying the database for options, user data, and transients all over again. Persistent object caching stores this data in memory (Redis or Memcached) so subsequent requests skip the database entirely.
-
-For high-traffic sites, this is often the single biggest performance improvement after page caching.
+By default, WordPress's object cache dies when the page request ends. Next request, it rebuilds everything from scratch—querying `wp_options`, loading user data, fetching transients. Persistent object caching (Redis or Memcached) keeps all of that in memory between requests. For sites with heavy database load, this is often the single biggest win after page caching.
 
 ## Why Object Caching Matters
 

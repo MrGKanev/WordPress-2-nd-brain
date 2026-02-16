@@ -1,8 +1,6 @@
 # Scaling WordPress
 
-## Overview
-
-Single-server optimization has limits. When traffic exceeds what one server can handle—or when uptime requirements demand redundancy—you need to scale horizontally. This guide covers architecture patterns for WordPress sites serving millions of pageviews.
+There's a ceiling to how fast you can make a single server. Once you've tuned PHP-FPM, enabled OPcache, added Redis, and set up page caching—and you're still hitting limits—it's time to scale horizontally. This is where WordPress gets interesting (and complicated).
 
 ## When to Scale
 

@@ -1,8 +1,6 @@
 # WordPress Plugin Architecture
 
-## Overview
-
-Plugins are what make WordPress infinitely extensible. They let you add features, modify behavior, and integrate with external services - all without touching core files. This chapter covers the fundamentals of building plugins that are maintainable, performant, and play well with the WordPress ecosystem.
+Plugins are how you extend WordPress without touching core. A plugin can be a single file that disables XML-RPC, or a 50,000-line application like WooCommerce. This chapter covers the fundamentals of building plugins that won't turn into maintenance nightmares—structure, hooks, database access, custom post types, AJAX, the REST API, i18n, and block development.
 
 ## Why Architecture Matters
 

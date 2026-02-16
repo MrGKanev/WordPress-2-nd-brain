@@ -1,10 +1,8 @@
 # WordPress SEO Optimization
 
-## Overview
+This chapter covers the technical side of SEO—the things developers and site administrators control. We're not talking about keyword research or content strategy here. We're talking about making sure search engines can actually find, crawl, and understand your content.
 
-SEO for WordPress involves technical configuration, content strategy, and performance optimization working together. This chapter focuses on the technical side - what developers and site administrators can control to help search engines discover, crawl, and index content effectively.
-
-> **Key principle**: Technical SEO removes obstacles. It doesn't make bad content rank, but it ensures good content can be found. A technically perfect site with poor content won't rank, but great content on a technically broken site won't either.
+Technical SEO won't make bad content rank. But it stops good content from being invisible. A technically broken site with great articles is like a restaurant with amazing food and no front door.
 
 ## What This Chapter Covers
 
@@ -16,6 +14,7 @@ The foundation of search engine visibility. Covers:
 - URL structure and permalinks
 - Indexability vs. crawlability
 - Site architecture and internal linking
+- AI & LLM readiness (llms.txt, structured content)
 - Common WordPress-specific issues
 
 ### [Optimizing robots.txt](./02-optimizing-robots.txt.md)

@@ -1,8 +1,6 @@
 # Plugin Performance Evaluation
 
-## Overview
-
-Every active plugin adds load time. Some add milliseconds, others add seconds. The difference between a fast WordPress site and a slow one is often just plugin selection. This chapter covers how to measure plugin impact, identify problem plugins, and decide when to replace or remove them.
+That "lightweight" plugin you installed last month? It might be adding 300ms and 15 database queries to every page load. You won't know until you measure. This section shows you how to profile individual plugin impact and make informed decisions about what stays and what goes.
 
 ## The True Cost of Plugins
 

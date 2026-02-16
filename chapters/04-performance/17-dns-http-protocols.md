@@ -1,8 +1,6 @@
 # DNS & HTTP Protocols
 
-## Overview
-
-Before your server processes a single line of PHP, two things must happen: DNS resolution and connection establishment. These "invisible" steps add latency to every first visit. Understanding DNS, TLS, and HTTP protocol versions helps you optimize the path from browser to server.
+Before your server runs a single line of PHP, the browser has to find it. DNS resolution, TLS handshake, connection establishment—these invisible steps add 100-500ms to every first visit. You can't optimize what you don't see, so let's make the invisible visible.
 
 ## DNS Fundamentals
 

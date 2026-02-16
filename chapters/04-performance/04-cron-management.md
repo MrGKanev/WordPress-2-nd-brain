@@ -1,8 +1,6 @@
 # WordPress Cron Management
 
-## Overview
-
-WordPress's default cron system (WP-Cron) can be a significant resource drain on any environments, especially on limited hardware. The default implementation triggers on page loads, leading to inconsistent execution and potential CPU spikes. This chapter explores optimizations for cron jobs and background task management.
+WordPress doesn't have a real cron system. It has a hack that checks for due tasks on every page load. This means your visitors subsidize your scheduled tasks with their load times, and on quiet sites, tasks might not run for hours because nobody visited.
 
 **Why is page-load triggered cron bad?** Imagine a visitor loads your homepage. WordPress checks "are any scheduled tasks due?" If yes, it runs them *before* sending the page to the visitor. That visitor's page load now includes the time to process email queues, backup tasks, or whatever else is scheduled. They experience a slow page through no fault of their own.
 

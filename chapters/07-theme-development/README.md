@@ -1,10 +1,6 @@
 # Theme Development
 
-## Overview
-
-Themes control how WordPress displays content. Understanding theme architecture helps you customize existing themes safely, build child themes for clients, and know when code belongs in a theme versus a plugin.
-
-This chapter focuses on practical theme knowledge—not comprehensive theme building, but the fundamentals every WordPress developer needs.
+Themes control how WordPress looks. They decide which template renders for a given URL, how posts are displayed, and what styles get applied. This chapter covers the practical fundamentals—template hierarchy, child themes, block themes, and accessibility—not a comprehensive theme building tutorial, but the knowledge you need to customize confidently without breaking things.
 
 ## Theme vs. Plugin: Where Does Code Belong?
 

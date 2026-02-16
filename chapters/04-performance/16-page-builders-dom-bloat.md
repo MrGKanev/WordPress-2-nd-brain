@@ -1,8 +1,6 @@
 # Page Builders & DOM Bloat
 
-## Overview
-
-Page builders like Elementor, Divi, and WPBakery enable visual editing but come with significant performance costs. They generate complex DOM structures, load extensive CSS/JS libraries, and often override theme optimizations. This chapter covers understanding these costs and mitigating them.
+Elementor, Divi, and WPBakery let non-developers build complex layouts visually. The price: a simple two-column section that needs 3 HTML elements gets wrapped in 15 nested divs, 200KB of CSS you didn't ask for, and JavaScript that loads on every page whether it's needed or not.
 
 ## The Performance Tax
 

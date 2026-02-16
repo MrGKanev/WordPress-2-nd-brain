@@ -1,8 +1,6 @@
 # Frontend Asset Optimization
 
-## Overview
-
-Beyond images and database queries, frontend assets—fonts, icons, scripts, and stylesheets—significantly impact page weight and rendering performance. This chapter covers techniques for optimizing these assets that are often overlooked.
+You've optimized images and database queries, but your site still loads 400KB of fonts from Google, an icon font you use 6 icons from, and jQuery plugins on pages that don't need them. Frontend assets are the performance blind spot most WordPress developers ignore.
 
 ## Font Optimization
 
