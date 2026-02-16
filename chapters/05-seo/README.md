@@ -55,6 +55,35 @@ When optimizing a WordPress site for search, address these in order:
 4. **Technical performance** - Does the site meet speed thresholds?
 5. **User experience** - Does the site work well for visitors?
 
+### [International SEO](./05-international-seo.md)
+
+Multilingual and multi-region SEO. Covers:
+
+- Hreflang tags and implementation
+- URL structures for multilingual sites
+- WordPress multilingual plugins (WPML, Polylang, TranslatePress)
+- WooCommerce multilingual and multi-currency
+
+### [E-commerce SEO](./06-ecommerce-seo.md)
+
+WooCommerce-specific SEO. Covers:
+
+- Product schema markup and rich snippets
+- Category page optimization
+- Faceted navigation SEO pitfalls
+- Out-of-stock product handling
+- Google Merchant Center integration
+
+### [JavaScript SEO](./07-javascript-seo.md)
+
+JavaScript rendering and search engine visibility. Covers:
+
+- How Google renders JavaScript (two-phase pipeline)
+- Headless WordPress SEO challenges
+- Rendering strategies (SSR, SSG, CSR, ISR)
+- AJAX content loading and lazy loading
+- Dynamic rendering as a workaround
+
 ## What This Chapter Doesn't Cover
 
 This chapter focuses on technical SEO. For related topics, see:
@@ -62,7 +91,6 @@ This chapter focuses on technical SEO. For related topics, see:
 - **Content optimization** - Keyword research, writing, content strategy
 - **Link building** - Outreach, PR, earning backlinks
 - **Local SEO** - Google Business Profile, local citations
-- **E-commerce SEO** - Product schema, category optimization
 
 ## Further Reading
 

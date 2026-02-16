@@ -247,6 +247,16 @@ For advanced database operations and custom queries, see [Database Operations](.
 
 For implementing custom user capabilities in plugins, see [Plugin Development](../08-plugin-development/README.md).
 
+## Additional Topics
+
+### [WordPress Coding Standards](./02-coding-standards.md)
+
+The official coding standards for PHP, JavaScript, and CSS in WordPress development. Covers WPCS rules, PHP_CodeSniffer setup, editor configuration, CI/CD integration, and common violations.
+
+### [Composer for WordPress](./03-composer-wordpress.md)
+
+Managing WordPress dependencies with Composer. Covers WPackagist, Bedrock, autoloading in plugins, dependency scoping, version constraints, and deployment workflows.
+
 ## Learning Path
 
 After this chapter, proceed in this order:

@@ -48,6 +48,18 @@ Shipping zones, methods, shipping classes. Custom shipping calculations and cour
 ### [WooCommerce REST API](07-woocommerce-rest-api.md)
 External access to your store - for mobile apps, ERP integrations, headless frontend.
 
+### [Subscriptions & Digital Products](08-subscriptions-digital.md)
+Recurring billing, subscription management, digital downloads, software licensing, and membership sites. Compares WooCommerce Subscriptions with alternatives, covers payment gateway requirements and failed payment handling.
+
+### [Cart Abandonment & Email Marketing](09-cart-abandonment-email.md)
+Recovering abandoned carts with automated email sequences. Plugin options, the 3-email recovery strategy, email marketing platform comparison, WooCommerce data segmentation, and checkout optimization for better capture rates.
+
+### [Tax Compliance](10-tax-compliance.md)
+US sales tax, EU VAT, UK VAT post-Brexit. Nexus rules, automated tax services, OSS scheme, VAT number validation, digital product taxation, and WooCommerce tax configuration.
+
+### [B2B E-commerce](11-b2b-ecommerce.md)
+Wholesale and business-to-business selling. Role-based pricing, tiered discounts, quote/RFQ systems, catalog visibility, purchase order payment, and B2B plugin comparison.
+
 ## Important Principles
 
 ### 1. Never Modify WooCommerce Directly

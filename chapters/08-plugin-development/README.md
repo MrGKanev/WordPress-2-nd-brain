@@ -97,6 +97,30 @@ Creating custom Gutenberg blocks. The modern way to add rich content types to Wo
 - Attributes and InnerBlocks
 - Build setup with @wordpress/scripts
 
+### [Settings API](./09-settings-api.md)
+
+Building plugin settings pages the WordPress way. Covers `register_setting()`, sections, fields, sanitization callbacks, tabbed settings pages, and the OOP approach for larger plugins.
+
+### [Background Processing](./10-background-processing.md)
+
+Running long tasks without blocking page loads. WP-Cron limitations, Action Scheduler for reliable job queues, batch processing patterns, chunked processing with self-chaining, and progress tracking via AJAX.
+
+### [Database Migrations](./11-database-migrations.md)
+
+Managing custom database tables across plugin versions. Schema versioning with `dbDelta()`, migration runners, safe ALTER TABLE practices, large data migrations with batching, and proper cleanup on uninstall.
+
+### [WP-CLI Commands](./12-wp-cli-commands.md)
+
+Building custom WP-CLI commands for your plugins. Command registration, argument handling, output formatting with tables and progress bars, and practical examples for maintenance tasks.
+
+### [Plugin Testing](./13-plugin-testing.md)
+
+Automated testing for WordPress plugins with PHPUnit. Test scaffolding, `WP_UnitTestCase`, testing hooks and AJAX handlers, factories for test data, and GitHub Actions CI/CD setup.
+
+### [Interactivity API](./14-interactivity-api.md)
+
+Adding client-side behavior to blocks using WordPress's standard directive system. Declarative HTML directives, shared state between blocks, server-side rendering compatibility, and async data fetching.
+
 ## Key Principles
 
 These principles apply across all plugin development:

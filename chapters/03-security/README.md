@@ -40,6 +40,18 @@ Nginx security configurations, file permissions, PHP restrictions, and wp-config
 
 The most critical security knowledge for writing custom code. Sanitization functions, escaping for different contexts, prepared statements with `$wpdb`, and real-world examples of secure form handling.
 
+### [GDPR Implementation](./04-gdpr-implementation.md)
+
+Practical GDPR compliance for WordPress sites. WordPress's built-in privacy tools, data export and erasure hooks, cookie consent strategies, WooCommerce-specific requirements, data retention policies, and a compliance checklist.
+
+### [Incident Response](./05-incident-response.md)
+
+What to do when your site is compromised. Signs of compromise, immediate containment steps, investigation techniques, cleanup procedures (clean restore vs. manual), post-incident hardening, and communication templates.
+
+### [Content Security Policy (CSP)](./06-csp-headers.md)
+
+Preventing XSS with proper CSP headers. Directives, source values, the WordPress CSP challenge, nonce-based implementation, phased rollout from report-only to enforced, and related security headers.
+
 ## Security Layers
 
 A properly secured WordPress site has multiple layers:
@@ -158,7 +170,7 @@ Gaps in current coverage worth adding:
 - [ ] **Patching vs updating** - Emergency patches, version pinning, security-only updates
 
 ### Browser Security
-- [ ] **Content Security Policy (CSP)** - Preventing XSS with proper CSP headers
+- [x] **Content Security Policy (CSP)** - [Covered](./06-csp-headers.md)
 - [ ] **CORS configuration** - Cross-origin resource sharing for APIs and embeds
 
 ### Configuration
@@ -167,13 +179,13 @@ Gaps in current coverage worth adding:
 - [ ] **Database hardening** - User privileges, connection security, encryption at rest
 
 ### Compliance
-- [ ] **GDPR for WordPress** - Cookie consent, data export, right to erasure
+- [x] **GDPR for WordPress** - [Covered](./04-gdpr-implementation.md)
 - [ ] **PCI-DSS basics** - Requirements for sites handling payment data
 - [ ] **EU Cyber Resilience Act** - Upcoming requirements for software providers
 
 ### Practical Guides
 - [ ] **Security from scratch** - Step-by-step guide for new WordPress installations
-- [ ] **Incident response** - What to do when compromised, evidence preservation, recovery
+- [x] **Incident response** - [Covered](./05-incident-response.md)
 
 ## Further Reading
 

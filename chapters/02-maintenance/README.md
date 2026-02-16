@@ -68,6 +68,25 @@ WordPress emails that actually arrive. The default `wp_mail()` function fails mo
 - Email authentication (SPF, DKIM, DMARC)
 - Transactional vs. marketing email
 
+### [Monitoring & Alerting](./07-monitoring-alerting.md)
+
+Knowing when things break before users notice. Covers:
+
+- Uptime monitoring (UptimeRobot, Uptime Kuma)
+- Server resource monitoring (Netdata)
+- Error tracking and log management
+- Security monitoring and audit trails
+- Alerting strategies and fatigue prevention
+
+### [Client Handoff](./08-client-handoff.md)
+
+Delivering WordPress sites to clients. Covers:
+
+- Credential documentation and secure sharing
+- Content editing guides and training materials
+- Admin customization and white-labeling
+- Maintenance agreements and post-handoff support
+
 ## Core Maintenance Tasks
 
 ### Updates

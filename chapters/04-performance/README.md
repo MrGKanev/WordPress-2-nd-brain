@@ -114,6 +114,12 @@ DNS optimization, TTL configuration, preconnect and prefetch hints. HTTP/2 and H
 
 WordPress Multisite-specific performance challenges. switch_to_blog() overhead, global table bloat, cross-site queries, and object cache considerations for networks.
 
+### CDN
+
+**[CDN Strategy](./19-cdn-strategy.md)**
+
+Content Delivery Network setup and optimization. Cloudflare, Bunny CDN, and provider comparison. Cache invalidation strategies, WooCommerce CDN considerations, and multi-CDN setups.
+
 ## The Optimization Stack
 
 Performance improvements compound. A well-optimized stack looks like:

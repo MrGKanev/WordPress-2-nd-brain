@@ -61,6 +61,45 @@ Building websites everyone can use. Accessibility isn't optional—it's ethical,
 - Testing methods (automated and manual)
 - Quick wins for accessibility
 
+### [Menu System Deep Dive](./05-menu-system.md)
+
+WordPress navigation system. Covers:
+
+- `wp_nav_menu()` parameters and usage
+- Custom walker classes
+- Mobile navigation patterns
+- Mega menus and accessibility
+- Menu caching for performance
+
+### [Performance-First Theming](./06-performance-theming.md)
+
+Building themes that load fast. Covers:
+
+- Conditional asset loading
+- Critical CSS implementation
+- Font optimization and self-hosting
+- Lazy loading and responsive images
+- Reducing DOM output
+
+### [SVG in WordPress](./07-svg-wordpress.md)
+
+Using SVGs safely and effectively. Covers:
+
+- SVG upload security and sanitization
+- Inline SVG patterns and helper functions
+- SVG sprite systems
+- Styling SVGs with CSS
+- Accessibility for SVG icons
+
+### [WooCommerce Template Overrides](./08-woocommerce-templates.md)
+
+Customizing WooCommerce's frontend templates safely. Covers:
+
+- Template override system and directory structure
+- Hooks vs. template overrides (when to use which)
+- Common customizations (product pages, cart, checkout, emails)
+- Template versioning and handling WooCommerce updates
+
 ## Theme Fundamentals
 
 ### Required Files
