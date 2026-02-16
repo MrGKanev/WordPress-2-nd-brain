@@ -2,15 +2,9 @@
 
 ## What is WordPress?
 
-WordPress is an open-source content management system (CMS) written in PHP. It powers over 40% of all websites on the internet—from personal blogs to enterprise sites, e-commerce stores, and web applications.
+WordPress is an open-source CMS written in PHP that runs roughly 43% of the web. That number isn't a marketing gimmick—it reflects two decades of pragmatic decisions: easy hosting on cheap LAMP/LEMP stacks, a plugin system that lets non-developers add features, and a theme layer that separates design from logic.
 
-**Key characteristics:**
-- **Open source** - Free to use, modify, and distribute
-- **PHP-based** - Runs on standard web hosting (LAMP/LEMP stack)
-- **MySQL/MariaDB** - Uses relational database for content storage
-- **Plugin architecture** - Extensible through plugins
-- **Theme system** - Separates presentation from functionality
-- **Active community** - Massive ecosystem of developers, designers, and users
+At its core, WordPress is a PHP application backed by MySQL (or MariaDB). You install plugins and themes into `wp-content/`, WordPress handles routing, querying, and rendering, and the result is HTML sent to the browser. Simple in principle, nuanced in practice.
 
 ## WordPress.org vs WordPress.com
 
@@ -55,7 +49,7 @@ Output HTML
 Browser renders page
 ```
 
-Every plugin you install adds code that runs during `wp-settings.php`. Every theme function runs before the template loads. This is why having 50 plugins can slow down your site—each one adds processing time to every single page load.
+Every plugin you install adds code that runs during `wp-settings.php`. Every theme function fires before the template loads. Fifty plugins means fifty extra files loaded and initialized on every single request—even if most of them do nothing on that particular page. That's the cost of WordPress's flexibility.
 
 ### Key Concepts
 
@@ -206,12 +200,11 @@ This is covered in depth in the [Plugin Development](../08-plugin-development/02
 - Portfolio sites
 - Sites where clients need to edit content
 
-**Consider alternatives when:**
-- Building a pure web application (React/Vue apps)
-- Need real-time features (chat, live data)
-- High-performance APIs (use dedicated frameworks)
-- Simple static sites (use static site generators)
-- Tight security requirements (custom solutions may be better)
+**Think twice before using WordPress for:**
+- Pure web applications with complex client-side state (React/Vue SPAs do this better)
+- Real-time features as the core product (WebSocket-based tools are a better fit)
+- API-only backends where you'll never need a UI (Laravel, Express, or Go will serve you better)
+- Simple brochure sites with no dynamic content (a static site generator builds faster and costs nothing to host)
 
 ## Essential Tools
 
@@ -235,17 +228,31 @@ Never develop directly on a live site. Local development gives you a safe enviro
 - **[WP-CLI](https://wp-cli.org/)** - WordPress command line interface
 - Essential for automation, bulk operations, deployments
 
-## Key Topics Covered Above
+## The Block Editor (Gutenberg)
 
-This chapter provides a comprehensive introduction to WordPress fundamentals:
+WordPress 5.0 (December 2018) replaced the classic TinyMCE editor with Gutenberg—a block-based editor built on React. This wasn't just a UI change; it fundamentally shifted how WordPress thinks about content.
 
-- **WordPress Architecture** - The request lifecycle, directory structure, and how core, plugins, and themes interact
-- **Database Structure** - The 12 core tables, what they store, and common queries
-- **Users and Roles** - Built-in roles and their capabilities
+**Before Gutenberg:** Content was a single blob of HTML in the `post_content` field. Layout required shortcodes, page builders, or manual HTML.
 
-For advanced database operations and custom queries, see [Database Operations](../08-plugin-development/03-database-operations.md).
+**After Gutenberg:** Content is a series of structured blocks—paragraphs, headings, images, columns, custom blocks—each with its own settings and markup. The blocks are still stored as HTML in `post_content`, but with special comment delimiters that Gutenberg can parse:
 
-For implementing custom user capabilities in plugins, see [Plugin Development](../08-plugin-development/README.md).
+```html
+<!-- wp:paragraph -->
+<p>This is a paragraph block.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:image {"id":42} -->
+<figure class="wp-block-image"><img src="photo.jpg" alt=""/></figure>
+<!-- /wp:image -->
+```
+
+**Why this matters for developers:**
+- Themes are moving from PHP templates to `theme.json` + block templates
+- Custom blocks are built with React (JSX) and PHP for server-side rendering
+- The Site Editor (Full Site Editing) lets users edit headers, footers, and page templates visually
+- Classic themes still work, but new WordPress features increasingly assume blocks
+
+You don't have to love Gutenberg, but you do have to understand it. The block editor is where WordPress is heading, and block theme development is covered in the [Theme Development](../07-theme-development/03-block-themes.md) chapter.
 
 ## Learning Path
 
@@ -264,3 +271,5 @@ After this chapter, proceed in this order:
 - [WordPress.org Documentation](https://wordpress.org/documentation/)
 - [Developer Resources](https://developer.wordpress.org/)
 - [Learn WordPress](https://learn.wordpress.org/) - Free official courses
+- [Database Operations](../08-plugin-development/03-database-operations.md) - Advanced queries and custom tables
+- [Plugin Development](../08-plugin-development/README.md) - Custom capabilities, CPTs, and the full hooks system

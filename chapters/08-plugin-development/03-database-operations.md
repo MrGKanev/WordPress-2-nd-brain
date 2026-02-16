@@ -1,8 +1,6 @@
 # Database Operations
 
-## Overview
-
-WordPress provides multiple ways to store data, each suited for different purposes. Choosing the wrong storage method is a common mistake that leads to performance issues and maintenance headaches.
+WordPress gives you five or six ways to store data, and picking the wrong one is how plugins end up with 200,000 rows in `wp_options` or custom tables that ignore the object cache entirely. Each storage method exists for a reason—Options API for settings, post meta for per-post data, transients for cached values, custom tables for complex datasets. The trick is knowing which one fits your use case.
 
 > **Key principle**: Use WordPress APIs whenever possible. They handle caching, multisite compatibility, and security automatically. Custom database queries should be a last resort, not a first choice.
 

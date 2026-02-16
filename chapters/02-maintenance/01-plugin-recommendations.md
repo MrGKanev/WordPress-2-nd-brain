@@ -1,8 +1,6 @@
 # Plugin Recommendations
 
-Plugin selection significantly impacts WordPress performance, security, and maintainability. A plugin can be 2 lines of efficient code or a massive resource hog. The quantity matters less than whether each plugin earns its place.
-
-**Guiding principle:** Fewer plugins, better quality.
+Every plugin on your site is code that runs on every page load. Some add 2ms of overhead. Others add 500ms and three external API calls. The number of plugins matters less than whether each one earns its place—and whether you've tested what it actually does to your load time.
 
 ## Understanding Plugin Performance Impact
 
@@ -84,6 +82,9 @@ Then check:
 | **WP-Sweep** or **Advanced DB Cleaner** | Database cleanup | Cleans WooCommerce session data |
 | **Solid Security** | Security | Lighter than Wordfence |
 | **Payment gateway plugin** | Payments | Stripe/PayPal official plugins |
+| **WooCommerce PDF Invoices & Packing Slips** | Order documents | Auto-generate PDF invoices |
+| **ATUM Inventory Management** or **Smart Manager** | Stock management | Spreadsheet-style product/order editing |
+| [SKU Auto for WooCommerce](https://openwpclub.com/plugins/sku-auto-woocommerce/) | SKU generation | Auto-generates SKUs with customizable patterns |
 
 **WooCommerce-specific performance:**
 
@@ -111,6 +112,8 @@ add_filter( 'woocommerce_admin_features', function( $features ) {
 | **Limit Login Attempts Reloaded** | Security | Basic brute force protection |
 | **WP Mail SMTP** | Email deliverability | Reliable email sending |
 | **MainWP** (external) | Multi-site management | Manage many sites from one dashboard |
+| **White Label CMS** | Branding | Custom login page and dashboard branding |
+| [StageGuard](https://openwpclub.com/plugins/StageGuard/) | Environment indicator | Clearly marks staging vs production sites |
 
 ### Developer Sites
 
@@ -122,6 +125,31 @@ add_filter( 'woocommerce_admin_features', function( $features ) {
 | **Custom Post Type UI** | CPT/taxonomy UI | Or register in code |
 | **WP Crontrol** | Cron management | Debug scheduled tasks |
 | **User Switching** | Testing roles | Quick user switching |
+| **Debug Bar** + extensions | Advanced debugging | Complements Query Monitor |
+| **Rewrite Rules Inspector** | Permalink debugging | Inspect and flush rewrite rules |
+
+### GDPR & Privacy Compliance
+
+| Plugin | Purpose | Why |
+|--------|---------|-----|
+| **Complianz** | Cookie consent | Auto-scans cookies, configurable consent banners |
+| **CookieYes** | Cookie consent | Good free tier, geo-targeting |
+| **GDPR Cookie Compliance** | Cookie consent | Lightweight alternative |
+| **WP AutoTerms** | Legal pages | Auto-generate privacy policy, terms & conditions |
+| [User Self Delete](https://openwpclub.com/plugins/User-Self-Delete/) | Account deletion | GDPR-compliant self-service account deletion |
+
+WordPress has built-in data export/erasure tools (Tools → Export/Erase Personal Data). For high-traffic membership sites, self-service deletion plugins reduce admin burden while keeping you compliant with the "right to erasure."
+
+### EU E-commerce Compliance
+
+For stores selling within or to the EU:
+
+| Plugin | Purpose | Why |
+|--------|---------|-----|
+| **EU/UK VAT Manager for WooCommerce** | VAT validation | B2B VAT number validation via VIES |
+| **Germanized for WooCommerce** | German law compliance | Invoices, legal pages, button labeling |
+| **WooCommerce EU VAT Number** | VAT exemptions | Official WooCommerce extension |
+| [EU VAT for WP](https://openwpclub.com/plugins/eu-vat-wp/) | VAT compliance | Lightweight alternative with digital goods support |
 
 ---
 
@@ -360,6 +388,8 @@ Detailed plugin recommendations are found in their relevant sections:
 | WooCommerce | [WooCommerce Performance](../06-e-commerce/03-woocommerce-performance.md) | Disable Cart Fragments |
 | Debugging | [Debugging & Profiling](../04-performance/10-debugging-profiling.md) | Query Monitor, Code Profiler |
 | Payment | [Payment Gateways](../06-e-commerce/05-payment-gateways.md) | Stripe, PayPal official plugins |
+| WooCommerce utilities | [E-commerce Overview](../06-e-commerce/README.md) | PDF Invoices, ATUM, Smart Manager |
+| Privacy/GDPR | Above (GDPR section) | Complianz, CookieYes, WP AutoTerms |
 
 ---
 
@@ -392,7 +422,7 @@ Plugins (7):
 ### WooCommerce Store
 
 ```
-Plugins (10):
+Plugins (10+):
 ├── WooCommerce
 ├── Payment gateway (Stripe/PayPal)
 ├── Rank Math (SEO)
@@ -402,7 +432,12 @@ Plugins (10):
 ├── Disable Cart Fragments AJAX
 ├── WP-Sweep (database cleanup)
 ├── UpdraftPlus (backup)
-└── Query Monitor (dev only)
+├── Query Monitor (dev only)
+│
+├── Optional (as needed):
+├── PDF Invoices & Packing Slips (order documents)
+├── ATUM or Smart Manager (inventory management)
+└── EU VAT plugin (EU compliance)
 ```
 
 ## Further Reading

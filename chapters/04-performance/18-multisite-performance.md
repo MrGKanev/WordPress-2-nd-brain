@@ -1,8 +1,6 @@
 # Multisite Performance
 
-## Overview
-
-WordPress Multisite introduces performance challenges that don't exist in single-site installations. Network-wide queries, cross-site lookups, and shared tables create overhead that scales with network size. This chapter covers identifying and addressing Multisite-specific bottlenecks.
+Running 50 sites from one WordPress installation sounds efficient—until `switch_to_blog()` calls start stacking up, the global `wp_users` table hits a million rows, and your object cache keys collide across sites. Multisite has performance traps that single-site installations never encounter.
 
 ## Multisite Architecture
 

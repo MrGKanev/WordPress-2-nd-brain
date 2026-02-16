@@ -1,16 +1,8 @@
 # Security
 
-## Overview
+WordPress runs 43% of the web. That makes it the biggest target on the internet. But here's the thing: most WordPress hacks are boring. They exploit plugins that haven't been updated in months, passwords that are "admin123", or servers that expose their PHP version to the world. Automated bots scan millions of sites and exploit whatever they find—nobody's personally targeting your site.
 
-WordPress powers over 40% of the web, making it a prime target for attacks. The good news: most attacks exploit known vulnerabilities with known solutions. A properly secured WordPress site is remarkably resilient.
-
-## The Security Reality
-
-**Most hacks are automated.** Attackers don't personally target your site. Bots scan millions of sites for known vulnerabilities - outdated plugins, weak passwords, exposed files. They exploit whatever they find.
-
-**Defense in depth works.** No single measure stops all attacks. Layers of security mean that when one layer fails, others still protect you.
-
-**Security is ongoing.** It's not a one-time setup. Updates, monitoring, and good practices must continue indefinitely.
+The flip side: the solutions are equally boring. Keep everything updated, use strong passwords with 2FA, minimize your plugin surface area, and put a proper firewall in front. Defense in depth—multiple layers, each catching what the previous one missed.
 
 ## Attack Vectors
 
@@ -137,6 +129,46 @@ According to [Patchstack's 2024 report](https://patchstack.com/):
 
 This reinforces why minimizing plugins and keeping everything updated is critical.
 
+## User Access & Content Protection Plugins
+
+Beyond WAFs and server hardening, managing who accesses your site and what they can do requires targeted tools.
+
+### Spam & Malicious User Management
+
+Open registration sites (forums, membership, WooCommerce stores) attract bot accounts. These fake users pollute your database, attempt credential stuffing, and sometimes inject spam content.
+
+| Plugin | Purpose | Best For |
+|--------|---------|----------|
+| **CleanTalk** | Anti-spam service | Form submissions, registrations, comments (cloud-based) |
+| **Akismet** | Comment spam | Built into WordPress, effective for comment-heavy sites |
+| **WPBruiser** | Bot protection | No-CAPTCHA anti-spam, uses algorithmic detection |
+| **Stop Spammers** | Multi-layered blocking | Combines multiple spam detection methods |
+| [Spam User Detective](https://openwpclub.com/plugins/spam-user-detective-wp/) | Bulk user cleanup | Identify and remove existing suspicious accounts |
+
+**Spam user red flags:**
+- Accounts created in bulk within seconds
+- Usernames matching patterns (random strings, email-like names)
+- Accounts with no activity after registration
+- Registration from known spam IP ranges
+
+### File & Content Protection
+
+| Plugin | Purpose | Best For |
+|--------|---------|----------|
+| **Members** by MemberPress | Role management | Fine-grained capability control per role |
+| **Restrict Content** | Content gating | Restrict posts/pages to specific roles |
+| **Download Monitor** | File downloads | Track and control file downloads |
+| **Prevent Direct Access** | Media protection | Protect uploaded files from direct URL access |
+
+### Staging Data Sanitization
+
+When preparing staging environments from production data, you need to anonymize customer information while keeping realistic data structures. Options:
+
+- **WP-CLI `search-replace`** — built-in, handles URL changes and basic data swapping
+- **WP Migrate** — handles database migrations with find-and-replace
+- **Fakerpress** — generates fake content for testing
+- [WP Sanitize](https://openwpclub.com/plugins/wp-sanitize/) — sanitizes real data while protecting sensitive information
+
 ## Topics to Explore
 
 Gaps in current coverage worth adding:
@@ -151,6 +183,7 @@ Gaps in current coverage worth adding:
 - [ ] **User roles deep dive** - Capabilities system, creating custom roles, role auditing
 - [ ] **Single Sign-On (SSO)** - SAML, OAuth integration options for WordPress
 - [ ] **User activity monitoring** - Tracking admin actions, login history, audit trails
+- [ ] **Spam user management** - Detecting and removing fake/bot accounts
 
 ### Update Management
 - [ ] **Software Bill of Materials (SBOM)** - Tracking dependencies and their versions

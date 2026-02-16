@@ -1,10 +1,8 @@
 # Input Sanitization & Output Escaping
 
-## Overview
+If you write custom WordPress code—plugins, theme functions, AJAX handlers—this is the single most important section to internalize. The majority of WordPress plugin vulnerabilities boil down to one mistake: trusting user input.
 
-The most common security vulnerabilities in WordPress plugins come from improper handling of user data. Understanding when to sanitize input and when to escape output is fundamental to writing secure code.
-
-**The golden rule:** Never trust user input. Ever.
+Never trust it. Not from `$_POST`, not from `$_GET`, not even from the database (someone might have injected bad data before you added proper validation).
 
 ## The Two-Step Protection Model
 

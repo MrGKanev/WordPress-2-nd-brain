@@ -1,8 +1,6 @@
 # PHP-FPM Optimization for Low-Resource VPS
 
-## Overview
-
-PHP-FPM (FastCGI Process Manager) is critical for WordPress performance on VPS environments. Proper tuning of PHP-FPM can dramatically reduce resource usage and improve response times, especially on limited hardware like 2-core VPS setups.
+PHP-FPM manages the pool of PHP processes that handle your WordPress requests. Get the settings wrong and you either waste RAM on idle processes or run out of workers during traffic spikes. On a 2-core VPS with 4GB RAM, every process counts.
 
 ## Process Manager Selection
 

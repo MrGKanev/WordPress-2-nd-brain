@@ -1,8 +1,6 @@
 # Image Optimization Best Practices
 
-## Overview
-
-Image optimization is critical for WordPress performance, especially on mobile devices and websites mostly used by users using cellular signal only. Properly optimized images can significantly reduce page weight and improve Core Web Vitals metrics like LCP (Largest Contentful Paint).
+Images are the heaviest assets on most WordPress pages. An unoptimized hero image can weigh more than your entire HTML, CSS, and JavaScript combined. Converting to WebP, serving responsive sizes, and lazy loading below-the-fold images are the quickest wins for any site.
 
 ## Best Practices for Image Optimization
 

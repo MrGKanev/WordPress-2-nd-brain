@@ -1,6 +1,6 @@
 # WooCommerce REST API
 
-The WooCommerce REST API allows external access to your store - for mobile apps, ERP integrations, or headless frontend.
+The WooCommerce REST API lets anything outside WordPress talk to your store—mobile apps, ERP systems, headless React frontends, inventory sync scripts. If it can make HTTP requests, it can manage your products, orders, and customers.
 
 ## API Overview
 

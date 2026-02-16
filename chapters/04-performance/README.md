@@ -1,8 +1,6 @@
 # WordPress Optimization
 
-## Overview
-
-A fast WordPress site isn't a luxury - it's a requirement. Speed affects user experience, search rankings, conversion rates, and server costs. This chapter covers optimization from the server level up to the browser, with practical techniques you can apply immediately.
+A slow WordPress site loses visitors, tanks search rankings, and costs you money. This is the largest chapter in the book because performance touches everything—server configuration, PHP settings, database queries, image formats, caching layers, and frontend assets. Each section is a standalone reference you can apply immediately.
 
 ## The Optimization Mindset
 

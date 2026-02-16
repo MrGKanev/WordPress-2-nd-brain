@@ -1,12 +1,6 @@
 # Technical SEO Fundamentals
 
-## Overview
-
-Technical SEO is the foundation that makes your content discoverable. Think of it as building a house - you can have beautiful furniture (content), but without solid foundations (technical SEO), the house won't stand.
-
-Unlike on-page SEO (keywords, content quality) or off-page SEO (backlinks), technical SEO focuses on how search engines access, crawl, interpret, and index your site.
-
-> **Key insight**: Technical SEO doesn't directly make you rank higher. It removes obstacles that prevent search engines from understanding your site. A technically perfect site with poor content won't rank, but great content on a technically broken site won't either.
+Technical SEO is about how search engines access, crawl, and index your site. It's the plumbing—nobody notices it when it works, but everything breaks when it doesn't. Get your URL structure wrong, block Googlebot from key pages, or serve duplicate content, and no amount of great writing will save your rankings.
 
 ## How Search Engines See Your WordPress Site
 
@@ -353,9 +347,57 @@ Choose **one** comprehensive SEO plugin:
 | [Bing URL Submissions](https://wordpress.org/plugins/bing-url-submission/) | Submit URLs to Bing automatically |
 | [Safe Redirect Manager](https://wordpress.org/plugins/safe-redirect-manager/) | Manage 301 redirects safely |
 | [Cyr-To-Lat](https://wordpress.org/plugins/cyr-to-lat/) | Convert Cyrillic URLs to Latin |
+| **Internal Link Juicer** | Automated internal linking based on keywords |
+| [WP Internal Linking](https://openwpclub.com/plugins/wp-internal-linking/) | Internal link analysis and management |
+
+## AI & LLM Readiness
+
+As AI-powered search (Google AI Overviews, ChatGPT search, Perplexity) grows, making your content machine-readable becomes another dimension of discoverability.
+
+### The llms.txt Standard
+
+The emerging `llms.txt` standard (similar to `robots.txt`) provides a structured way to tell AI models about your site's content. It serves as a table of contents specifically designed for LLM consumption.
+
+```
+# Example llms.txt
+# My WordPress Site
+
+## About
+A WordPress development knowledge base.
+
+## Key Pages
+- /wordpress-seo-guide/ - Complete SEO guide
+- /woocommerce-performance/ - Store optimization
+```
+
+**WordPress plugins for llms.txt:**
+- **LLMs.txt for WordPress** by suspended developer — generates llms.txt from your sitemap
+- [LLMs.txt for WP](https://openwpclub.com/plugins/llms-txt-for-wp/) — generates llms.txt and Markdown versions for AI consumption
+- **Custom implementation** — add a simple rewrite rule serving a static file
+
+### Making Content AI-Friendly
+
+Regardless of specific tools, these practices help AI systems understand your content:
+
+1. **Clear heading hierarchy** — H1 → H2 → H3 without skipping levels
+2. **Descriptive headings** — "How WordPress Caching Works" over "Caching"
+3. **Structured data** — Schema markup gives machines context about content type
+4. **Clean HTML** — Semantic elements (`article`, `section`, `nav`) over generic `div` soup
+5. **FAQ sections** — Naturally match question-answer patterns AI systems favor
+
+### Social Sharing & OpenGraph
+
+When your content appears on social media, OpenGraph tags determine the preview. Most SEO plugins handle this, but generating images automatically saves time:
+
+- **SEO plugins** (Rank Math, Yoast, SEOPress) — set OG title, description, and image
+- **Social Image Generator** — auto-generates social sharing images from templates
+- [OpenGraph SVG Generator](https://openwpclub.com/plugins/opengraph-svg-generator-wp/) — creates SVG-based OpenGraph images automatically
+
+The best OpenGraph images include the article title, site branding, and relevant visual context—they increase click-through rates from social shares significantly.
 
 ## Further Reading
 
 - [Optimizing robots.txt](./02-optimizing-robots.txt.md) - Detailed robots.txt configuration
 - [XML Sitemaps and Structured Data](./03-xml-sitemaps-and-structured-data.md) - Sitemap best practices
 - [Performance Optimization for SEO](./04-performance-optimization-for-seo.md) - Core Web Vitals and speed
+- [llms.txt Specification](https://llmstxt.org/) - The emerging standard for AI-readable site content

@@ -1,8 +1,6 @@
 # Transients Deep Dive
 
-## Overview
-
-Transients are WordPress's built-in caching mechanism for storing temporary data with expiration times. Used correctly, they dramatically reduce database queries and API calls. Used incorrectly, they bloat your database and cause performance issues.
+Transients are WordPress's way of saying "cache this for a while." They store temporary data with an expiration time—perfect for API responses, expensive query results, or anything you don't want to recalculate on every page load. The catch: without an object cache, transients live in `wp_options` and can bloat your database badly.
 
 ## How Transients Work
 

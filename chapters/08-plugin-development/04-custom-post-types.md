@@ -1,10 +1,6 @@
 # Custom Post Types & Taxonomies
 
-## Overview
-
-Custom Post Types (CPTs) and taxonomies extend WordPress beyond posts and pages. They're fundamental to any plugin that stores structured content—products, events, portfolios, testimonials, or any domain-specific data.
-
-Understanding CPTs well prevents common problems: broken permalinks, missing admin menus, permission issues, and performance problems from improper data modeling.
+WordPress ships with two content types: posts and pages. Custom Post Types let you create more—products, events, portfolios, testimonials, whatever your project needs. Taxonomies do the same for classification: categories and tags are just the built-in ones. Together, they turn WordPress from a blog engine into a content management system that can model almost any domain. Get the registration arguments right and everything works—admin menus, permalinks, REST API endpoints, archive pages. Get them wrong and you'll be debugging 404s on perfectly valid URLs.
 
 ## When to Use Custom Post Types
 

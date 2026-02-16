@@ -1,10 +1,8 @@
 # Analytics for WordPress
 
-## Overview
+You need to know what's happening on your site. The question is how much you need to know, and what you're willing to trade for that knowledge—your visitors' privacy, your page load speed, your legal compliance.
 
-Every website needs to understand its visitors. The question isn't whether to use analytics, but which approach balances insight with privacy, performance, and compliance requirements.
-
-Google Analytics dominates the market, but it's not the only option—and for many sites, it's not the best one. Privacy regulations (GDPR, CCPA), performance concerns, and user trust have driven interest in alternatives that respect visitor privacy while still providing actionable data.
+Google Analytics is the default choice, but it's increasingly the wrong one. EU regulators have declared it illegal without explicit consent, consent banners tank your opt-in rates, and the 45KB tracking script slows your pages for data you probably never look at. There are better options now.
 
 ## The Privacy Problem with Traditional Analytics
 

@@ -1,8 +1,6 @@
 # Advanced PHP Performance Optimization
 
-## Overview
-
-Beyond basic PHP-FPM configuration, advanced PHP performance optimization involves comprehensive OPCache implementation, systematic performance testing, and data-driven tuning approaches. This section covers enterprise-level optimization techniques that can dramatically reduce server requirements.
+OPcache alone can double your site's throughput. Upgrading from PHP 7.4 to 8.x can cut response times by 30%. These are the biggest wins you'll get from server-side tuning, and most WordPress sites haven't configured them properly.
 
 ## OPCache Implementation
 

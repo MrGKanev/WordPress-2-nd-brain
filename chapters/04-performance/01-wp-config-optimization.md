@@ -1,8 +1,6 @@
 # WP-Config.php Optimization
 
-## Overview
-
-The `wp-config.php` file controls critical WordPress settings that can significantly impact performance environments. Proper configuration can dramatically reduce resource usage, especially on limited hardware like 2-core VPS setups.
+`wp-config.php` is the one file WordPress reads before doing anything else. A few constants here can cut memory usage, eliminate unnecessary database writes, and disable features that have no business running in production.
 
 ## Essential Optimizations
 
