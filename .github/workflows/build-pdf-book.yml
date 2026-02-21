@@ -8,6 +8,8 @@ on:
 jobs:
   build-pdf:
     runs-on: ubuntu-latest
+    env:
+      BOOK_VERSION: ${{ github.ref_name || 'dev' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -24,46 +26,30 @@ jobs:
       - name: Generate SUMMARY.md
         run: python scripts/generate_summary.py
 
-      - name: Convert cover SVG to PNG
-        run: npx --yes @resvg/resvg-js-cli images/book-cover-template.svg images/book-cover-template.png
-
-      - name: Cache Cargo registry
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cargo/registry
-            ~/.cargo/git
-            target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-cargo-
+      - name: Stamp version into cover SVG and convert to PNG
+        run: |
+          sed "s|v 4.2026|$BOOK_VERSION|" images/book-cover-template.svg > images/.cover-build.svg
+          npx --yes @resvg/resvg-js-cli images/.cover-build.svg images/book-cover-template.png
+          rm images/.cover-build.svg
 
       - name: Setup mdBook
         uses: peaceiris/actions-mdbook@v1
         with:
           mdbook-version: '0.4.34'
 
-      - name: Install system dependencies
+      - name: Install Chromium
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends chromium-browser wkhtmltopdf
+          sudo apt-get install -y --no-install-recommends chromium-browser
 
       - name: Build HTML
         run: mdbook build
 
-      - name: Generate PDF from HTML
+      - name: Inject cover and generate PDF
         run: |
-          echo "<html><head><title>WordPress Second Brain</title>" > combined.html
-          echo "<style>$(cat theme/pdf.css)</style></head><body>" >> combined.html
-
-          echo "<h1>Table of Contents</h1>" >> combined.html
-          cat SUMMARY.md | sed 's/# Summary//g' | sed 's/\* \[\(.*\)\](\(.*\))/\<h2\>\1\<\/h2\>/g' >> combined.html
-
-          find book -name "*.html" -not -path "*/search_index.json" -not -path "*/print.html" | sort | xargs cat | grep -v "<head" | grep -v "<html" | grep -v "</html" | grep -v "<link" | grep -v "<script" >> combined.html
-
-          echo "</body></html>" >> combined.html
-
-          wkhtmltopdf --enable-local-file-access --quiet combined.html book.pdf
+          cp images/book-cover-template.png book/cover.png
+          sed -i 's|<main>|<main><div style="page-break-after:always;margin:-15mm;padding:0;overflow:hidden"><img src="cover.png" style="width:210mm;height:297mm;object-fit:cover;display:block" /></div>|' book/print.html
+          chromium-browser --headless --disable-gpu --no-pdf-header-footer --no-sandbox --print-to-pdf=book.pdf book/print.html
 
       - name: Upload PDF as Artifact
         uses: actions/upload-artifact@v4
