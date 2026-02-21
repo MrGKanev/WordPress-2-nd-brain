@@ -28,13 +28,36 @@ rm "$SVG_TMP"
 echo "==> Building HTML with mdbook"
 mdbook build
 
-echo "==> Injecting cover + print styles into print.html"
+echo "==> Preparing print.html for PDF"
+PRINT="$ROOT/book/print.html"
 cp "$ROOT/images/book-cover-template.png" "$ROOT/book/cover.png"
 cp "$ROOT/theme/pdf.css" "$ROOT/book/pdf.css"
 
-# Inject cover image after <main> and pdf.css in <head>
-sed -i '' 's|<main>|<main><div style="page-break-after:always;margin:-15mm;padding:0;overflow:hidden"><img src="cover.png" style="width:210mm;height:297mm;object-fit:cover;display:block" /></div>|' "$ROOT/book/print.html"
-sed -i '' 's|</head>|<link rel="stylesheet" href="pdf.css"></head>|' "$ROOT/book/print.html"
+# Inject pdf.css into <head>
+sed -i '' 's|</head>|<link rel="stylesheet" href="pdf.css"></head>|' "$PRINT"
+
+# Inject cover image after <main>
+sed -i '' 's|<main>|<main><div style="page-break-after:always;margin:-15mm;padding:0;overflow:hidden"><img src="cover.png" style="width:210mm;height:297mm;object-fit:cover;display:block" /></div>|' "$PRINT"
+
+# Generate TOC HTML from SUMMARY.md + real anchor IDs from print.html
+TOC_HTML="$ROOT/book/.toc-inject.html"
+python3 "$ROOT/scripts/generate_toc_html.py" "$ROOT/SUMMARY.md" "$PRINT" "$TOC_HTML"
+
+# Replace README section with TOC in print.html
+python3 -c "
+import re, sys
+with open('$PRINT', 'r') as f:
+    html = f.read()
+pattern = r'<h1 id=\"wordpress-second-brain\">.*?<div style=\"break-before: page; page-break-before: always;\"></div>'
+with open('$TOC_HTML', 'r') as f:
+    toc = f.read()
+result = re.sub(pattern, toc, html, count=1, flags=re.DOTALL)
+if result == html:
+    print('WARNING: README section not found, TOC not injected', file=sys.stderr)
+with open('$PRINT', 'w') as f:
+    f.write(result)
+"
+rm "$TOC_HTML"
 
 echo "==> Generating PDF with Chrome"
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
