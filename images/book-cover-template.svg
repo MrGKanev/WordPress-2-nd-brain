@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ╔══════════════════════════════════════════════════════════╗
+  ║  BOOK COVER — WordPress 2nd Brain                       ║
+  ║  Size: 6×9 inches (1800×2700px @300dpi)                 ║
+  ║  Theme: WP Purple Accent                                 ║
+  ╚══════════════════════════════════════════════════════════╝
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 1800 2700"
+     width="1800" height="2700">
+
+  <defs>
+    <style>
+      :root {
+        --font-title: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        --font-body: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        --font-mono: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      }
+      .icon-label {
+        font-family: var(--font-mono);
+        font-weight: 700;
+        text-anchor: middle;
+        dominant-baseline: central;
+      }
+      .icon-sub {
+        font-family: var(--font-mono);
+        font-weight: 500;
+        text-anchor: middle;
+        dominant-baseline: central;
+        fill: #000000;
+      }
+    </style>
+
+    <linearGradient id="bg-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#FFFFFF"/>
+      <stop offset="60%"  stop-color="#FAFBFC"/>
+      <stop offset="100%" stop-color="#F1F3F5"/>
+    </linearGradient>
+
+    <linearGradient id="accent-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#7B1FA2"/>
+      <stop offset="50%"  stop-color="#8224E3"/>
+      <stop offset="100%" stop-color="#6C19A0"/>
+    </linearGradient>
+
+    <radialGradient id="title-glow" cx="35%" cy="38%" r="30%">
+      <stop offset="0%"  stop-color="#8224E3" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="wp-fade" cx="40%" cy="50%" r="55%">
+      <stop offset="0%"   stop-color="#8224E3" stop-opacity="1"/>
+      <stop offset="80%"  stop-color="#8224E3" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#8224E3" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="card-shadow" x="-15%" y="-10%" width="130%" height="135%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#1E293B" flood-opacity="0.07"/>
+    </filter>
+    <filter id="card-shadow-hero" x="-15%" y="-10%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="#8224E3" flood-opacity="0.12"/>
+    </filter>
+
+    <clipPath id="clip-cover">
+      <rect x="0" y="0" width="1800" height="2700"/>
+    </clipPath>
+  </defs>
+
+  <!-- LAYER: Background -->
+  <g id="background">
+    <rect width="1800" height="2700" fill="url(#bg-grad)"/>
+    <rect width="1800" height="2700" fill="url(#title-glow)"/>
+    <g id="dot-grid" fill="#D1D5DB" opacity="0.25">
+      <circle cx="100" cy="100" r="1.5"/><circle cx="300" cy="100" r="1.5"/>
+      <circle cx="500" cy="100" r="1.5"/><circle cx="700" cy="100" r="1.5"/>
+      <circle cx="900" cy="100" r="1.5"/><circle cx="1100" cy="100" r="1.5"/>
+      <circle cx="1300" cy="100" r="1.5"/><circle cx="1500" cy="100" r="1.5"/>
+      <circle cx="1700" cy="100" r="1.5"/>
+      <circle cx="100" cy="300" r="1.5"/><circle cx="300" cy="300" r="1.5"/>
+      <circle cx="500" cy="300" r="1.5"/><circle cx="700" cy="300" r="1.5"/>
+      <circle cx="900" cy="300" r="1.5"/><circle cx="1100" cy="300" r="1.5"/>
+      <circle cx="1300" cy="300" r="1.5"/><circle cx="1500" cy="300" r="1.5"/>
+      <circle cx="1700" cy="300" r="1.5"/>
+      <circle cx="100" cy="500" r="1.5"/><circle cx="300" cy="500" r="1.5"/>
+      <circle cx="500" cy="500" r="1.5"/><circle cx="700" cy="500" r="1.5"/>
+      <circle cx="900" cy="500" r="1.5"/><circle cx="1100" cy="500" r="1.5"/>
+      <circle cx="1300" cy="500" r="1.5"/><circle cx="1500" cy="500" r="1.5"/>
+      <circle cx="1700" cy="500" r="1.5"/>
+      <circle cx="100" cy="2500" r="1.5"/><circle cx="300" cy="2500" r="1.5"/>
+      <circle cx="500" cy="2500" r="1.5"/><circle cx="700" cy="2500" r="1.5"/>
+      <circle cx="900" cy="2500" r="1.5"/><circle cx="1100" cy="2500" r="1.5"/>
+      <circle cx="1300" cy="2500" r="1.5"/><circle cx="1500" cy="2500" r="1.5"/>
+      <circle cx="1700" cy="2500" r="1.5"/>
+    </g>
+  </g>
+
+  <!-- LAYER: WP Watermark -->
+  <g id="wp-logo-watermark" clip-path="url(#clip-cover)" opacity="0.045">
+    <g transform="translate(1480, 580)">
+      <circle cx="0" cy="0" r="560" fill="none" stroke="url(#wp-fade)" stroke-width="35"/>
+      <circle cx="0" cy="0" r="470" fill="none" stroke="url(#wp-fade)" stroke-width="10"/>
+      <path d="M -310,-240 L -200,300" stroke="#8224E3" stroke-width="48" stroke-linecap="round" fill="none"/>
+      <path d="M -200,300 L -60,-60" stroke="#8224E3" stroke-width="48" stroke-linecap="round" fill="none"/>
+      <path d="M -60,-60 L 60,300" stroke="#8224E3" stroke-width="48" stroke-linecap="round" fill="none"/>
+      <path d="M 60,300 L 200,-60" stroke="#8224E3" stroke-width="48" stroke-linecap="round" fill="none"/>
+      <path d="M 200,-60 L 310,240" stroke="#8224E3" stroke-width="48" stroke-linecap="round" fill="none"/>
+    </g>
+  </g>
+
+  <!-- LAYER: Top accent -->
+  <g id="accent-top">
+    <rect x="0" y="0" width="1800" height="8" fill="url(#accent-grad)"/>
+    <rect x="0" y="12" width="1800" height="1" fill="#8224E3" opacity="0.08"/>
+  </g>
+
+  <!-- LAYER: Title Area -->
+  <g id="title-area">
+    <rect x="140" y="720" width="80" height="3" rx="1.5" fill="#8224E3" opacity="0.6"/>
+    <text x="144" y="840"
+          font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif"
+          font-size="76" font-weight="300" fill="#7B1FA2"
+          letter-spacing="6">
+      WordPress
+    </text>
+    <text x="136" y="1040"
+          font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif"
+          font-size="158" font-weight="900" fill="#000000"
+          letter-spacing="-3">
+      2nd Brain
+    </text>
+    <rect x="140" y="1090" width="520" height="5" rx="2.5" fill="url(#accent-grad)" opacity="0.8"/>
+    <rect x="140" y="1102" width="320" height="2" rx="1" fill="#8224E3" opacity="0.12"/>
+  </g>
+
+  <!-- LAYER: Subtitle -->
+  <g id="subtitle-area">
+    <text x="144" y="1190"
+          font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif"
+          font-size="38" font-weight="300" fill="#000000"
+          font-style="italic" letter-spacing="0.5">
+      <tspan x="144" dy="0">Master Every Layer —</tspan>
+      <tspan x="144" dy="52">From Server to Deploy</tspan>
+    </text>
+  </g>
+
+  <!-- LAYER: Code Decoration -->
+  <g id="code-decoration" opacity="0.06">
+    <text x="144" y="1360" font-family="'Cascadia Code','Fira Code','Consolas',monospace"
+          font-size="20" fill="#000000" letter-spacing="0.5">
+      <tspan x="144" dy="0">add_action('init', function() {</tspan>
+      <tspan x="144" dy="26">    register_post_type('brain_node', [</tspan>
+      <tspan x="144" dy="26">        'public'   =&gt; true,</tspan>
+      <tspan x="144" dy="26">        'supports' =&gt; ['title', 'editor', 'custom-fields'],</tspan>
+      <tspan x="144" dy="26">    ]);</tspan>
+      <tspan x="144" dy="26">});</tspan>
+    </text>
+  </g>
+
+  <!-- LAYER: Separator -->
+  <g id="separator">
+    <line x1="140" y1="1580" x2="1660" y2="1580" stroke="#E2E8F0" stroke-width="1"/>
+    <rect x="886" y="1572" width="14" height="14" rx="2" fill="#8224E3" opacity="0.2"
+          transform="rotate(45, 893, 1579)"/>
+  </g>
+
+  <!-- LAYER: Floating Tech Icons -->
+  <g id="floating-icons">
+
+    <!-- Row 1 -->
+    <g transform="translate(80, 1640) rotate(-2.5, 105, 72)" filter="url(#card-shadow-hero)">
+      <rect width="210" height="144" rx="20" fill="#F8F3FD" stroke="#8224E3" stroke-width="2"/>
+      <circle cx="105" cy="58" r="36" fill="none" stroke="#8224E3" stroke-width="3.5"/>
+      <text x="105" y="62" font-family="Georgia,serif" font-size="40" font-weight="700"
+            fill="#8224E3" text-anchor="middle" dominant-baseline="central">W</text>
+      <text x="105" y="114" class="icon-sub" font-size="13">CMS</text>
+    </g>
+
+    <g transform="translate(360, 1660) rotate(3.5, 85, 62)" filter="url(#card-shadow)">
+      <rect width="172" height="124" rx="18" fill="#F5F3FA" stroke="#777BB4" stroke-width="2"/>
+      <text x="86" y="52" class="icon-label" font-size="36" fill="#777BB4">PHP</text>
+      <text x="86" y="92" class="icon-sub" font-size="15">8.5</text>
+    </g>
+
+    <g transform="translate(600, 1635) rotate(-4, 97, 62)" filter="url(#card-shadow)">
+      <rect width="194" height="124" rx="18" fill="#F0FAF4" stroke="#009639" stroke-width="2"/>
+      <text x="97" y="50" class="icon-label" font-size="30" fill="#009639">NGINX</text>
+      <text x="97" y="90" class="icon-sub" font-size="13">reverse proxy</text>
+    </g>
+
+    <g transform="translate(862, 1658) rotate(2.5, 77, 62)" filter="url(#card-shadow)">
+      <rect width="154" height="124" rx="18" fill="#F0F6FC" stroke="#1572B6" stroke-width="2"/>
+      <text x="77" y="50" class="icon-label" font-size="34" fill="#1572B6">CSS</text>
+      <text x="77" y="90" class="icon-sub" font-size="13">styles</text>
+    </g>
+
+    <g transform="translate(1084, 1640) rotate(-3, 87, 62)" filter="url(#card-shadow)">
+      <rect width="174" height="124" rx="18" fill="#FEF4F1" stroke="#E34F26" stroke-width="2"/>
+      <text x="87" y="50" class="icon-label" font-size="32" fill="#E34F26">HTML</text>
+      <text x="87" y="90" class="icon-sub" font-size="13">markup</text>
+    </g>
+
+    <g transform="translate(1330, 1652) rotate(4, 82, 62)" filter="url(#card-shadow)">
+      <rect width="164" height="124" rx="18" fill="#F2FAF2" stroke="#3FA037" stroke-width="2"/>
+      <g transform="translate(46, 12)">
+        <rect x="16" y="30" width="32" height="26" rx="4" fill="#3FA037"/>
+        <path d="M20,30 V22 a12,12 0 0 1 24,0 V30" fill="none" stroke="#3FA037" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="32" cy="42" r="3" fill="#FFFFFF"/>
+      </g>
+      <text x="82" y="106" class="icon-sub" font-size="14">SSL / TLS</text>
+    </g>
+
+    <!-- Row 2 -->
+    <g transform="translate(120, 1830) rotate(5, 72, 62)" filter="url(#card-shadow)">
+      <rect width="144" height="124" rx="18" fill="#FFFEF5" stroke="#C8A800" stroke-width="2"/>
+      <rect x="22" y="18" width="100" height="44" rx="8" fill="#F7DF1E"/>
+      <text x="72" y="46" class="icon-label" font-size="28" fill="#333333">JS</text>
+      <text x="72" y="100" class="icon-sub" font-size="13">ES2024</text>
+    </g>
+
+    <g transform="translate(334, 1848) rotate(-2.5, 92, 62)" filter="url(#card-shadow)">
+      <rect width="184" height="124" rx="18" fill="#F0F5FA" stroke="#4479A1" stroke-width="2"/>
+      <text x="92" y="50" class="icon-label" font-size="28" fill="#4479A1">MySQL</text>
+      <text x="92" y="90" class="icon-sub" font-size="13">database</text>
+    </g>
+
+    <g transform="translate(586, 1824) rotate(3.5, 87, 62)" filter="url(#card-shadow)">
+      <rect width="174" height="124" rx="18" fill="#F0F8FF" stroke="#2496ED" stroke-width="2"/>
+      <g transform="translate(36, 14)">
+        <rect x="0"  y="28" width="16" height="13" rx="2" fill="#2496ED"/>
+        <rect x="20" y="28" width="16" height="13" rx="2" fill="#2496ED"/>
+        <rect x="40" y="28" width="16" height="13" rx="2" fill="#2496ED"/>
+        <rect x="20" y="11" width="16" height="13" rx="2" fill="#2496ED"/>
+        <rect x="40" y="11" width="16" height="13" rx="2" fill="#2496ED"/>
+        <path d="M-6,44 Q-6,56 12,58 L56,58 Q70,56 72,44 Z" fill="#2496ED" opacity="0.6"/>
+      </g>
+      <text x="87" y="106" class="icon-sub" font-size="13">containers</text>
+    </g>
+
+    <g transform="translate(828, 1842) rotate(-4.5, 67, 57)" filter="url(#card-shadow)">
+      <rect width="134" height="114" rx="18" fill="#FFF5F3" stroke="#F05032" stroke-width="2"/>
+      <text x="67" y="48" class="icon-label" font-size="32" fill="#F05032">Git</text>
+      <text x="67" y="86" class="icon-sub" font-size="13">version ctrl</text>
+    </g>
+
+    <g transform="translate(1030, 1828) rotate(2, 82, 57)" filter="url(#card-shadow)">
+      <rect width="164" height="114" rx="18" fill="#FDF4F4" stroke="#DC382D" stroke-width="2"/>
+      <text x="82" y="46" class="icon-label" font-size="28" fill="#DC382D">Redis</text>
+      <text x="82" y="84" class="icon-sub" font-size="13">cache</text>
+    </g>
+
+    <g transform="translate(1262, 1844) rotate(-3, 82, 57)" filter="url(#card-shadow)">
+      <rect width="164" height="114" rx="18" fill="#F6F6F6" stroke="#444444" stroke-width="2"/>
+      <rect x="30" y="16" width="104" height="52" rx="6" fill="#1E1E1E"/>
+      <circle cx="44" cy="26" r="4" fill="#FF5F56"/>
+      <circle cx="58" cy="26" r="4" fill="#FFBD2E"/>
+      <circle cx="72" cy="26" r="4" fill="#27CA40"/>
+      <text x="48" y="52" font-family="'Cascadia Code','Consolas',monospace" font-size="14"
+            fill="#4ADE80">$ _</text>
+      <text x="82" y="104" class="icon-sub" font-size="13">terminal</text>
+    </g>
+
+    <!-- Row 3 -->
+    <g transform="translate(260, 2010) rotate(4, 77, 52)" filter="url(#card-shadow)">
+      <rect width="154" height="104" rx="18" fill="#F6F3FC" stroke="#8B5CF6" stroke-width="2"/>
+      <text x="77" y="42" class="icon-label" font-size="24" fill="#8B5CF6">REST</text>
+      <text x="77" y="74" class="icon-sub" font-size="14">API</text>
+    </g>
+
+    <g transform="translate(490, 2018) rotate(-3.5, 82, 52)" filter="url(#card-shadow)">
+      <rect width="164" height="104" rx="18" fill="#F8F3FD" stroke="#8224E3" stroke-width="2"/>
+      <text x="82" y="42" class="icon-label" font-size="22" fill="#8224E3">WP-CLI</text>
+      <text x="82" y="74" class="icon-sub" font-size="13">commands</text>
+    </g>
+
+    <g transform="translate(726, 2006) rotate(2.5, 77, 52)" filter="url(#card-shadow)">
+      <rect width="164" height="104" rx="18" fill="#FFF8F0" stroke="#885630" stroke-width="2"/>
+      <text x="82" y="42" class="icon-label" font-size="20" fill="#885630">Composer</text>
+      <text x="82" y="74" class="icon-sub" font-size="13">packages</text>
+    </g>
+  </g>
+
+  <!-- LAYER: Author Area -->
+  <g id="author-area">
+    <line x1="140" y1="2400" x2="500" y2="2400" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="144" y="2460"
+          font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif"
+          font-size="32" font-weight="600" fill="#7B1FA2"
+          letter-spacing="5" style="text-transform:uppercase">
+      GABRIEL KANEV
+    </text>
+  </g>
+
+  <!-- LAYER: Version — simple black text -->
+  <g id="version-area">
+    <text x="1660" y="2462"
+          font-family="'Cascadia Code','Fira Code','Consolas',monospace"
+          font-size="28" font-weight="500" fill="#000000"
+          text-anchor="end" letter-spacing="1.5">
+      v 4.2026
+    </text>
+  </g>
+
+  <!-- LAYER: Bottom accent -->
+  <g id="accent-bottom">
+    <rect x="0" y="2692" width="1800" height="8" fill="url(#accent-grad)"/>
+  </g>
+
+  <!-- LAYER: Spine & Bleed Guides (hidden) -->
+  <g id="spine-guides" display="none">
+    <rect x="38" y="38" width="1724" height="2624" stroke="#FF006E" stroke-width="1"
+          stroke-dasharray="8 4" fill="none" opacity="0.5"/>
+    <rect x="150" y="150" width="1500" height="2400" stroke="#00FF88" stroke-width="1"
+          stroke-dasharray="8 4" fill="none" opacity="0.5"/>
+    <line x1="900" y1="0" x2="900" y2="2700" stroke="#FF006E" stroke-width="1"
+          stroke-dasharray="8 4" opacity="0.3"/>
+    <line x1="0" y1="1350" x2="1800" y2="1350" stroke="#FF006E" stroke-width="1"
+          stroke-dasharray="8 4" opacity="0.3"/>
+  </g>
+
+</svg>
