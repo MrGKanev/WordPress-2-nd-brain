@@ -6,4 +6,6 @@ src = "."
 language = "en"
 
 [output.html]
-additional-css = ["theme/pdf.css"]
+default-theme = "light"
+preferred-dark-theme = "coal"
+additional-css = ["theme/custom.css"]
