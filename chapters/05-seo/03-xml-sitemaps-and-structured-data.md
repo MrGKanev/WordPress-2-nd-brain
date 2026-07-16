@@ -533,4 +533,4 @@ If rich results aren't appearing:
 - [Schema.org Full Hierarchy](https://schema.org/docs/full.html)
 - [Rich Results Test](https://search.google.com/test/rich-results)
 - [WordPress Native Sitemaps Documentation](https://developer.wordpress.org/apis/sitemaps/)
-- [Performance for SEO](./04-performance-for-seo.md) — Core Web Vitals and speed optimization
+- [Performance for SEO](./04-performance-optimization-for-seo.md) — Core Web Vitals and speed optimization

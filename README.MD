@@ -43,6 +43,31 @@ This repository uses the mdBook system to organize content into chapters and sec
 3. Generate a PDF version for offline reference
 4. Contribute additions by creating a pull request
 
+## Choose Your Path
+
+The book is a reference, so you do not need to read it cover to cover. Start
+with the path closest to the work you are doing.
+
+### I maintain a WordPress site
+
+Start with [WordPress Fundamentals](chapters/01-wordpress-fundamentals/README.md), then read [Maintenance](chapters/02-maintenance/README.md) and [Security](chapters/03-security/README.md). Use the Performance and SEO chapters when a measured problem or goal requires them.
+
+### I build client sites
+
+Read Fundamentals, [Theme Development](chapters/07-theme-development/README.md), Maintenance, Security and [WordPress Optimization](chapters/04-performance/README.md). Before launch, use the checklists in the maintenance and security introductions.
+
+### I build plugins or integrations
+
+Read Fundamentals, [WordPress Plugin Architecture](chapters/08-plugin-development/README.md) and Security first. Add [E-commerce with WordPress](chapters/06-e-commerce/README.md) when the plugin touches WooCommerce.
+
+### I need to improve an existing site
+
+Measure before changing anything. Begin with the debugging and profiling material in [WordPress Optimization](chapters/04-performance/README.md), then make the smallest targeted change and test it on staging.
+
+## Reliability Notes
+
+WordPress, PHP, WooCommerce and browser APIs change continually. Treat version-sensitive advice as a starting point, verify the linked official documentation, and test every production-impacting change on staging. New and substantially revised pages should include a review date, tested versions and a risk level; see [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## License
 
 This repository is licensed under the MIT License - see the LICENSE file for details.

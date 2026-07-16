@@ -1,6 +1,6 @@
 # Summary
 
-* [WordPress Second Brain](README.md)
+* [WordPress Second Brain](README.MD)
 * [WordPress Fundamentals](chapters/01-wordpress-fundamentals/README.md)
   * [WordPress Coding Standards](chapters/01-wordpress-fundamentals/02-coding-standards.md)
   * [Composer for WordPress](chapters/01-wordpress-fundamentals/03-composer-wordpress.md)

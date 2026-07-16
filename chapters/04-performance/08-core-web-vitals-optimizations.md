@@ -717,8 +717,8 @@ Delaying JavaScript can actually hurt INP. If a user clicks before scripts load,
 
 ## Further Reading
 
-- [Performance for SEO](../05-seo/04-performance-for-seo.md) — How Core Web Vitals affect search rankings
+- [Performance for SEO](../05-seo/04-performance-optimization-for-seo.md) — How Core Web Vitals affect search rankings
 - [Debugging & Profiling](./10-debugging-profiling.md) — Deep dive into performance debugging
 - [Image Optimization](./06-image-optimizations.md) — Critical for LCP improvement
-- [Frontend Asset Optimization](./11-frontend-asset-optimization.md) — CSS/JS optimization techniques
+- [Frontend Asset Optimization](./13-frontend-asset-optimization.md) — CSS/JS optimization techniques
 - [web.dev Core Web Vitals](https://web.dev/vitals/) — Google's official documentation

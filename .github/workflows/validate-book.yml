@@ -1,0 +1,33 @@
+name: Validate book
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Set up mdBook
+        uses: peaceiris/actions-mdbook@v1
+        with:
+          mdbook-version: '0.4.34'
+
+      - name: Verify generated table of contents
+        run: |
+          python3 scripts/generate_summary.py
+          git diff --exit-code -- SUMMARY.md
+
+      - name: Check local Markdown links
+        run: python3 scripts/check_markdown_links.py
+
+      - name: Build HTML book
+        run: mdbook build
