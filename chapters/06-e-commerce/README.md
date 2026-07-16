@@ -60,6 +60,10 @@ US sales tax, EU VAT, UK VAT post-Brexit. Nexus rules, automated tax services, O
 ### [B2B E-commerce](11-b2b-ecommerce.md)
 Wholesale and business-to-business selling. Role-based pricing, tiered discounts, quote/RFQ systems, catalog visibility, purchase order payment, and B2B plugin comparison.
 
+### [Modern WooCommerce Architecture](12-modern-woocommerce-architecture.md)
+Building compatible integrations for current WooCommerce stores. Covers HPOS,
+Cart and Checkout Blocks, Store API, extension compatibility and migration tests.
+
 ## Important Principles
 
 ### 1. Never Modify WooCommerce Directly

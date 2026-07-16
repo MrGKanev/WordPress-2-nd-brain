@@ -1,6 +1,6 @@
 # Performance Optimization for SEO
 
-Google has been saying "speed matters" for years, and since Core Web Vitals became a ranking signal, they actually mean it. This isn't about chasing a perfect PageSpeed score—it's about passing the thresholds that affect rankings and keeping visitors from bouncing.
+Google has been saying "speed matters" for years. Core Web Vitals are used in Google's ranking systems, but this is not about chasing a perfect PageSpeed score or expecting a guaranteed ranking boost. It is about delivering a better experience, meeting useful thresholds and avoiding performance as a competitive disadvantage.
 
 For the actual implementation details (OPcache, image compression, lazy loading), see [Core Web Vitals Optimization](../04-performance/08-core-web-vitals-optimizations.md). This section focuses on *why* specific performance metrics matter for search rankings.
 
@@ -8,23 +8,25 @@ For the actual implementation details (OPcache, image compression, lazy loading)
 
 ### Page Experience as a Ranking Signal
 
-Google's Page Experience update consolidated several user experience signals into ranking factors:
+Google evaluates page experience through multiple systems and signals. The following table is a practical checklist, not a claim that a single "Page Experience update" or score determines rank:
 
 | Signal | Description | SEO Impact |
 |--------|-------------|------------|
-| **Core Web Vitals** | LCP, FID/INP, CLS metrics | Direct ranking factor |
-| **Mobile-friendliness** | Responsive design, touch targets | Required for mobile rankings |
-| **HTTPS** | Secure connection | Baseline requirement |
-| **No intrusive interstitials** | Avoiding aggressive popups | Can demote rankings |
-| **Safe Browsing** | No malware or deceptive content | Can remove from index |
+| **Core Web Vitals** | LCP, INP, CLS metrics | Used in Google's ranking systems; optimize for users |
+| **Mobile experience** | Responsive design, touch targets | Important for mobile users and indexing |
+| **HTTPS** | Secure connection | Expected baseline for a trustworthy site |
+| **No intrusive interstitials** | Avoiding aggressive popups | Helps visitors access the main content |
+| **Safe browsing** | No malware or deceptive content | Essential for users and search visibility |
 
 ### The Real Impact of Performance on Rankings
 
-Performance is a **tie-breaker** ranking factor, not a dominant one. This means:
+Performance is one input among many, not a dominant substitute for useful content. This means:
 
 1. **Content quality still wins** - A slower site with better content will outrank a faster site with poor content
-2. **Thresholds matter more than scores** - Meeting "Good" thresholds is what counts, not getting 100/100
-3. **Poor performance hurts more than good performance helps** - Failing Core Web Vitals can demote you; passing them maintains your position
+2. **Thresholds are more useful than a perfect lab score** - Field data and real user experience matter more than a 100/100 Lighthouse result
+3. **Avoid simplistic causal claims** - Passing Core Web Vitals does not guarantee a position; use them to remove experience and performance barriers
+
+Google's current guidance explains that Core Web Vitals are used by ranking systems, while good scores alone do not guarantee top placement: [Understanding page experience](https://developers.google.com/search/docs/appearance/page-experience).
 
 ```
 Google's Core Web Vitals Thresholds:

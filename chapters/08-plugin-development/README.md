@@ -119,6 +119,10 @@ Automated testing for WordPress plugins with PHPUnit. Test scaffolding, `WP_Unit
 
 Adding client-side behavior to blocks using WordPress's standard directive system. Declarative HTML directives, shared state between blocks, server-side rendering compatibility, and async data fetching.
 
+### [E2E Testing & Visual Regression](./15-e2e-testing-visual-regression.md)
+
+Testing the user flows that unit and integration tests cannot see. Covers Playwright, WordPress test utilities, visual baselines, CI artifacts and stable test design.
+
 ## Key Principles
 
 These principles apply across all plugin development:

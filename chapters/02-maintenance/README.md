@@ -85,6 +85,23 @@ Delivering WordPress sites to clients. Covers:
 - Admin customization and white-labeling
 - Maintenance agreements and post-handoff support
 
+### [Backups & Disaster Recovery](./09-backup-disaster-recovery.md)
+
+Turning a backup into a proven recovery capability. Covers:
+
+- Recovery objectives, backup scope and retention
+- Off-site storage and encryption
+- Restore drills on isolated staging environments
+- WooCommerce data-loss risks and incident communication
+
+### [Deployment & Configuration Management](./10-deployment-configuration-management.md)
+
+Safely moving verified changes into production. Covers:
+
+- Environment separation and configuration ownership
+- Secrets and database-change safety
+- A repeatable deployment and rollback procedure
+
 ## Core Maintenance Tasks
 
 ### Updates
@@ -107,6 +124,9 @@ Backups are worthless if they don't work. Your backup strategy should include:
 - **Off-site storage** - Not on the same server as WordPress
 - **Database + files** - Both are necessary for full restore
 - **Tested restores** - Periodically verify backups actually work
+
+See [Backups & Disaster Recovery](./09-backup-disaster-recovery.md) for a
+recovery playbook and restore-drill checklist.
 
 ### Database Maintenance
 
@@ -284,6 +304,8 @@ Despite best practices, problems happen. Be prepared:
 2. **Keep staging available** - Test fixes before applying to production
 3. **Document the fix** - Record what went wrong and how you fixed it
 4. **Learn from incidents** - Update processes to prevent recurrence
+
+For planned releases, follow [Deployment & Configuration Management](./10-deployment-configuration-management.md) rather than treating a file upload as a deployment process.
 
 ## Further Reading
 

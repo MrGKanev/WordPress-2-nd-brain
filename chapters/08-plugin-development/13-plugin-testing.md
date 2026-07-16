@@ -16,7 +16,8 @@ Most plugins need integration tests. Pure unit tests are valuable for utility fu
 
 ### Prerequisites
 
-- PHP 7.4+ with `php-xml` and `php-mbstring`
+- A PHP version supported by your target WordPress version, plus every PHP version in your declared support matrix
+- `php-xml` and `php-mbstring`
 - MySQL/MariaDB (tests use a real database)
 - Composer
 - WP-CLI (for scaffolding)
