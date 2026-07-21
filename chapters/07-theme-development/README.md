@@ -48,6 +48,10 @@ The new WordPress theme paradigm using Full Site Editing. Covers:
 - Template parts in block themes
 - Migrating from classic to block themes
 
+### [Modern Block Theme Architecture](../10-platform-architecture-governance/01-modern-block-theme-architecture.md)
+
+Design tokens, templates, patterns, block locking and editorial guardrails for a maintainable Site Editor experience.
+
 ### [Accessibility](./04-accessibility.md)
 
 Building websites everyone can use. Accessibility isn't optional—it's ethical, often legal, and improves experience for everyone. Covers:

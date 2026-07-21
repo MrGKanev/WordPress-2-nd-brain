@@ -44,6 +44,30 @@ What to do when your site is compromised. Signs of compromise, immediate contain
 
 Preventing XSS with proper CSP headers. Directives, source values, the WordPress CSP challenge, nonce-based implementation, phased rollout from report-only to enforced, and related security headers.
 
+### [OWASP Threat Modeling](./07-owasp-threat-modeling.md)
+
+Map common web-application risks to WordPress features and model abuse paths before implementation.
+
+### [Secrets Management](./08-secrets-management.md)
+
+Environment-based secret storage, key rotation and exposure response for WordPress and integrations.
+
+### [Transactional Email Authentication](./09-email-authentication.md)
+
+SPF, DKIM, DMARC, sender alignment and safe WordPress mail validation.
+
+### [CORS & API Security](./10-cors-api-security.md)
+
+Origin allowlists, credentialed requests, preflight and REST permission boundaries.
+
+### [Identity & Access Management](../10-platform-architecture-governance/05-identity-access-management.md)
+
+Roles, individual accounts, MFA, access reviews and offboarding across WordPress, hosting and vendor systems.
+
+### [Privacy & Data Governance](../10-platform-architecture-governance/06-privacy-data-governance.md)
+
+Data mapping, consent, retention and operational readiness for privacy requests or data exposure.
+
 ## Security Layers
 
 A properly secured WordPress site has multiple layers:
@@ -187,7 +211,7 @@ Gaps in current coverage worth adding:
 
 ### Foundational
 - [ ] **Life cycle of a hack** - How attacks progress from reconnaissance to exploitation to persistence
-- [ ] **OWASP Top 10** - Classification of common web vulnerabilities and how they apply to WordPress
+- [x] **OWASP Top 10** - [Covered](./07-owasp-threat-modeling.md)
 - [ ] **OWASP ASVS** - Application Security Verification Standard as a security requirements checklist
 - [ ] **Risk management** - Prioritizing security efforts based on threat likelihood and impact
 
@@ -204,11 +228,11 @@ Gaps in current coverage worth adding:
 
 ### Browser Security
 - [x] **Content Security Policy (CSP)** - [Covered](./06-csp-headers.md)
-- [ ] **CORS configuration** - Cross-origin resource sharing for APIs and embeds
+- [x] **CORS configuration** - [Covered](./10-cors-api-security.md)
 
 ### Configuration
-- [ ] **SMTP email hardening** - SPF, DKIM, DMARC for WordPress email
-- [ ] **Managing secrets** - Environment variables, secret managers, key rotation
+- [x] **SMTP email hardening** - [Covered](./09-email-authentication.md)
+- [x] **Managing secrets** - [Covered](./08-secrets-management.md)
 - [ ] **Database hardening** - User privileges, connection security, encryption at rest
 
 ### Compliance

@@ -25,6 +25,10 @@ The physical organization of a plugin - files, folders, and naming conventions. 
 - The plugin lifecycle (activation, deactivation, uninstall)
 - Common structural mistakes
 
+### [Advanced Plugin Engineering](../10-platform-architecture-governance/02-advanced-plugin-engineering.md)
+
+Service boundaries, feature flags, lifecycle management, compatibility policy and tests at high-risk integration boundaries.
+
 ### [Hooks System](./02-hooks-system.md)
 
 The mechanism that connects your code to WordPress. The hooks system is the most important concept to master - it's how plugins modify WordPress without editing core. Covers:
@@ -74,6 +78,10 @@ Building and consuming WordPress REST endpoints. Essential for headless WordPres
 - Request/response handling
 - Extending default endpoints
 - Building complete API controllers
+
+### [Integration Architecture](../10-platform-architecture-governance/07-integration-architecture.md)
+
+Reliable contracts, signed webhooks, retry behavior, reconciliation and rate-limit-aware processing.
 
 ### [Internationalization (i18n)](./07-internationalization.md)
 

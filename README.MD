@@ -64,9 +64,15 @@ Read Fundamentals, [WordPress Plugin Architecture](chapters/08-plugin-developmen
 
 Measure before changing anything. Begin with the debugging and profiling material in [WordPress Optimization](chapters/04-performance/README.md), then make the smallest targeted change and test it on staging.
 
+### I need a practical exercise
+
+Use [Hands-On Labs](chapters/11-hands-on-labs/README.md) for small, repeatable exercises covering site plugins, webhook processing, cache correctness and release verification.
+
 ## Reliability Notes
 
 WordPress, PHP, WooCommerce and browser APIs change continually. Treat version-sensitive advice as a starting point, verify the linked official documentation, and test every production-impacting change on staging. New and substantially revised pages should include a review date, tested versions and a risk level; see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+See [EDITORIAL-GUIDE.md](EDITORIAL-GUIDE.md) for writing and review standards, and [CHANGELOG.md](CHANGELOG.md) for reader-facing changes.
 
 ## License
 

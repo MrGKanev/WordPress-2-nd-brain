@@ -64,6 +64,9 @@ Wholesale and business-to-business selling. Role-based pricing, tiered discounts
 Building compatible integrations for current WooCommerce stores. Covers HPOS,
 Cart and Checkout Blocks, Store API, extension compatibility and migration tests.
 
+### [Commerce Operations II](../10-platform-architecture-governance/04-commerce-operations-ii.md)
+Returns, exchanges, fraud/chargeback controls and marketplace-feed operations.
+
 ## Important Principles
 
 ### 1. Never Modify WooCommerce Directly
