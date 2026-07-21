@@ -1,6 +1,6 @@
 # Core Web Vitals Optimization
 
-Core Web Vitals are Google's user experience metrics that directly affect search rankings. Unlike general performance scores, these specific metrics measure what users actually experience: loading speed, interactivity, and visual stability.
+Core Web Vitals are Google's user experience metrics for loading, interactivity and visual stability. Google uses them in its ranking systems, but passing the thresholds does not guarantee a higher position: relevant, helpful content and the wider page experience still matter. Unlike general performance scores, these metrics measure what users actually experience.
 
 ## Understanding Core Web Vitals
 
@@ -16,12 +16,14 @@ Core Web Vitals are Google's user experience metrics that directly affect search
 
 ### Why These Metrics Matter
 
-Google uses Core Web Vitals as a ranking signal. Pages that pass all three thresholds receive a ranking boost. More importantly, poor scores correlate with:
+Google uses Core Web Vitals in its ranking systems, alongside many other signals. Aim to pass the thresholds because they improve user experience and can contribute to search success when competing pages are otherwise similar—not because a passing score creates a guaranteed ranking boost. Poor scores also correlate with:
 
 - Higher bounce rates
 - Lower conversion rates
 - Reduced user engagement
 - Negative brand perception
+
+See [Google's page experience guidance](https://developers.google.com/search/docs/appearance/page-experience) for the current ranking context.
 
 ### Lab Data vs Field Data
 
@@ -717,8 +719,8 @@ Delaying JavaScript can actually hurt INP. If a user clicks before scripts load,
 
 ## Further Reading
 
-- [Performance for SEO](../05-seo/04-performance-for-seo.md) — How Core Web Vitals affect search rankings
+- [Performance for SEO](../05-seo/04-performance-optimization-for-seo.md) — How Core Web Vitals affect search rankings
 - [Debugging & Profiling](./10-debugging-profiling.md) — Deep dive into performance debugging
 - [Image Optimization](./06-image-optimizations.md) — Critical for LCP improvement
-- [Frontend Asset Optimization](./11-frontend-asset-optimization.md) — CSS/JS optimization techniques
+- [Frontend Asset Optimization](./13-frontend-asset-optimization.md) — CSS/JS optimization techniques
 - [web.dev Core Web Vitals](https://web.dev/vitals/) — Google's official documentation

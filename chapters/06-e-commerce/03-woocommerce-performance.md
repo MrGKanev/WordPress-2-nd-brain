@@ -159,6 +159,46 @@ wp_wc_order_addresses: Structured address data
 - Reports generation: Significantly faster
 - Reduced database lock contention
 
+### HPOS Compatibility Mode and Synchronization
+
+Before making HPOS the authoritative order store, confirm that every active extension, integration and custom order query is compatible. The compatibility/synchronization mode is useful during migration because WooCommerce keeps legacy posts tables and HPOS tables aligned, but it makes each order write more expensive.
+
+Recommended rollout:
+
+1. Enable HPOS on staging and run real order, refund, subscription and fulfilment workflows.
+2. Check the WooCommerce feature screen for incompatible extensions and update or replace them.
+3. Complete the data migration and verify that there are no pending synchronization records.
+4. Make HPOS authoritative and disable compatibility synchronization only after the verification window.
+
+Do not disable synchronization merely to improve a benchmark. A legacy integration that still reads from `wp_posts` can otherwise show missing or stale orders.
+
+### Order and Background-Job Table Retention
+
+WooCommerce stores visitor sessions and Action Scheduler job history in database tables. On active stores, expired sessions and completed jobs can grow much faster than the default cleanup cadence.
+
+Start by measuring the tables rather than deleting data blindly:
+
+```sql
+SELECT COUNT(*) AS session_rows
+FROM wp_woocommerce_sessions;
+
+SELECT status, COUNT(*) AS actions
+FROM wp_actionscheduler_actions
+GROUP BY status;
+```
+
+Check that the system cron and Action Scheduler runner are executing successfully before cleaning up. If expired sessions or completed actions keep returning, the issue is the schedule or a failing queue worker—not the one-off cleanup.
+
+For stores that do not need a month of completed-job history, reduce the retention period with a small must-use plugin or site plugin:
+
+```php
+add_filter( 'action_scheduler_retention_period', function() {
+	return DAY_IN_SECONDS * 7;
+} );
+```
+
+Choose the period according to operational needs: retain enough history for failed-payment and fulfilment investigations, then periodically review table size and index health. Test the change on staging first.
+
 ### Autoload Cleanup
 
 WordPress loads all `autoload='yes'` options into memory on EVERY page load. WooCommerce adds many options, and plugins add more:
@@ -360,6 +400,52 @@ $('.cart-icon').one('mouseenter', function() {
     });
 });
 ```
+
+For a custom header with a mini-cart, do not use a broad `is_woocommerce()` condition as a proxy for whether the widget is present: the mini-cart may also be needed on the homepage, blog or landing pages. Load or refresh fragments only on templates that render the cart control, then test add-to-cart, quantity updates, cached pages and a guest checkout.
+
+### Nginx FastCGI Cache: Protect Dynamic Store State
+
+If the store uses Nginx FastCGI caching, URL exclusions alone are insufficient. A shopper who already has cart cookies must bypass the cache even while viewing a cacheable product or landing page:
+
+```nginx
+set $skip_cache 0;
+
+if ($request_method = POST) {
+    set $skip_cache 1;
+}
+if ($query_string != "") {
+    set $skip_cache 1;
+}
+if ($http_cookie ~* "woocommerce_items_in_cart|woocommerce_cart_hash|wp_woocommerce_session_|wordpress_logged_in") {
+    set $skip_cache 1;
+}
+
+fastcgi_cache_bypass $skip_cache;
+fastcgi_no_cache $skip_cache;
+```
+
+Keep the cache rules aligned with the plugins installed on the store; for example, wishlists, currency switching, membership pricing and geolocation can each make an otherwise-public page visitor-specific. Validate the configuration with two separate browser sessions before deploying.
+
+To avoid a burst of uncached PHP requests when a popular page expires, serve the previous response while Nginx refreshes it in the background:
+
+```nginx
+fastcgi_cache_use_stale updating error timeout http_500 http_502 http_503 http_504;
+fastcgi_cache_background_update on;
+```
+
+Use a short cache lifetime for pages where stock or pricing changes frequently, and make sure the cache purge scope is limited to the changed URL and required archive pages. Purging the entire cache after every stock update defeats page caching during busy periods.
+
+### Finding Cache-Invalidating Writes
+
+An `update_option()` call on an autoloaded option invalidates WordPress's aggregate `alloptions` cache. A plugin that performs such a write on every public request can turn a healthy Redis installation into repeated database work.
+
+On staging, enable query collection briefly and inspect writes to `wp_options`:
+
+```php
+define( 'SAVEQUERIES', true );
+```
+
+Use Query Monitor or inspect `$wpdb->queries` to identify `INSERT` and `UPDATE` statements, then trace each recurring write to its plugin or custom code. Do not leave `SAVEQUERIES` enabled in production: it retains every query in memory for the request.
 
 ## Query Optimization
 
@@ -878,13 +964,16 @@ Small slowdowns add up. Track cumulative impact.
 Before diving into complex optimization, check these:
 
 - [ ] **Enable HPOS** for orders (5-10x faster order admin)
+- [ ] **Finish HPOS compatibility checks** before disabling legacy synchronization
 - [ ] **Disable cart fragments** on non-WooCommerce pages (fewer AJAX requests)
 - [ ] **Install Redis/Memcached** object cache (dramatic improvement for logged-in users)
 - [ ] **Configure page cache** with proper exclusions (cart/checkout/account)
+- [ ] **Verify cache bypass cookies** in an isolated shopper session
 - [ ] **Optimize product images** (WebP, proper sizes, lazy loading)
 - [ ] **Check slow queries** with Query Monitor (find the bottleneck)
 - [ ] **Disable unused features** (analytics, marketing hub if not used)
 - [ ] **Regenerate lookup tables** (WooCommerce > Status > Tools)
+- [ ] **Review session and Action Scheduler table growth**
 - [ ] **Clean autoloaded options** (if over 1MB)
 - [ ] **Update PHP version** (8.1 is 20-30% faster than 7.4)
 

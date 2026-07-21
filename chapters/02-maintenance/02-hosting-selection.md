@@ -519,5 +519,5 @@ staging.yourdomain.com → separate WordPress install
 
 - [PHP-FPM Optimization](../04-performance/03-php-fpm-optimization.md) — Server-side PHP configuration
 - [Database Optimization](../04-performance/07-database-optimizations.md) — MySQL/MariaDB tuning
-- [Server Hardening](../03-security/01-server-hardening.md) — Security configuration
+- [Server Hardening](../03-security/02-server-hardening.md) — Security configuration
 - [WP-CLI Essentials](./03-wp-cli-essentials.md) — Command-line management

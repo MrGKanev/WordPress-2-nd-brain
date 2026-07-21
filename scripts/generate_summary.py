@@ -46,11 +46,11 @@ def generate_summary(book_root, output_file, exclude=None, indent_level=0):
     # Start with the title
     content = ["# Summary\n\n"]
     
-    # Add README.md (introduction) if it exists
-    readme_path = book_root / 'README.md'
+    # Keep the root introduction filename aligned with the repository.
+    readme_path = book_root / 'README.MD'
     if readme_path.exists():
         title = extract_title(readme_path)
-        content.append(f"* [{title}](README.md)\n")
+        content.append(f"* [{title}](README.MD)\n")
     
     # If chapters directory exists, process it
     if chapters_dir.exists() and chapters_dir.is_dir():

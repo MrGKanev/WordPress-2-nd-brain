@@ -7,9 +7,11 @@
 
 ## Installation
 
+The project pins its validated mdBook version in [`.mdbook-version`](.mdbook-version). Use that version for local builds and CI so a theme change does not behave differently on another machine.
+
 ```bash
-# Option 1: Install via cargo (requires Rust)
-cargo install mdbook
+# Install or update to the project's pinned version via cargo (requires Rust)
+cargo install mdbook --force --version "$(tr -d '[:space:]' < .mdbook-version)"
 
 # Option 2: On macOS with Homebrew
 brew install mdbook
@@ -17,6 +19,14 @@ brew install mdbook
 # Option 3: Download binary from GitHub releases
 # https://github.com/rust-lang/mdBook/releases
 ```
+
+Verify the installed version before building:
+
+```bash
+mdbook --version
+```
+
+GitHub Actions uses the same pinned version and validates local Markdown links before the HTML build.
 
 ## Building HTML
 
@@ -35,16 +45,17 @@ mdbook serve -p 8080
 ## Building PDF
 
 ```bash
-# Install PDF extension
-cargo install mdbook-pdf
+# Build HTML, stamp the cover and generate the PDF.
+# Requires Google Chrome on macOS and uses npx once to convert the cover.
+./scripts/build-local.sh
 
-# Generate PDF (requires Chrome/Chromium installed)
-mdbook-pdf
-
-# The PDF will be created as book.pdf in the root directory
+# Optionally stamp a release version on the cover.
+./scripts/build-local.sh v1.0.0
 ```
 
-**Note:** mdbook-pdf uses headless Chrome for rendering. Make sure Chrome or Chromium is installed.
+The local build script generates `book.pdf` in the repository root. It uses
+headless Google Chrome rather than `mdbook-pdf` so the PDF has the custom cover,
+table of contents and print stylesheet.
 
 ## Project Structure
 
@@ -52,7 +63,7 @@ mdbook-pdf
 wordpress-2nd-brain/
 ├── book.toml              # mdBook configuration
 ├── SUMMARY.md             # Table of contents (defines structure)
-├── README.md              # Book introduction
+├── README.MD              # Book introduction
 ├── chapters/              # All content
 │   ├── 01-wordpress-fundamentals/
 │   ├── 02-maintenance/

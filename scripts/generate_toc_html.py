@@ -41,8 +41,8 @@ def parse_summary(summary_path):
             indent = len(match.group(1)) // 2
             title = match.group(2)
             filepath = match.group(3)
-            # Skip root README.md
-            if filepath == 'README.md':
+            # Skip the root introduction; it is replaced by the generated TOC.
+            if filepath == 'README.MD':
                 continue
             entries.append((indent, title))
     return entries
