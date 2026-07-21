@@ -3,30 +3,45 @@ name: Validate book
 on:
   pull_request:
   push:
-    branches: [master]
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
-  validate:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out repository
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
-      - name: Set up mdBook
-        uses: peaceiris/actions-mdbook@v1
-        with:
-          mdbook-version: '0.4.34'
-
       - name: Verify generated table of contents
         run: |
           python3 scripts/generate_summary.py
           git diff --exit-code -- SUMMARY.md
 
-      - name: Check local Markdown links
+      - name: Install pinned mdBook version
+        shell: bash
+        run: |
+          set -euo pipefail
+          MDBOOK_VERSION="$(tr -d '[:space:]' < .mdbook-version)"
+          MDBOOK_DIR="$RUNNER_TEMP/mdbook"
+          mkdir -p "$MDBOOK_DIR"
+          curl --fail --location --silent --show-error \
+            "https://github.com/rust-lang/mdBook/releases/download/v${MDBOOK_VERSION}/mdbook-v${MDBOOK_VERSION}-x86_64-unknown-linux-musl.tar.gz" \
+            | tar -xz -C "$MDBOOK_DIR"
+          echo "$MDBOOK_DIR" >> "$GITHUB_PATH"
+          mdbook --version
+
+      - name: Validate local Markdown links
         run: python3 scripts/check_markdown_links.py
 
       - name: Build HTML book

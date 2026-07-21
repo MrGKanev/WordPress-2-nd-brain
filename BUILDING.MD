@@ -7,9 +7,11 @@
 
 ## Installation
 
+The project pins its validated mdBook version in [`.mdbook-version`](.mdbook-version). Use that version for local builds and CI so a theme change does not behave differently on another machine.
+
 ```bash
-# Option 1: Install via cargo (requires Rust)
-cargo install mdbook
+# Install or update to the project's pinned version via cargo (requires Rust)
+cargo install mdbook --force --version "$(tr -d '[:space:]' < .mdbook-version)"
 
 # Option 2: On macOS with Homebrew
 brew install mdbook
@@ -17,6 +19,14 @@ brew install mdbook
 # Option 3: Download binary from GitHub releases
 # https://github.com/rust-lang/mdBook/releases
 ```
+
+Verify the installed version before building:
+
+```bash
+mdbook --version
+```
+
+GitHub Actions uses the same pinned version and validates local Markdown links before the HTML build.
 
 ## Building HTML
 
