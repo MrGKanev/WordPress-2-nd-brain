@@ -5,6 +5,9 @@ on:
     tags: ['v*']
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-pdf:
     runs-on: ubuntu-latest
@@ -21,49 +24,41 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
-      - name: Generate SUMMARY.md
-        run: python scripts/generate_summary.py
-
-      - name: Stamp version into cover SVG and convert to PNG
+      - name: Verify generated table of contents
         run: |
-          sed "s|v 4.2026|$BOOK_VERSION|" images/book-cover-template.svg > images/.cover-build.svg
-          npx --yes @resvg/resvg-js-cli images/.cover-build.svg images/book-cover-template.png
-          rm images/.cover-build.svg
+          python3 scripts/generate_summary.py
+          git diff --exit-code -- SUMMARY.md
 
-      - name: Setup mdBook
-        uses: peaceiris/actions-mdbook@v1
-        with:
-          mdbook-version: '0.4.34'
-
-      - name: Install Chromium
+      - name: Install pinned mdBook version
+        shell: bash
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends chromium-browser
+          set -euo pipefail
+          MDBOOK_VERSION="$(tr -d '[:space:]' < .mdbook-version)"
+          MDBOOK_DIR="$RUNNER_TEMP/mdbook"
+          mkdir -p "$MDBOOK_DIR"
+          curl --fail --location --silent --show-error \
+            "https://github.com/rust-lang/mdBook/releases/download/v${MDBOOK_VERSION}/mdbook-v${MDBOOK_VERSION}-x86_64-unknown-linux-musl.tar.gz" \
+            | tar -xz -C "$MDBOOK_DIR"
+          echo "$MDBOOK_DIR" >> "$GITHUB_PATH"
 
-      - name: Build HTML
-        run: mdbook build
-
-      - name: Inject cover and generate PDF
-        run: |
-          cp images/book-cover-template.png book/cover.png
-          sed -i 's|<main>|<main><div style="page-break-after:always;margin:-15mm;padding:0;overflow:hidden"><img src="cover.png" style="width:210mm;height:297mm;object-fit:cover;display:block" /></div>|' book/print.html
-          chromium-browser --headless --disable-gpu --no-pdf-header-footer --no-sandbox --print-to-pdf=book.pdf book/print.html
+      - name: Build PDF
+        run: ./scripts/build-local.sh "$BOOK_VERSION"
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
 
       - name: Upload PDF as Artifact
         uses: actions/upload-artifact@v4
         with:
           name: book-pdf
           path: book.pdf
-          if-no-files-found: warn
+          if-no-files-found: error
 
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: ./book.pdf
           draft: false
           prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

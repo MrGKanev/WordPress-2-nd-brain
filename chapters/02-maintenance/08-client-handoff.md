@@ -1,5 +1,7 @@
 # Client Handoff Documentation
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 The site is built, tested, and ready. Now comes the part many developers skip: handing it over so the client can actually use it. A clean handoff prevents "how do I...?" emails for the next six months and sets clear expectations about maintenance responsibility.
 
 ## What Clients Need
@@ -231,7 +233,7 @@ Record short videos (2-5 minutes each) showing:
 | **Loom** | Free (25 videos) | Web, desktop |
 | **OBS Studio** | Free | Desktop |
 | **ScreenPal** | Free basic | Web, desktop |
-| **CloudApp** | $9.95/month | Mac |
+| **CloudApp** | Check current plan | Mac |
 
 Host videos privately (unlisted YouTube, Loom link, or client portal) — not on public YouTube.
 
@@ -239,11 +241,11 @@ Host videos privately (unlisted YouTube, Loom link, or client portal) — not on
 
 ### What to Include
 
-| Tier | Includes | Typical Price |
+| Tier | Includes | Pricing basis |
 |------|----------|---------------|
-| **Basic** | Updates, backups, uptime monitoring | $50-100/month |
-| **Standard** | Basic + monthly content changes, security scanning | $150-300/month |
-| **Premium** | Standard + performance monitoring, priority support, dev hours | $300-500+/month |
+| **Basic** | Updates, backups, uptime monitoring | Estimated hours, tooling and risk |
+| **Standard** | Basic + monthly content changes, security scanning | Basic plus agreed content capacity |
+| **Premium** | Standard + performance monitoring, priority support, dev hours | Standard plus response-time and development commitments |
 
 ### What to Define
 

@@ -1,5 +1,7 @@
 # Block Themes (Full Site Editing)
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Block themes are where WordPress is heading. Instead of PHP templates with `get_header()` and The Loop, you write HTML files with block markup. The Site Editor replaces the Customizer, letting users visually edit headers, footers, and full page templates. WordPress 5.9+ required, and this is now the default path for new theme development.
 
 ## Classic vs. Block Themes

@@ -1,5 +1,9 @@
 # Checkout Customization
 
+> Last reviewed: 2026-09
+> Tested with: Documentation review only; examples before the Blocks section target classic checkout.
+> Risk: High — checkout changes can block orders, corrupt metadata or expose customer data.
+
 Checkout is the most critical page in your store. Every change here can either increase or destroy conversions.
 
 ## Checkout Architecture
@@ -391,7 +395,9 @@ if ( has_block( 'woocommerce/checkout' ) ) {
 }
 ```
 
-**For block checkout customization:** Use `woocommerce_blocks_checkout_*` filters and JavaScript filters. Classic PHP hooks don't work.
+Classic checkout PHP hooks are not a compatibility layer for Checkout Blocks.
+Use the documented Blocks extensibility APIs for additional fields, front-end
+filters and server-side integration, and test both editor and shopper flows.
 
 ## Common Pitfalls
 
@@ -449,3 +455,4 @@ add_filter( 'woocommerce_checkout_fields', function( $fields ) {
 - [WooCommerce Hooks](./02-woocommerce-hooks.md) - All checkout hooks
 - [WooCommerce Fundamentals](./01-woocommerce-fundamentals.md) - Data storage
 - [Official Checkout Field Documentation](https://woocommerce.com/document/tutorial-customising-checkout-fields-using-actions-and-filters/)
+- [Cart and Checkout Blocks extensibility](https://developer.woocommerce.com/docs/block-development/extensible-blocks/cart-and-checkout-blocks/)

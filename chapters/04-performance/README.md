@@ -1,5 +1,7 @@
 # WordPress Optimization
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 A slow WordPress site loses visitors, tanks search rankings, and costs you money. This is the largest chapter in the book because performance touches everything—server configuration, PHP settings, database queries, image formats, caching layers, and frontend assets. Each section is a standalone reference you can apply immediately.
 
 ## The Optimization Mindset
@@ -169,4 +171,4 @@ If you're starting from scratch, these typically give the best return on effort:
 ## Further Reading
 
 - [Performance Optimization for SEO](../05-seo/04-performance-optimization-for-seo.md) - How performance affects search rankings
-- [Plugin Architecture](../08-plugin-development/README.md) - Writing performant plugin code
+- [Plugin Architecture](../08-plugin-development/) - Writing performant plugin code

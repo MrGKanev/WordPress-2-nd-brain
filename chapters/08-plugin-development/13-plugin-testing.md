@@ -1,5 +1,7 @@
 # Plugin Testing
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Untested code is code you hope works. Tested code is code you know works. WordPress plugin testing isn't glamorous, but it catches bugs before users do—especially the subtle ones that only appear when WooCommerce is active, or when the site runs PHP 8.2, or when another plugin filters the same hook.
 
 ## Testing Levels
@@ -16,7 +18,8 @@ Most plugins need integration tests. Pure unit tests are valuable for utility fu
 
 ### Prerequisites
 
-- PHP 7.4+ with `php-xml` and `php-mbstring`
+- A PHP version supported by your target WordPress version, plus every PHP version in your declared support matrix
+- `php-xml` and `php-mbstring`
 - MySQL/MariaDB (tests use a real database)
 - Composer
 - WP-CLI (for scaffolding)

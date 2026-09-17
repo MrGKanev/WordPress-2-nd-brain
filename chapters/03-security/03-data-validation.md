@@ -1,5 +1,7 @@
 # Input Sanitization & Output Escaping
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 If you write custom WordPress code—plugins, theme functions, AJAX handlers—this is the single most important section to internalize. The majority of WordPress plugin vulnerabilities boil down to one mistake: trusting user input.
 
 Never trust it. Not from `$_POST`, not from `$_GET`, not even from the database (someone might have injected bad data before you added proper validation).

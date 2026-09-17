@@ -1,5 +1,9 @@
 # PHP-FPM Optimization for Low-Resource VPS
 
+> Last reviewed: 2026-09
+> Tested with: Documentation review only; measure process memory and load-test staging before applying values.
+> Risk: High — an undersized or oversized pool can cause timeouts, swapping or an outage.
+
 PHP-FPM manages the pool of PHP processes that handle your WordPress requests. Get the settings wrong and you either waste RAM on idle processes or run out of workers during traffic spikes. On a 2-core VPS with 4GB RAM, every process counts.
 
 ## Process Manager Selection
@@ -14,7 +18,8 @@ PHP-FPM offers three process management methods:
 
 ### ondemand Configuration
 
-For a 2-core VPS with 4GB RAM (like in the case study), the `ondemand` process manager is ideal:
+For a low-traffic 2-core VPS with 4GB RAM, `ondemand` is a reasonable starting
+candidate. Compare it with `dynamic` under representative traffic before choosing:
 
 ```ini
 ; Set in /etc/php/8.x/fpm/pool.d/www.conf
@@ -76,6 +81,39 @@ pm.max_requests = 500
 ```
 
 Lower values (e.g., 200-500) help prevent memory leaks but cause more frequent process recycling. Higher values (1000+) reduce process recycling overhead but may allow memory leaks to grow.
+
+## Slow Request Logging
+
+PHP-FPM can write a stack trace for requests that exceed a defined duration. This is one of the most useful low-overhead ways to find a slow plugin hook, database call or remote API request without changing application code.
+
+Add these settings to the relevant pool configuration and choose a threshold that is meaningful for the site:
+
+```ini
+; /etc/php/8.x/fpm/pool.d/www.conf
+slowlog = /var/log/php-fpm/www-slow.log
+request_slowlog_timeout = 3s
+```
+
+Ensure the PHP-FPM service user can write to the log location, reload PHP-FPM, then reproduce the slow request. The trace shows the PHP call stack at the point the request crossed the threshold. Review it alongside the Nginx access log and database timings before changing code or pool settings.
+
+Slow logging is diagnostic rather than a cure. Rotate the log and remove or raise an aggressively low threshold after the investigation; otherwise high traffic can produce more log data than is useful.
+
+## OPcache String Interning
+
+WordPress, WooCommerce and plugins repeat many class names, hook names and configuration strings. OPcache's interned-string buffer lets PHP workers share these values instead of storing separate copies in each process.
+
+```ini
+; php.ini
+opcache.interned_strings_buffer = 32
+```
+
+Use `32` as a starting point for a typical WordPress installation and increase it only after observing pressure. On hosts with a large plugin set or many PHP-FPM workers, `64` can be appropriate. Inspect current usage from the same PHP SAPI used by FPM; CLI results can differ from the web runtime:
+
+```bash
+php -r 'print_r(opcache_get_status()["interned_strings_usage"] ?? []);'
+```
+
+Reload PHP-FPM after changing `php.ini`, then confirm that the buffer is no longer close to full and that total memory consumption remains within the server budget.
 
 ## PHP Version Considerations
 

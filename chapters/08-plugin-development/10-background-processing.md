@@ -1,5 +1,7 @@
 # Background Processing
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Some tasks don't belong in a page request. Importing 10,000 products, sending 500 emails, processing image thumbnails—these take minutes, not milliseconds. Running them during a web request means timeouts, white screens, and angry users.
 
 Background processing moves heavy work out of the request cycle. The user clicks a button, the task gets queued, and processing happens in the background while the user continues browsing.

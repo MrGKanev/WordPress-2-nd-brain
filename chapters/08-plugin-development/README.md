@@ -1,5 +1,7 @@
 # WordPress Plugin Architecture
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Plugins are how you extend WordPress without touching core. A plugin can be a single file that disables XML-RPC, or a 50,000-line application like WooCommerce. This chapter covers the fundamentals of building plugins that won't turn into maintenance nightmares—structure, hooks, database access, custom post types, AJAX, the REST API, i18n, and block development.
 
 ## Why Architecture Matters
@@ -24,6 +26,10 @@ The physical organization of a plugin - files, folders, and naming conventions. 
 - Recommended directory structures
 - The plugin lifecycle (activation, deactivation, uninstall)
 - Common structural mistakes
+
+### [Advanced Plugin Engineering](../10-platform-architecture-governance/02-advanced-plugin-engineering.md)
+
+Service boundaries, feature flags, lifecycle management, compatibility policy and tests at high-risk integration boundaries.
 
 ### [Hooks System](./02-hooks-system.md)
 
@@ -75,6 +81,10 @@ Building and consuming WordPress REST endpoints. Essential for headless WordPres
 - Extending default endpoints
 - Building complete API controllers
 
+### [Integration Architecture](../10-platform-architecture-governance/07-integration-architecture.md)
+
+Reliable contracts, signed webhooks, retry behavior, reconciliation and rate-limit-aware processing.
+
 ### [Internationalization (i18n)](./07-internationalization.md)
 
 Making your plugin translatable. Required for WordPress.org distribution and multilingual sites. Covers:
@@ -119,6 +129,10 @@ Automated testing for WordPress plugins with PHPUnit. Test scaffolding, `WP_Unit
 
 Adding client-side behavior to blocks using WordPress's standard directive system. Declarative HTML directives, shared state between blocks, server-side rendering compatibility, and async data fetching.
 
+### [E2E Testing & Visual Regression](./15-e2e-testing-visual-regression.md)
+
+Testing the user flows that unit and integration tests cannot see. Covers Playwright, WordPress test utilities, visual baselines, CI artifacts and stable test design.
+
 ## Key Principles
 
 These principles apply across all plugin development:
@@ -145,5 +159,5 @@ This chapter assumes basic familiarity with:
 
 After this chapter, you'll be ready to explore:
 
-- [WordPress Optimization](../04-performance/README.md) - Making your plugins fast
-- [Security](../03-security/README.md) - Protecting your plugins from attacks
+- [WordPress Optimization](../04-performance/) - Making your plugins fast
+- [Security](../03-security/) - Protecting your plugins from attacks

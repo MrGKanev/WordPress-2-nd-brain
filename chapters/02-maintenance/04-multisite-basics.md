@@ -1,5 +1,7 @@
 # WordPress Multisite Considerations
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 WordPress Multisite lets you run dozens (or hundreds) of sites from a single installation. One codebase, one database, shared plugins and themes. Update a plugin once, it updates everywhere. The flip side: break something once, it breaks everywhere too.
 
 Each site gets its own content, users, and settings, but they all share the same code. Think of it like apartments in a building—separate living spaces, shared infrastructure.

@@ -1,5 +1,7 @@
 # Image Optimization Best Practices
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Images are the heaviest assets on most WordPress pages. An unoptimized hero image can weigh more than your entire HTML, CSS, and JavaScript combined. Converting to WebP, serving responsive sizes, and lazy loading below-the-fold images are the quickest wins for any site.
 
 ## Best Practices for Image Optimization

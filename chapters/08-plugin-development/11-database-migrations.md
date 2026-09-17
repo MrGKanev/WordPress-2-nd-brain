@@ -1,5 +1,7 @@
 # Database Migrations
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Your plugin's first version stores data one way. Version 2 needs a new column. Version 3 renames a table. Version 4 moves data from post meta to a custom table. Each of these requires a migration—code that transforms the database schema or data from one version to the next.
 
 Get this wrong and you corrupt user data. Get it right and upgrades are seamless.

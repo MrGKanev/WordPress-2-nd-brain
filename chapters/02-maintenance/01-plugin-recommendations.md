@@ -1,5 +1,7 @@
 # Plugin Recommendations
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Every plugin on your site is code that runs on every page load. Some add 2ms of overhead. Others add 500ms and three external API calls. The number of plugins matters less than whether each one earns its place—and whether you've tested what it actually does to your load time.
 
 ## Understanding Plugin Performance Impact
@@ -388,7 +390,7 @@ Detailed plugin recommendations are found in their relevant sections:
 | WooCommerce | [WooCommerce Performance](../06-e-commerce/03-woocommerce-performance.md) | Disable Cart Fragments |
 | Debugging | [Debugging & Profiling](../04-performance/10-debugging-profiling.md) | Query Monitor, Code Profiler |
 | Payment | [Payment Gateways](../06-e-commerce/05-payment-gateways.md) | Stripe, PayPal official plugins |
-| WooCommerce utilities | [E-commerce Overview](../06-e-commerce/README.md) | PDF Invoices, ATUM, Smart Manager |
+| WooCommerce utilities | [E-commerce Overview](../06-e-commerce/) | PDF Invoices, ATUM, Smart Manager |
 | Privacy/GDPR | Above (GDPR section) | Complianz, CookieYes, WP AutoTerms |
 
 ---
@@ -443,6 +445,6 @@ Plugins (10+):
 ## Further Reading
 
 - [Hosting Selection](./02-hosting-selection.md) — Host-provided functionality vs plugins
-- [Performance Optimization](../04-performance/README.md) — Measuring plugin impact
+- [Performance Optimization](../04-performance/) — Measuring plugin impact
 - [Debugging & Profiling](../04-performance/10-debugging-profiling.md) — Query Monitor usage
 - [WooCommerce Performance](../06-e-commerce/03-woocommerce-performance.md) — Store-specific optimizations

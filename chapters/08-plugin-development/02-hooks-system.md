@@ -1,5 +1,7 @@
 # WordPress Hooks System
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Hooks are the reason WordPress can power 43% of the web without everyone editing core files. They're points in the code where WordPress says "anyone want to do something here?" (actions) or "anyone want to change this value?" (filters). Every plugin, every theme customization, every modification you make to WordPress behavior runs through this system.
 
 ## Types of Hooks

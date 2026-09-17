@@ -1,5 +1,7 @@
 # Incident Response
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Your site got hacked. Your stomach drops. Now what?
 
 The difference between a 2-hour recovery and a 2-week nightmare is having a plan before it happens. This guide covers what to do when you discover a compromise, how to clean it up, and how to prevent it from happening again.

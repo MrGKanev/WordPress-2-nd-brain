@@ -1,5 +1,7 @@
 # WooCommerce Hooks
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 WooCommerce has hundreds of hooks. Here are the most commonly used ones for real customizations, with explanations of why and when to use each.
 
 ## Hook Philosophy

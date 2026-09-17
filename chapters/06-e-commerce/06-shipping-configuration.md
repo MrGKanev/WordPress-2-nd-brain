@@ -1,5 +1,7 @@
 # Shipping Configuration
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Shipping setup is one of the most confusing parts of WooCommerce. Here's how it all works, systematized.
 
 ## Shipping Architecture

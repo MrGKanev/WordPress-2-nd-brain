@@ -1,5 +1,7 @@
 # Internationalization (i18n)
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 WordPress runs 43% of the web, and most of that web doesn't speak English. Internationalization (i18n) is wrapping your strings in translation functions so they *can* be translated. Localization (l10n) is the actual translation into a specific language. The work is almost entirely upfront—use `__()` and `_e()` instead of bare strings, set a text domain, and your plugin is translatable. Skip it, and you've locked out every non-English user who might have used your plugin.
 
 ## Basic Translation Functions

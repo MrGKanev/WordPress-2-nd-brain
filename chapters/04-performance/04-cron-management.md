@@ -1,5 +1,7 @@
 # WordPress Cron Management
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 WordPress doesn't have a real cron system. It has a hack that checks for due tasks on every page load. This means your visitors subsidize your scheduled tasks with their load times, and on quiet sites, tasks might not run for hours because nobody visited.
 
 **Why is page-load triggered cron bad?** Imagine a visitor loads your homepage. WordPress checks "are any scheduled tasks due?" If yes, it runs them *before* sending the page to the visitor. That visitor's page load now includes the time to process email queues, backup tasks, or whatever else is scheduled. They experience a slow page through no fault of their own.

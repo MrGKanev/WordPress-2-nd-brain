@@ -1,5 +1,7 @@
 # WP-CLI Essentials
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 WP-CLI is the command-line interface for WordPress. Once you get used to it, going back to the admin panel feels like filling out government forms. Updating 20 plugins through the browser means 20 page loads and clicks. From the terminal, it's one command.
 
 **Why the speed difference?** When you use the admin panel, WordPress has to:

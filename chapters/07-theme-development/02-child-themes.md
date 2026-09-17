@@ -1,5 +1,7 @@
 # Child Themes
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 A child theme inherits everything from a parent theme—templates, styles, functions—but lets you override any of it. When the parent theme updates, your customizations survive untouched. If you're modifying any theme you didn't build yourself, this is the only safe approach.
 
 ## Why Use Child Themes

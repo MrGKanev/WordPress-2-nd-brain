@@ -1,5 +1,7 @@
 # Cart Abandonment & Email Marketing
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Around 70% of online shopping carts are abandoned. That's not a bug—it's how people shop online. They browse, compare, get distracted, come back later (or don't). The stores that recover even 5-10% of abandoned carts see significant revenue gains.
 
 ## Why Carts Get Abandoned
@@ -34,15 +36,15 @@ The critical requirement: you need the customer's email. Without it, recovery em
 
 ### Plugin Options
 
-| Plugin | Cost | Features |
-|--------|------|----------|
-| **AutomateWoo** | $149/year | Full automation suite, cart recovery, win-back, wishlists |
-| **Retainful** | Free/paid | Cart recovery + next-order coupons |
-| **CartFlows** | Free/paid | Funnel builder + cart abandonment |
-| **WooCommerce Cart Abandonment Recovery** (CartFlows) | Free | Basic email recovery |
-| **Metorik** | $20+/month | Analytics-first approach with email recovery |
-| **Klaviyo** | Free to $20+/month | Full email marketing with WooCommerce integration |
-| **Mailchimp for WooCommerce** | Free | Basic automation, large free tier |
+| Plugin | Verify | Features |
+|--------|--------|----------|
+| **AutomateWoo** | Current license and extension compatibility | Automation suite, cart recovery, win-back, wishlists |
+| **Retainful** | Current contact and send limits | Cart recovery and next-order coupons |
+| **CartFlows** | Current feature split between plans | Funnel builder and cart abandonment |
+| **WooCommerce Cart Abandonment Recovery** | Current support and feature scope | Basic email recovery |
+| **Metorik** | Current order/contact tiers | Analytics-first recovery workflows |
+| **Klaviyo** | Current contact/send tiers | Email marketing and WooCommerce integration |
+| **Mailchimp for WooCommerce** | Current contact/send tiers | Basic automation |
 
 ### Recovery Email Sequence
 

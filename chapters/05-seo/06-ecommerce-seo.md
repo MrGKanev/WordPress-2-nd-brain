@@ -1,5 +1,7 @@
 # E-commerce SEO
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 E-commerce SEO is a different game from content SEO. You're optimizing hundreds or thousands of product pages that often share similar descriptions, competing with Amazon and established retailers, and dealing with faceted navigation that can create crawl nightmares. WooCommerce handles the basics, but winning in product search requires deliberate optimization.
 
 ## Product Schema Markup
@@ -274,9 +276,9 @@ For product visibility in Google Shopping:
 
 | Plugin | Cost |
 |--------|------|
-| **Google Listings & Ads** (official) | Free |
-| **Product Feed PRO for WooCommerce** | Free / $89+ |
-| **CTX Feed** | Free / $119+ |
+| **Google Listings & Ads** (official) | Verify current eligibility and feature scope |
+| **Product Feed PRO for WooCommerce** | Verify current channel support and license |
+| **CTX Feed** | Verify current channel support and license |
 | **JEREZ Feed Manager** | Budget option |
 
 ## E-commerce SEO Checklist

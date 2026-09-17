@@ -1,5 +1,7 @@
 # DNS & HTTP Protocols
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Before your server runs a single line of PHP, the browser has to find it. DNS resolution, TLS handshake, connection establishment—these invisible steps add 100-500ms to every first visit. You can't optimize what you don't see, so let's make the invisible visible.
 
 ## DNS Fundamentals

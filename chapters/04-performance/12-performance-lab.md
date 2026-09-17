@@ -1,5 +1,7 @@
 # Performance Lab Plugin
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Performance Lab is the WordPress Core Performance Team's testing ground—think of it as Gutenberg but for speed. Features get developed and battle-tested here before merging into WordPress core. Installing it gives you early access to optimizations (image prioritization, speculative loading, enhanced responsive images) while helping the team validate them with real traffic.
 
 ## Why Use Performance Lab

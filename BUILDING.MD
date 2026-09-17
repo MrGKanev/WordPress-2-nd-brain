@@ -4,12 +4,16 @@
 
 - [Rust](https://rustup.rs/) (for installing mdBook via cargo)
 - Or download mdBook binary directly from [releases](https://github.com/rust-lang/mdBook/releases)
+- Node.js/npm for the pinned SVG-to-PNG cover conversion
+- Google Chrome or Chromium for PDF output
 
 ## Installation
 
+The project pins its validated mdBook version in [`.mdbook-version`](.mdbook-version). Use that version for local builds and CI so a theme change does not behave differently on another machine.
+
 ```bash
-# Option 1: Install via cargo (requires Rust)
-cargo install mdbook
+# Install or update to the project's pinned version via cargo (requires Rust)
+cargo install mdbook --force --version "$(tr -d '[:space:]' < .mdbook-version)"
 
 # Option 2: On macOS with Homebrew
 brew install mdbook
@@ -17,6 +21,14 @@ brew install mdbook
 # Option 3: Download binary from GitHub releases
 # https://github.com/rust-lang/mdBook/releases
 ```
+
+Verify the installed version before building:
+
+```bash
+mdbook --version
+```
+
+GitHub Actions uses the same pinned version and validates local Markdown links before the HTML build.
 
 ## Building HTML
 
@@ -35,16 +47,21 @@ mdbook serve -p 8080
 ## Building PDF
 
 ```bash
-# Install PDF extension
-cargo install mdbook-pdf
+# Build HTML, stamp the cover and generate the PDF.
+# Requires Google Chrome on macOS and uses npx once to convert the cover.
+./scripts/build-local.sh
 
-# Generate PDF (requires Chrome/Chromium installed)
-mdbook-pdf
+# Optionally stamp a release version on the cover.
+./scripts/build-local.sh v1.0.0
 
-# The PDF will be created as book.pdf in the root directory
+# If Chrome is not in a standard location:
+CHROME_BIN=/path/to/chrome ./scripts/build-local.sh v1.0.0
 ```
 
-**Note:** mdbook-pdf uses headless Chrome for rendering. Make sure Chrome or Chromium is installed.
+The local build script generates `book.pdf` in the repository root. It uses
+headless Google Chrome rather than `mdbook-pdf` so the PDF has the custom cover,
+table of contents and print stylesheet. It requires the exact mdBook version in
+`.mdbook-version` and does not modify the tracked cover assets.
 
 ## Project Structure
 
@@ -52,7 +69,7 @@ mdbook-pdf
 wordpress-2nd-brain/
 ├── book.toml              # mdBook configuration
 ├── SUMMARY.md             # Table of contents (defines structure)
-├── README.md              # Book introduction
+├── README.MD              # Book introduction
 ├── chapters/              # All content
 │   ├── 01-wordpress-fundamentals/
 │   ├── 02-maintenance/
@@ -61,7 +78,10 @@ wordpress-2nd-brain/
 │   ├── 05-seo/
 │   ├── 06-e-commerce/
 │   ├── 07-theme-development/
-│   └── 08-plugin-development/
+│   ├── 08-plugin-development/
+│   ├── 09-production-workflows/
+│   ├── 10-platform-architecture-governance/
+│   └── 11-hands-on-labs/
 └── book/                  # Generated output (gitignored)
 ```
 
@@ -87,30 +107,9 @@ wordpress-2nd-brain/
 
 ## CI/CD Deployment
 
-For GitHub Pages deployment, add to `.github/workflows/deploy.yml`:
-
-```yaml
-name: Deploy mdBook
-on:
-  push:
-    branches: [master]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup mdBook
-        uses: peaceiris/actions-mdbook@v1
-        with:
-          mdbook-version: 'latest'
-      - run: mdbook build
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./book
-```
+Pull requests are built and checked by `.github/workflows/validate-book.yml`.
+Pushes to `master` are published to GitHub Pages by
+`.github/workflows/deploy-pages.yml`. Both workflows use `.mdbook-version`.
 
 ## Useful mdBook Commands
 

@@ -1,5 +1,7 @@
 # Technical SEO Fundamentals
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Technical SEO is about how search engines access, crawl, and index your site. It's the plumbing—nobody notices it when it works, but everything breaks when it doesn't. Get your URL structure wrong, block Googlebot from key pages, or serve duplicate content, and no amount of great writing will save your rankings.
 
 ## How Search Engines See Your WordPress Site

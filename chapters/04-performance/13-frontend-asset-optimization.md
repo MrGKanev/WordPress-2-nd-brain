@@ -1,5 +1,7 @@
 # Frontend Asset Optimization
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 You've optimized images and database queries, but your site still loads 400KB of fonts from Google, an icon font you use 6 icons from, and jQuery plugins on pages that don't need them. Frontend assets are the performance blind spot most WordPress developers ignore.
 
 ## Font Optimization

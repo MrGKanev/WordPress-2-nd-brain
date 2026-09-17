@@ -1,5 +1,7 @@
 # CDN Strategy
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 A CDN (Content Delivery Network) caches your site's static assets on servers distributed worldwide. When a visitor in Tokyo loads your site hosted in Amsterdam, they get assets from a nearby edge server instead of waiting for a transatlantic round trip. The result: faster load times, lower server load, and better resilience.
 
 ## How CDNs Work with WordPress
@@ -33,19 +35,18 @@ With CDN:
 
 ### Full-Stack CDNs (CDN + Security + DNS)
 
-| Provider | Free Tier | Best For | Key Advantage |
-|----------|-----------|----------|---------------|
-| **Cloudflare** | Yes (generous) | Most WordPress sites | Free WAF, DDoS protection, easy setup |
-| **Fastly** | No | High-traffic, real-time purge needs | Instant purge, VCL flexibility |
-| **AWS CloudFront** | 1TB/month free first year | AWS-hosted WordPress | Deep AWS integration |
+| Provider | Best For | Verify |
+|----------|----------|--------|
+| **Cloudflare** | Integrated DNS, edge cache and security | Current plan limits and cache/WAF features |
+| **Fastly** | High-traffic, real-time purge needs | Current minimum spend, regions and VCL support |
+| **AWS CloudFront** | AWS-hosted WordPress | Current transfer, request and invalidation pricing |
 
 ### Specialized CDNs
 
-| Provider | Cost | Best For | Key Advantage |
-|----------|------|----------|---------------|
-| **Bunny CDN** | ~$0.01/GB | Cost-conscious, global reach | 123+ PoPs, simple pricing |
-| **KeyCDN** | $0.04/GB | European focus | Pay-as-you-go, GDPR-friendly |
-| **StackPath** | From $15/month | North American sites | MaxCDN successor |
+| Provider | Best For | Verify |
+|----------|----------|--------|
+| **Bunny CDN** | Cost-conscious global delivery | Current regional pricing and PoPs |
+| **KeyCDN** | Pay-as-you-go delivery | Current minimum charge, regions and data processing |
 
 ### WordPress-Specific CDN Services
 
@@ -94,7 +95,7 @@ Rule 2: Cache static assets aggressively
 |--------|---------|
 | **Cloudflare** (official) | Settings management, one-click optimizations |
 | **WP Cloudflare Super Page Cache** | HTML page caching through Cloudflare |
-| **APO for WordPress** | Cloudflare's managed WordPress caching ($5/month) |
+| **APO for WordPress** | Cloudflare's managed WordPress caching; verify current plan availability |
 
 **Cloudflare APO** is particularly effective — it caches full HTML pages at the edge, turning your WordPress site into what behaves like a static site for logged-out visitors. This can reduce TTFB from 500ms+ to under 50ms.
 

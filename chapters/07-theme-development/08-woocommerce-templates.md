@@ -1,5 +1,7 @@
 # WooCommerce Template Overrides
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 WooCommerce generates its frontend through a template system separate from WordPress's standard template hierarchy. Understanding this system is essential for customizing store appearance without breaking functionality or losing changes on plugin updates.
 
 ## How WooCommerce Templates Work

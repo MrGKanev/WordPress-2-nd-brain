@@ -1,5 +1,7 @@
 # Maintenance
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Building a WordPress site is the easy part. Keeping it running, secure, and fast over months and years is the actual job. This chapter covers the operational side of WordPress—the things that don't feel exciting but keep everything from falling apart.
 
 ## The Maintenance Mindset
@@ -85,6 +87,23 @@ Delivering WordPress sites to clients. Covers:
 - Admin customization and white-labeling
 - Maintenance agreements and post-handoff support
 
+### [Backups & Disaster Recovery](./09-backup-disaster-recovery.md)
+
+Turning a backup into a proven recovery capability. Covers:
+
+- Recovery objectives, backup scope and retention
+- Off-site storage and encryption
+- Restore drills on isolated staging environments
+- WooCommerce data-loss risks and incident communication
+
+### [Deployment & Configuration Management](./10-deployment-configuration-management.md)
+
+Safely moving verified changes into production. Covers:
+
+- Environment separation and configuration ownership
+- Secrets and database-change safety
+- A repeatable deployment and rollback procedure
+
 ## Core Maintenance Tasks
 
 ### Updates
@@ -107,6 +126,9 @@ Backups are worthless if they don't work. Your backup strategy should include:
 - **Off-site storage** - Not on the same server as WordPress
 - **Database + files** - Both are necessary for full restore
 - **Tested restores** - Periodically verify backups actually work
+
+See [Backups & Disaster Recovery](./09-backup-disaster-recovery.md) for a
+recovery playbook and restore-drill checklist.
 
 ### Database Maintenance
 
@@ -156,12 +178,12 @@ The goal isn't zero plugins - it's the right plugins. Choose plugins that are:
 
 Hosting tiers exist for reasons:
 
-| Tier | Best For | Typical Cost |
-|------|----------|--------------|
-| Shared | Low-traffic blogs, testing | $3-15/month |
-| Managed WordPress | Business sites, hands-off | $25-100/month |
-| VPS | High traffic, custom needs | $20-100/month |
-| Dedicated | Very high traffic, compliance | $100+/month |
+| Tier | Best For | Cost driver |
+|------|----------|-------------|
+| Shared | Low-traffic blogs, testing | Resource limits, renewal terms and support |
+| Managed WordPress | Business sites, hands-off | Visits, storage, sites and included operations |
+| VPS | High traffic, custom needs | Region, compute, transfer, backups and support |
+| Dedicated | Very high traffic, compliance | Hardware, management and compliance scope |
 
 Cheap hosting isn't always false economy - a simple blog doesn't need a dedicated server. But undersized hosting for a business site costs more in lost sales than the hosting savings.
 
@@ -285,7 +307,9 @@ Despite best practices, problems happen. Be prepared:
 3. **Document the fix** - Record what went wrong and how you fixed it
 4. **Learn from incidents** - Update processes to prevent recurrence
 
+For planned releases, follow [Deployment & Configuration Management](./10-deployment-configuration-management.md) rather than treating a file upload as a deployment process.
+
 ## Further Reading
 
-- [WordPress Optimization](../04-performance/README.md) - Performance tuning
-- [Security](../03-security/README.md) - Protecting your site
+- [WordPress Optimization](../04-performance/) - Performance tuning
+- [Security](../03-security/) - Protecting your site
