@@ -1,5 +1,7 @@
 # Accessibility Quality Assurance
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Accessibility is a product-quality practice, not a final visual review. Automated tools catch common markup problems, but keyboard and screen-reader tests reveal whether people can actually complete a task.
 
 ## Minimum Review

@@ -1,5 +1,7 @@
 # Secrets Management & Key Rotation
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Secrets include database passwords, WordPress salts, payment keys, webhook signing keys, SMTP credentials and deployment tokens. They must be treated as configuration with owners and rotation procedures—not as values to paste into source code or WordPress options.
 
 ## Where Secrets Belong

@@ -1,5 +1,7 @@
 # Modern Block Theme Architecture
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 A block theme is a design system and editorial interface, not just a collection of templates. The architecture should define which choices are global, which are reusable patterns and which are intentionally left to editors.
 
 ## Core Building Blocks

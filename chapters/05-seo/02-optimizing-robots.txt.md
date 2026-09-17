@@ -1,5 +1,7 @@
 # Optimizing robots.txt
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 The robots.txt file tells search engine crawlers which parts of your site to access. While it's simple in concept, improper configuration can hurt SEO by blocking important content or wasting crawl budget on low-value pages.
 
 ## How robots.txt Works

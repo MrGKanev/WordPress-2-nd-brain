@@ -1,5 +1,7 @@
 # Release & Upgrade Playbooks
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 A playbook is a repeatable plan for a change that affects users. It defines who acts, what is checked, when to stop and how to return to a known-good state.
 
 ## Standard Release Playbook

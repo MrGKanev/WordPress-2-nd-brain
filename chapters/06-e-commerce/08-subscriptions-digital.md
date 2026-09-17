@@ -1,5 +1,7 @@
 # Subscriptions & Digital Products
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Physical products are straightforward—ship a box, done. Subscriptions and digital products have different rules: recurring billing, license management, download delivery, access control. WooCommerce handles these through extensions, each with their own patterns and gotchas.
 
 ## Subscriptions
@@ -14,7 +16,8 @@ Physical products are straightforward—ship a box, done. Subscriptions and digi
 
 ### WooCommerce Subscriptions
 
-The official extension from Woo. It's expensive ($239/year) but mature and well-integrated.
+The official extension from Woo is the reference integration. Verify its current
+price, gateway support and feature compatibility before choosing it.
 
 **What it provides:**
 - Recurring payment processing via Stripe, PayPal, and others
@@ -35,12 +38,12 @@ The official extension from Woo. It's expensive ($239/year) but mature and well-
 
 ### Alternatives to WooCommerce Subscriptions
 
-| Plugin | Cost | Best For |
-|--------|------|----------|
-| **YITH WooCommerce Subscription** | $149/year | Simpler subscription needs |
-| **Subscriptions for WooCommerce** (WebToffee) | $99/year | Budget-conscious stores |
-| **SUMO Subscriptions** | $49 (lifetime) | One-time purchase preference |
-| **Stripe Billing** (direct) | Free + Stripe fees | SaaS with custom frontend |
+| Plugin | Verify | Best For |
+|--------|--------|----------|
+| **YITH WooCommerce Subscription** | Current gateway, renewal and support scope | Simpler subscription needs |
+| **Subscriptions for WooCommerce** (WebToffee) | Current gateway, renewal and support scope | Stores comparing third-party extensions |
+| **SUMO Subscriptions** | Current maintenance and gateway compatibility | Existing compatible stores |
+| **Stripe Billing** (direct) | Current processing/billing fees and tax scope | SaaS with a custom frontend |
 
 ### Subscription Performance Impact
 

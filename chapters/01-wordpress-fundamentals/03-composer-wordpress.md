@@ -1,5 +1,7 @@
 # Composer for WordPress
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Composer is PHP's dependency manager. In the WordPress world, it's used for managing plugin/theme dependencies in custom projects, building with Bedrock-style structures, and autoloading classes in plugin development. It's not required for typical WordPress work, but once your projects outgrow "install plugins from wp-admin," Composer becomes essential.
 
 ## Why Use Composer with WordPress

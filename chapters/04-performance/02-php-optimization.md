@@ -1,6 +1,12 @@
 # Advanced PHP Performance Optimization
 
-OPcache alone can double your site's throughput. Upgrading from PHP 7.4 to 8.x can cut response times by 30%. These are the biggest wins you'll get from server-side tuning, and most WordPress sites haven't configured them properly.
+> Last reviewed: 2026-09
+> Tested with: Documentation review only; benchmark the target WordPress workload before production changes.
+> Risk: High — PHP and PHP-FPM changes can exhaust memory or make the site unavailable.
+
+OPcache and a supported PHP release are strong starting points for server-side
+tuning. Their actual impact depends on the application, extensions, cache hit
+rate and database or network bottlenecks.
 
 ## OPCache Implementation
 
@@ -22,7 +28,8 @@ OPCache is an opcode cache that eliminates expensive PHP parsing operations on e
 2. Zend Engine executes cached opcodes
 3. Output
 
-This optimization can provide 3-10x performance improvements for WordPress sites.
+The gain must be measured on the target site; OPcache removes repeated compilation
+work but does not fix slow queries, remote calls or insufficient PHP workers.
 
 ## PHP Version Impact
 
@@ -30,26 +37,16 @@ This optimization can provide 3-10x performance improvements for WordPress sites
 
 Upgrading PHP is often the easiest performance win available. Each major PHP version includes engine optimizations that make your existing code run faster without any changes on your part. The PHP development team focuses heavily on performance, and WordPress benefits directly from these improvements.
 
-The difference is dramatic. A WordPress site running on PHP 5.6 requires roughly three times the server resources to handle the same traffic as the identical site on PHP 8.x. This translates directly to hosting costs—you can either serve three times more visitors or reduce your server budget by two-thirds.
-
-### Performance Gains by Version
-
-| Migration Path | Performance Gain | What Changed |
-|----------------|------------------|--------------|
-| PHP 5.6 → 7.0 | 2x faster | Complete engine rewrite (phpng project) |
-| PHP 7.0 → 7.4 | 30-50% faster | Preloading, typed properties, FFI |
-| PHP 7.4 → 8.0 | 10-20% faster | JIT compiler, union types, named arguments |
-| PHP 8.0 → 8.1 | 5-10% faster | Fibers, enums, readonly properties |
-| PHP 8.1 → 8.2 | 3-8% faster | Readonly classes, memory optimizations |
-| PHP 8.2 → 8.3 | 2-5% faster | Typed class constants, json_validate() |
-| PHP 8.3 → 8.4 | 2-5% faster | Property hooks, asymmetric visibility |
-| PHP 8.4 → 8.5 | 2-3% faster | Continued incremental improvements |
-
-The biggest gains came with PHP 7.0, which was essentially a complete rewrite of the PHP engine. Since then, each version delivers incremental but meaningful improvements. Even small percentages add up—going from PHP 7.4 to 8.5 represents roughly 25-30% better performance.
+Do not use a generic percentage to justify an upgrade. Choose a PHP release that
+is supported by PHP and compatible with the deployed WordPress core, themes and
+plugins, then compare latency, throughput, errors and memory on staging.
 
 ### Understanding JIT Compilation
 
-PHP 8.0 introduced Just-In-Time (JIT) compilation, which compiles PHP code to machine code at runtime rather than interpreting it. This sounds revolutionary, but for WordPress the benefits are modest—typically around 5% improvement.
+PHP 8.0 introduced Just-In-Time (JIT) compilation, which compiles PHP code to
+machine code at runtime rather than interpreting it. For typical WordPress
+requests the benefit may be small because database, file and network I/O often
+dominate.
 
 The reason is that WordPress spends most of its time waiting: waiting for database queries, waiting for file operations, waiting for external API calls. JIT helps CPU-bound tasks (mathematical calculations, image processing, complex algorithms), but WordPress is fundamentally I/O-bound. The bottleneck isn't how fast PHP executes code; it's how fast the database responds.
 
@@ -299,32 +296,11 @@ wp rewrite flush
 wp plugin list --status=active
 ```
 
-## Case Study Results
+## Validate on the Target Workload
 
-Real-world optimization results from a high-traffic WordPress site:
-
-**Before Optimization:**
-
-- 5x t2.xlarge servers (40 vCPUs, 160GB RAM)
-- CPU usage: 15-30%
-- Memory usage: ~2GB total
-- Average response time: 150ms
-- OPCache: Disabled
-
-**After Optimization:**
-
-- 2x t2.xlarge servers (16 vCPUs, 64GB RAM)  
-- CPU usage: ~2%
-- Memory usage: ~7GB total
-- Average response time: 23ms
-- OPCache: Enabled with optimized settings
-
-**Performance Improvement:**
-
-- 6.5x faster response times
-- 60% reduction in server costs
-- 87% reduction in CPU usage
-- Better resource utilization
+Record the PHP version, OPcache settings, request mix, concurrency and cache
+state for every benchmark. Compare p50/p95 response time, error rate, throughput,
+worker saturation and memory before and after one change at a time.
 
 ## Implementation Steps
 
@@ -356,4 +332,5 @@ Set up comprehensive monitoring:
 
 - [Symfony OPCache Recommendations](https://symfony.com/doc/current/performance.html#performance-configure-opcache)
 - [PHP-FPM Process Manager Documentation](https://www.php.net/manual/en/install.fpm.configuration.php)
+- [Supported PHP Versions](https://www.php.net/supported-versions.php)
 - [PHP Performance Benchmarking Tools](https://github.com/kosinix/php-benchmark-script)

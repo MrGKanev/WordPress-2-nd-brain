@@ -1,5 +1,7 @@
 # WP-Config.php Optimization
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 `wp-config.php` is the one file WordPress reads before doing anything else. A few constants here can cut memory usage, eliminate unnecessary database writes, and disable features that have no business running in production.
 
 ## Essential Optimizations

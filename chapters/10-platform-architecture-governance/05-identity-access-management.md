@@ -1,5 +1,7 @@
 # Identity & Access Management
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Access management protects content, customer data and the ability to change production systems. Start with WordPress roles, then include hosting, DNS, source control, CI and vendor dashboards in the same access model.
 
 ## Least Privilege

@@ -1,5 +1,7 @@
 # Supply-Chain Security
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Every plugin, theme, Composer package and deployment credential becomes part of the site's attack surface. Security includes deciding what enters the project and how updates are verified.
 
 ## Working Rules

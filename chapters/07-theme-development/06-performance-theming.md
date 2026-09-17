@@ -1,5 +1,7 @@
 # Performance-First Theming
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 A theme's performance impact is often larger than any plugin's. Every template, stylesheet, script, and font choice affects load time. The difference between a well-built theme and a bloated one can be 2-3 seconds of load time — the difference between a site that converts and one that bounces visitors.
 
 ## Conditional Asset Loading

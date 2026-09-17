@@ -4,6 +4,8 @@
 
 - [Rust](https://rustup.rs/) (for installing mdBook via cargo)
 - Or download mdBook binary directly from [releases](https://github.com/rust-lang/mdBook/releases)
+- Node.js/npm for the pinned SVG-to-PNG cover conversion
+- Google Chrome or Chromium for PDF output
 
 ## Installation
 
@@ -51,11 +53,15 @@ mdbook serve -p 8080
 
 # Optionally stamp a release version on the cover.
 ./scripts/build-local.sh v1.0.0
+
+# If Chrome is not in a standard location:
+CHROME_BIN=/path/to/chrome ./scripts/build-local.sh v1.0.0
 ```
 
 The local build script generates `book.pdf` in the repository root. It uses
 headless Google Chrome rather than `mdbook-pdf` so the PDF has the custom cover,
-table of contents and print stylesheet.
+table of contents and print stylesheet. It requires the exact mdBook version in
+`.mdbook-version` and does not modify the tracked cover assets.
 
 ## Project Structure
 
@@ -72,7 +78,10 @@ wordpress-2nd-brain/
 │   ├── 05-seo/
 │   ├── 06-e-commerce/
 │   ├── 07-theme-development/
-│   └── 08-plugin-development/
+│   ├── 08-plugin-development/
+│   ├── 09-production-workflows/
+│   ├── 10-platform-architecture-governance/
+│   └── 11-hands-on-labs/
 └── book/                  # Generated output (gitignored)
 ```
 
@@ -98,30 +107,9 @@ wordpress-2nd-brain/
 
 ## CI/CD Deployment
 
-For GitHub Pages deployment, add to `.github/workflows/deploy.yml`:
-
-```yaml
-name: Deploy mdBook
-on:
-  push:
-    branches: [master]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup mdBook
-        uses: peaceiris/actions-mdbook@v1
-        with:
-          mdbook-version: 'latest'
-      - run: mdbook build
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./book
-```
+Pull requests are built and checked by `.github/workflows/validate-book.yml`.
+Pushes to `master` are published to GitHub Pages by
+`.github/workflows/deploy-pages.yml`. Both workflows use `.mdbook-version`.
 
 ## Useful mdBook Commands
 

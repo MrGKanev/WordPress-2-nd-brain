@@ -136,3 +136,7 @@
   * [Lab: Add a Playwright Smoke Test](chapters/11-hands-on-labs/06-playwright-smoke-test-lab.md)
   * [Lab: Rehearse a Release & Rollback](chapters/11-hands-on-labs/07-ci-release-rollback-lab.md)
   * [Lab: Reconcile WooCommerce Payments](chapters/11-hands-on-labs/08-payment-reconciliation-lab.md)
+* [Contributing](CONTRIBUTING.md)
+* [Editorial Guide](EDITORIAL-GUIDE.md)
+* [Editorial Review Backlog](EDITORIAL-REVIEW-BACKLOG.md)
+* [Changelog](CHANGELOG.md)

@@ -1,5 +1,7 @@
 # JavaScript SEO
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Google can render JavaScript, but not perfectly and not immediately. When your content depends on JavaScript to appear in the DOM, you're adding complexity to how search engines discover and index your pages. This matters for headless WordPress, React-based frontends, and any site that relies heavily on client-side rendering.
 
 ## How Google Renders JavaScript

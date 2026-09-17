@@ -1,5 +1,7 @@
 # Content Modeling & Editorial Workflow
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Content modeling defines the information a site needs before it defines the page that displays it. A clear model prevents a single "Page" type from becoming an inconsistent mixture of articles, locations, products, team members and campaigns.
 
 ## Model the Domain

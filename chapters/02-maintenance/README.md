@@ -1,5 +1,7 @@
 # Maintenance
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Building a WordPress site is the easy part. Keeping it running, secure, and fast over months and years is the actual job. This chapter covers the operational side of WordPress—the things that don't feel exciting but keep everything from falling apart.
 
 ## The Maintenance Mindset
@@ -176,12 +178,12 @@ The goal isn't zero plugins - it's the right plugins. Choose plugins that are:
 
 Hosting tiers exist for reasons:
 
-| Tier | Best For | Typical Cost |
-|------|----------|--------------|
-| Shared | Low-traffic blogs, testing | $3-15/month |
-| Managed WordPress | Business sites, hands-off | $25-100/month |
-| VPS | High traffic, custom needs | $20-100/month |
-| Dedicated | Very high traffic, compliance | $100+/month |
+| Tier | Best For | Cost driver |
+|------|----------|-------------|
+| Shared | Low-traffic blogs, testing | Resource limits, renewal terms and support |
+| Managed WordPress | Business sites, hands-off | Visits, storage, sites and included operations |
+| VPS | High traffic, custom needs | Region, compute, transfer, backups and support |
+| Dedicated | Very high traffic, compliance | Hardware, management and compliance scope |
 
 Cheap hosting isn't always false economy - a simple blog doesn't need a dedicated server. But undersized hosting for a business site costs more in lost sales than the hosting savings.
 
@@ -309,5 +311,5 @@ For planned releases, follow [Deployment & Configuration Management](./10-deploy
 
 ## Further Reading
 
-- [WordPress Optimization](../04-performance/README.md) - Performance tuning
-- [Security](../03-security/README.md) - Protecting your site
+- [WordPress Optimization](../04-performance/) - Performance tuning
+- [Security](../03-security/) - Protecting your site

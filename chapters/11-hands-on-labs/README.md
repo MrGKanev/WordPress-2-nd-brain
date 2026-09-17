@@ -1,5 +1,7 @@
 # Hands-On Labs
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 These labs connect the book's guidance to small, repeatable exercises. Run them on a disposable local or staging site; they are deliberately scoped so each lab teaches one operational boundary.
 
 ```text

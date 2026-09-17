@@ -1,5 +1,7 @@
 # WordPress Interactivity API
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 The Interactivity API (introduced in WordPress 6.5) provides a standard way to add client-side behavior to blocks. Instead of writing vanilla JavaScript or bundling React for frontend interactions, you use HTML directives that WordPress processes — similar to how Alpine.js or Vue works, but integrated into the block editor ecosystem.
 
 ## Why the Interactivity API Exists

@@ -1,5 +1,7 @@
 # WordPress Platform Governance
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Platform governance defines how a team keeps many WordPress changes coherent: who owns the theme and plugins, what quality bar applies, how exceptions are approved and when old code is retired.
 
 ## Standards That Matter

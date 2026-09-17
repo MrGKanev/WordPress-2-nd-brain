@@ -1,10 +1,16 @@
 # Development Workflow
 
+> Last reviewed: 2026-09
+> Tested with: Documentation review only; tool and hosting workflows require project-specific staging tests.
+> Risk: Medium — deployment and database commands can affect live data and availability.
+
 ## Overview
 
 Professional WordPress development requires more than writing code—it demands a systematic approach to moving changes safely from idea to production. A mature workflow prevents the "it works on my machine" problem, catches bugs before users see them, and enables confident deployments.
 
-The core insight: **the cost of fixing a bug increases exponentially the later you find it**. A typo caught in your editor costs seconds. The same typo found after deployment might cost hours of troubleshooting, customer complaints, and emergency fixes.
+The cost of fixing a bug usually rises after release because diagnosis, customer
+impact and rollback become part of the work. Catching the same problem before
+deployment keeps those costs out of the incident path.
 
 ## The Environment Problem
 
@@ -30,7 +36,9 @@ The fix is environment parity—making your development environment match produc
 
 The WordPress ecosystem offers several approaches to local development:
 
-**Local by Flywheel** dominates among general WordPress developers for good reason: it provides a polished GUI, handles SSL certificates automatically, and "just works" for most projects. Its limitations appear when you need non-standard configurations or have complex requirements.
+**Local** provides a polished GUI and automatic local TLS for common WordPress
+setups. Its limitations appear when you need non-standard configurations or
+must reproduce production infrastructure closely.
 
 **Docker-based tools** (DDEV, Lando, wp-env) offer flexibility at the cost of initial learning investment. They excel when you need to match specific production environments, work on multiple projects with conflicting requirements, or collaborate with teams who need identical setups. Once configured, they reproduce environments perfectly.
 
@@ -640,3 +648,4 @@ Documentation doesn't need to be elaborate. A single markdown file in the reposi
 - [WP-CLI Essentials](../02-maintenance/03-wp-cli-essentials.md) - Command-line tools for deployment and maintenance
 - [Database Optimization](./07-database-optimizations.md) - Understanding WordPress's database for safer migrations
 - [Debugging and Profiling](./10-debugging-profiling.md) - Finding problems when deployments go wrong
+- [WordPress developer tools](https://developer.wordpress.org/advanced-administration/developer/) - Official development and debugging guidance

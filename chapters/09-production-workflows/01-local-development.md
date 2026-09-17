@@ -1,5 +1,7 @@
 # Local Development Environments
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 A local environment should resemble production closely enough that a change can be tested before it reaches users. Docker-based tooling, DDEV or `wp-env` can provide repeatable PHP, database, web-server and WordPress versions.
 
 ## Baseline

@@ -1,5 +1,7 @@
 # B2B E-commerce
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 B2B (business-to-business) selling in WooCommerce is fundamentally different from B2C. Your buyers are companies, not individuals. They expect negotiated pricing, bulk discounts, purchase orders, and credit terms. WooCommerce can handle B2B, but it needs extensions — the core is built for consumer retail.
 
 ## B2B vs. B2C Differences
@@ -20,13 +22,13 @@ B2B (business-to-business) selling in WooCommerce is fundamentally different fro
 
 ### Plugin Options
 
-| Plugin | Approach | Cost |
-|--------|----------|------|
-| **Wholesale Suite** (Wholesale Prices) | Role-based wholesale pricing | Free / $149+ |
-| **B2BKing** | Full B2B suite | $139 (lifetime) |
-| **WooCommerce B2B** | Comprehensive B2B features | $129/year |
-| **YITH WooCommerce Role-Based Prices** | Price per role | $99/year |
-| **Discount Rules for WooCommerce** | Flexible pricing rules | Free / $69+ |
+| Plugin | Approach | Verify |
+|--------|----------|--------|
+| **Wholesale Suite** (Wholesale Prices) | Role-based wholesale pricing | Current feature split and license |
+| **B2BKing** | Full B2B suite | Current integrations and license |
+| **WooCommerce B2B** | Comprehensive B2B features | Current integrations and license |
+| **YITH WooCommerce Role-Based Prices** | Price per role | Current compatibility and license |
+| **Discount Rules for WooCommerce** | Flexible pricing rules | Current rule limits and license |
 
 ### Wholesale Suite (Most Popular)
 
@@ -85,11 +87,11 @@ For production use, a dedicated plugin handles edge cases (cart recalculation, d
 
 Many B2B transactions start with a quote, not a cart:
 
-| Plugin | Features | Cost |
-|--------|----------|------|
-| **YITH Request a Quote** | Replace "Add to Cart" with "Request Quote" | $99/year |
-| **B2BKing** | Quote system built into B2B suite | $139 (lifetime) |
-| **WooCommerce Request a Quote** (Addify) | Quote management, PDF quotes | $79 |
+| Plugin | Features | Verify |
+|--------|----------|--------|
+| **YITH Request a Quote** | Replace "Add to Cart" with "Request Quote" | Current compatibility and license |
+| **B2BKing** | Quote system built into B2B suite | Current integrations and license |
+| **WooCommerce Request a Quote** (Addify) | Quote management, PDF quotes | Current compatibility and license |
 
 ### Quote Workflow
 

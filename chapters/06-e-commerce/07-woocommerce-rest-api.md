@@ -1,5 +1,9 @@
 # WooCommerce REST API
 
+> Last reviewed: 2026-09
+> Tested with: Documentation review only; verify endpoints and permissions against the installed WooCommerce version.
+> Risk: High — write credentials can expose or change customer, product and order data.
+
 The WooCommerce REST API lets anything outside WordPress talk to your store—mobile apps, ERP systems, headless React frontends, inventory sync scripts. If it can make HTTP requests, it can manage your products, orders, and customers.
 
 ## API Overview
@@ -43,15 +47,9 @@ curl https://yoursite.com/wp-json/wc/v3/products \
   -u ck_xxx:cs_xxx
 ```
 
-**2. Query String (testing only)**
-
-```
-https://yoursite.com/wp-json/wc/v3/products?consumer_key=ck_xxx&consumer_secret=cs_xxx
-```
-
-**3. OAuth 1.0a (for non-HTTPS)**
-
-More complex, requires signature. Use a library.
+Do not put consumer secrets in query strings: URLs commonly appear in browser,
+proxy and server logs. Require HTTPS in every environment and use the
+authentication method documented for the installed WooCommerce version.
 
 ## Products API
 
@@ -421,30 +419,11 @@ POST /wp-json/wc/v3/products/batch
 
 ## Rate Limiting
 
-WooCommerce doesn't have built-in rate limiting, but you can add it:
-
-```php
-add_filter( 'rest_pre_dispatch', function( $result, $server, $request ) {
-    if ( strpos( $request->get_route(), '/wc/v3/' ) === false ) {
-        return $result;
-    }
-
-    $ip = $_SERVER['REMOTE_ADDR'];
-    $key = 'wc_api_rate_' . md5( $ip );
-    $count = get_transient( $key ) ?: 0;
-
-    if ( $count > 100 ) { // 100 requests per minute
-        return new WP_Error(
-            'rate_limit_exceeded',
-            'Too many requests',
-            array( 'status' => 429 )
-        );
-    }
-
-    set_transient( $key, $count + 1, MINUTE_IN_SECONDS );
-    return $result;
-}, 10, 3 );
-```
+Apply limits at the reverse proxy, API gateway or WAF where counters are atomic
+and client identity is trustworthy. Set limits per integration and route from
+measured traffic, return `429 Too Many Requests`, and document retry behavior.
+An in-process transient counter is not sufficient across multiple PHP workers
+or servers.
 
 ## PHP Client Example
 

@@ -1,5 +1,7 @@
 # Gutenberg Block Development
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Custom blocks let your plugin add content types that editors can drag, drop, and configure visually—pricing tables, testimonials, maps, anything that doesn't fit a paragraph or image. The development workflow is JavaScript-heavy (React under the hood) and the APIs evolve fast, so treat the official documentation as your source of truth for current syntax. This chapter covers the fundamentals that don't change: how blocks are structured, how they store data, and how they render on the frontend.
 
 ## Block Basics

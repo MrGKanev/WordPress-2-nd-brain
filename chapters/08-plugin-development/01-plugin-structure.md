@@ -1,8 +1,18 @@
 # Plugin Structure
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 WordPress will accept any PHP file with the right header comment as a plugin. One file, ten thousand files—both work. But how you organize code determines whether you can still understand it six months later.
 
 Start simple, add structure as needed. A single-file plugin that disables comments is perfectly fine. A WooCommerce extension with 30 features crammed into one file is not.
+
+## Theme or plugin?
+
+Keep presentation in the theme and behavior that must survive a theme change in
+a plugin. Site-specific functionality may live in the same repository, but custom
+post types, taxonomies, integrations and business rules still belong in a plugin
+when content or operations depend on them. Record deliberate exceptions so the
+next maintainer knows what will break when the theme changes.
 
 ## What Makes a WordPress Plugin?
 

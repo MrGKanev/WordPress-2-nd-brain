@@ -1,5 +1,9 @@
 # Payment Gateways
 
+> Last reviewed: 2026-09
+> Tested with: Documentation review only; verify gateway plugin, API and regional behavior in vendor sandboxes.
+> Risk: High — payment changes affect money, personal data, compliance and order state.
+
 Proper payment gateway setup is critical - mistakes here mean lost sales or security issues. This guide covers integration patterns, Stripe deep dive, webhooks, and handling edge cases like disputes and 3D Secure.
 
 ## How Payment Gateways Work
@@ -18,7 +22,9 @@ Webhook confirms payment (async)
 WooCommerce updates order status
 ```
 
-**Important:** The synchronous response is not always reliable. Webhooks are the authoritative source of payment status.
+**Important:** Do not treat the browser redirect as final proof of payment.
+Reconcile signed asynchronous gateway events idempotently with the gateway API
+and the order state.
 
 ## Types of Integrations
 
@@ -29,24 +35,11 @@ WooCommerce updates order status
 | **Hosted Fields** | High (tokenized) | Good (looks native) | Stripe Elements |
 | **Iframe** | High (sandboxed) | Medium | Braintree Drop-in |
 
-**Recommendation:** Use **Hosted Fields** (Stripe Elements) - it looks native to your site, but card data never touches your server. This approach satisfies PCI SAQ A-EP requirements without the full PCI DSS audit burden.
-
-## Popular Gateways Comparison
-
-| Gateway | Base Fee | Per Transaction | Best For |
-|---------|----------|-----------------|----------|
-| **Stripe** | None | 2.9% + $0.30 | Most stores |
-| **PayPal** | None | 2.9% + fixed | Buyer trust |
-| **Square** | None | 2.9% + $0.30 | Omnichannel |
-| **Authorize.net** | $25/month | 2.9% + $0.30 | Enterprise |
-| **Braintree** | None | 2.9% + $0.30 | PayPal integration |
-
-**Stripe** is generally recommended for:
-- Best developer experience
-- Excellent documentation
-- Radar fraud protection included
-- Easy subscription support
-- Strong European SCA support
+Prefer an official, maintained integration that tokenizes payment details in the
+gateway's hosted UI. PCI scope depends on the complete integration and business,
+not the widget name; confirm the applicable self-assessment questionnaire with
+the payment provider or a qualified assessor. Compare current regional pricing,
+payment methods, payout timing and dispute support on vendor sites.
 
 ---
 
@@ -244,7 +237,7 @@ Some payments can skip 3D Secure:
 
 | Exemption | When Applied |
 |-----------|--------------|
-| **Low value** | Transactions under €30 |
+| **Low value** | Transactions qualifying under the current regional rules |
 | **Recurring** | Subsequent subscription payments |
 | **Trusted merchant** | Customer whitelisted your business |
 | **Low risk** | Stripe Radar assessment |
@@ -360,7 +353,8 @@ if ( $stripe_customer_id ) {
 
 ## Disputes and Chargebacks
 
-Disputes cost money ($15 fee) and hurt your account standing. Handle them properly.
+Disputes can incur provider- and region-specific fees and affect account standing.
+Verify the current policy and handle them promptly.
 
 ### Monitoring Disputes
 
@@ -959,5 +953,6 @@ add_action( 'woocommerce_checkout_create_order', function( $order, $data ) {
 - [Checkout Customization](./04-checkout-customization.md) — Checkout flow modifications
 - [WooCommerce Performance](./03-woocommerce-performance.md) — Checkout speed optimization
 - [Stripe Documentation](https://stripe.com/docs/payments/accept-a-payment)
+- [Stripe integration security](https://docs.stripe.com/security/guide)
 - [PayPal Developer](https://developer.paypal.com/docs/checkout/)
 - [PCI DSS Requirements](https://www.pcisecuritystandards.org/)

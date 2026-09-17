@@ -1,5 +1,7 @@
 # WordPress SEO Optimization
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 This chapter covers the technical side of SEO—the things developers and site administrators control. We're not talking about keyword research or content strategy here. We're talking about making sure search engines can actually find, crawl, and understand your content.
 
 Technical SEO won't make bad content rank. But it stops good content from being invisible. A technically broken site with great articles is like a restaurant with amazing food and no front door.
@@ -93,5 +95,5 @@ This chapter focuses on technical SEO. For related topics, see:
 
 ## Further Reading
 
-- [WordPress Optimization](../04-performance/README.md) - Server and code performance
-- [Plugin Architecture](../08-plugin-development/README.md) - Building SEO-friendly plugins
+- [WordPress Optimization](../04-performance/) - Server and code performance
+- [Plugin Architecture](../08-plugin-development/) - Building SEO-friendly plugins

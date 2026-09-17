@@ -1,5 +1,7 @@
 # Compatibility Matrix & Upgrade Policy
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 WordPress projects are combinations of core, PHP, database, WooCommerce, plugins, themes and infrastructure. A compatibility matrix makes those combinations visible before an update becomes an emergency.
 
 ## What to Track

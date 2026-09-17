@@ -43,7 +43,8 @@ Briefly state the outcome and when this approach is appropriate.
 ```
 
 Do not add metadata that has not been verified. Existing pages will be migrated
-incrementally, starting with high-risk or fast-changing topics.
+incrementally, starting with high-risk or fast-changing topics. Until then they
+must carry the explicit `Review status: Unverified` marker; CI enforces this.
 
 ## Writing rules
 

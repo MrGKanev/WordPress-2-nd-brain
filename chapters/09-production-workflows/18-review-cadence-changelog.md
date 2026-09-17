@@ -1,5 +1,7 @@
 # Review Cadence & Operational Changelog
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Documentation stays useful only when it is reviewed as part of normal work. A lightweight cadence prevents version drift, unowned alerts and stale runbooks from accumulating until an incident exposes them.
 
 ## Suggested Cadence

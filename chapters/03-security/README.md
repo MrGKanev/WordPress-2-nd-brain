@@ -1,5 +1,7 @@
 # Security
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 WordPress runs 43% of the web. That makes it the biggest target on the internet. But here's the thing: most WordPress hacks are boring. They exploit plugins that haven't been updated in months, passwords that are "admin123", or servers that expose their PHP version to the world. Automated bots scan millions of sites and exploit whatever they find—nobody's personally targeting your site.
 
 The flip side: the solutions are equally boring. Keep everything updated, use strong passwords with 2FA, minimize your plugin surface area, and put a proper firewall in front. Defense in depth—multiple layers, each catching what the previous one missed.
@@ -246,6 +248,6 @@ Gaps in current coverage worth adding:
 
 ## Further Reading
 
-- [Plugin Architecture](../08-plugin-development/README.md) - Writing secure plugin code
+- [Plugin Architecture](../08-plugin-development/) - Writing secure plugin code
 - [Hosting Selection](../02-maintenance/02-hosting-selection.md) - Choosing secure hosting
 - [Tai Hoang's WordPress Security Guide](https://taihoang.com/articles/wordpress-security-in-good-hands/) - Comprehensive handbook on layered WordPress security

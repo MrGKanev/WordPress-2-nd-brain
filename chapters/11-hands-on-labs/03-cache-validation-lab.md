@@ -1,5 +1,7 @@
 # Lab: Validate a Cache Change
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 This lab verifies correctness before treating a cache change as a performance win. Use a staging URL and two separate browser profiles.
 
 ## Test Matrix

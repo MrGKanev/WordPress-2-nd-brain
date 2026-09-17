@@ -1,5 +1,7 @@
 # WordPress Plugin Architecture
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Plugins are how you extend WordPress without touching core. A plugin can be a single file that disables XML-RPC, or a 50,000-line application like WooCommerce. This chapter covers the fundamentals of building plugins that won't turn into maintenance nightmares—structure, hooks, database access, custom post types, AJAX, the REST API, i18n, and block development.
 
 ## Why Architecture Matters
@@ -157,5 +159,5 @@ This chapter assumes basic familiarity with:
 
 After this chapter, you'll be ready to explore:
 
-- [WordPress Optimization](../04-performance/README.md) - Making your plugins fast
-- [Security](../03-security/README.md) - Protecting your plugins from attacks
+- [WordPress Optimization](../04-performance/) - Making your plugins fast
+- [Security](../03-security/) - Protecting your plugins from attacks

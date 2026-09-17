@@ -1,5 +1,7 @@
 # Lab: Build a Site Plugin
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 This lab creates a small plugin for site-specific behavior. It demonstrates why business rules should not live in a theme and how to make a change easy to remove.
 
 ## Goal

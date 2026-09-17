@@ -1,5 +1,9 @@
 # Security Hardening with Cloudflare
 
+> Last reviewed: 2026-09
+> Tested with: Documentation review only; Cloudflare plans and dashboard controls change over time.
+> Risk: High — DNS, TLS and WAF changes can block users or expose the origin.
+
 Cloudflare sits between your visitors and your server, filtering malicious traffic before it reaches WordPress. This is fundamentally different from security plugins, which only act after the request has already reached your server and loaded PHP.
 
 ## Why Cloudflare Over Security Plugins?
@@ -379,7 +383,8 @@ Browser TTL: 1 week
 
 ### APO (Automatic Platform Optimization)
 
-Cloudflare APO ($5/month) caches entire HTML pages for WordPress:
+Cloudflare APO caches entire HTML pages for WordPress. Verify current plan
+availability and pricing before relying on it:
 
 1. Speed → Optimization → Automatic Platform Optimization
 2. Install Cloudflare plugin on WordPress
@@ -592,5 +597,6 @@ curl -s -X PATCH "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/settings
 - [Server Hardening](./02-server-hardening.md) — Origin server security
 - [Data Validation](./03-data-validation.md) — Application-level security
 - [Cloudflare WordPress Documentation](https://developers.cloudflare.com/support/third-party-software/content-management-system/wordpress/)
+- [Cloudflare Full (strict) mode](https://developers.cloudflare.com/ssl/origin-configuration/ssl-modes/full-strict/)
 - [Cloudflare WAF Documentation](https://developers.cloudflare.com/waf/)
 - [Cloudflare IP Ranges](https://www.cloudflare.com/ips/)

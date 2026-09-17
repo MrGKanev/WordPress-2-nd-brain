@@ -1,5 +1,7 @@
 # Operational Ownership & Service Catalog
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 A system with no named owner is difficult to improve and slow to recover. Operational ownership does not mean that one person performs every task; it means the team knows who makes decisions, receives alerts and maintains each critical capability.
 
 ## Service Catalog

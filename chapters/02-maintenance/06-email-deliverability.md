@@ -1,5 +1,7 @@
 # Email Deliverability
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 WordPress sends emails for password resets, order confirmations, contact forms, and admin notifications. Out of the box, most of them land in spam or vanish entirely.
 
 The reason: `wp_mail()` uses PHP's `mail()` function, which fires emails directly from your web server. No authentication, no DKIM signature, shared IP with every other site on that server. Gmail sees an unsigned email from a shared hosting IP and does the reasonable thing—ignores it.
@@ -78,7 +80,7 @@ FluentSMTP's email logging is particularly valuable—you can see exactly what W
 
 | Aspect | Details |
 |--------|---------|
-| Cost | Free core, Pro from $49/year |
+| Cost | Verify current free and paid features |
 | Providers | Similar to FluentSMTP plus dedicated integrations |
 | Features | Email logs (Pro), tracking (Pro), weekly reports (Pro) |
 | Installs | 3M+ |
@@ -104,15 +106,17 @@ The plugin routes email; the service delivers it. Choose based on volume, budget
 
 These specialize in application-generated email (password resets, order confirmations):
 
-| Service | Free Tier | Paid Pricing | Best For |
-|---------|-----------|--------------|----------|
-| **SendGrid** | 100/day | From $15/month | Most sites |
-| **Mailgun** | 5,000/month (3 months) | From $15/month | Developer-focused |
-| **Amazon SES** | 62,000/month (from EC2) | $0.10/1000 | High volume, AWS users |
-| **Postmark** | None | From $15/month | Deliverability-focused |
-| **Brevo (Sendinblue)** | 300/day | From €25/month | Marketing + transactional |
+| Service | Verify | Best For |
+|---------|--------|----------|
+| **SendGrid** | Current limits, region and support | General transactional mail |
+| **Mailgun** | Current limits, region and retention | Developer-focused workflows |
+| **Amazon SES** | Regional pricing, quotas and support | High volume on AWS |
+| **Postmark** | Current message tiers and retention | Transactional deliverability workflows |
+| **Brevo** | Transactional versus marketing limits | Combined marketing and transactional mail |
 
-**Recommendation for most sites**: SendGrid or Mailgun. Both have generous free tiers and excellent deliverability. Amazon SES offers the best pricing at scale but requires more setup.
+Run a deliverability trial with the site's real sending pattern. Compare domain
+authentication, regional processing, logs, suppression handling, support and
+current pricing rather than relying on a permanent default recommendation.
 
 ### Using Gmail/Microsoft 365
 
@@ -124,7 +128,7 @@ You can route WordPress emails through your existing email account:
 - Free if you already have the account
 
 **Cons:**
-- Daily sending limits (Gmail: 500/day, Google Workspace: 2000/day)
+- Daily sending limits vary by account type and provider policy
 - OAuth setup can be complex
 - Not designed for application email
 - May affect personal email reputation

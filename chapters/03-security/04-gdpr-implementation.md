@@ -1,5 +1,7 @@
 # GDPR Implementation
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 GDPR isn't optional if you have EU visitors. It's not even optional if you *might* have EU visitors. And since WordPress sites are globally accessible, that means you. The good news: WordPress has built-in tools for the basics. The bad news: most plugins ignore them, leaving gaps you need to fill.
 
 ## What GDPR Requires (Simplified)

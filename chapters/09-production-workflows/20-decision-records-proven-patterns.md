@@ -1,5 +1,7 @@
 # Decision Records & Proven Patterns
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Architecture decisions outlive the people who made them. A short decision record explains why a project uses a particular cache strategy, payment integration or hosting model, and what conditions would justify revisiting it.
 
 ## Architecture Decision Record (ADR)

@@ -1,5 +1,7 @@
 # Content Security Policy (CSP)
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Content Security Policy tells browsers which resources are allowed to load on your pages. It's the strongest defense against XSS attacks—even if an attacker injects a `<script>` tag, the browser refuses to execute it because it's not in the policy.
 
 The problem: WordPress and its plugin ecosystem make strict CSP challenging. Inline scripts, inline styles, and third-party resources are everywhere. This guide covers practical CSP implementation that works with real WordPress sites.

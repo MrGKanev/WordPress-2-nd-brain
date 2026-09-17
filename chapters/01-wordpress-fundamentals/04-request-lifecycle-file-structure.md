@@ -1,5 +1,7 @@
 # WordPress Request Lifecycle & File Structure
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Understanding the request lifecycle makes debugging less mysterious. A page is not rendered by one template file; WordPress loads configuration, plugins, the active theme and queried content in a defined order.
 
 ## Request Lifecycle

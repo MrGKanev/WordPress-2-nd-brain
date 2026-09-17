@@ -1,5 +1,7 @@
 # Theme Development
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Themes control how WordPress looks. They decide which template renders for a given URL, how posts are displayed, and what styles get applied. This chapter covers the practical fundamentals—template hierarchy, child themes, block themes, and accessibility—not a comprehensive theme building tutorial, but the knowledge you need to customize confidently without breaking things.
 
 ## Theme vs. Plugin: Where Does Code Belong?
@@ -481,7 +483,7 @@ wp_enqueue_style( 'handle', get_stylesheet_directory_uri() . '/style.css' );
 
 ## Further Reading
 
-- [Plugin Architecture](../08-plugin-development/README.md) - When to use plugins instead
+- [Plugin Architecture](../08-plugin-development/) - When to use plugins instead
 - [Block Development](../08-plugin-development/08-block-development.md) - Creating blocks for themes
 - [WordPress Theme Handbook](https://developer.wordpress.org/themes/) - Official documentation
 - [Theme Developer Checklist](https://developer.wordpress.org/themes/releasing-your-theme/required-theme-files/) - Requirements for WordPress.org

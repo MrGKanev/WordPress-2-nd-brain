@@ -1,5 +1,7 @@
 # WooCommerce Operations & Integrations
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 An online store continues working after a page response ends: payments update asynchronously, stock synchronizes with external systems and fulfilment services call webhooks. These workflows need the same care as checkout itself.
 
 ## Core Rules

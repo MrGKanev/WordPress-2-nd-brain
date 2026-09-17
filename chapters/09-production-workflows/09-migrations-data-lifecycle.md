@@ -1,5 +1,7 @@
 # Migrations & Data Lifecycle
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Moving a WordPress site involves more than copying files and tables. URLs, serialized data, media, environment configuration, scheduled jobs and third-party integrations must all be accounted for.
 
 ## Migration Plan

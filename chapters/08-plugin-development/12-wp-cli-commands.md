@@ -1,5 +1,7 @@
 # Custom WP-CLI Commands
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 WP-CLI lets you manage WordPress from the terminal. Adding custom commands to your plugin makes maintenance tasks scriptable, automatable, and faster than clicking through admin screens. Import 10,000 products? Run it from CLI. Clear your plugin's cache? One command. Debug a customer's order? Query it directly.
 
 ## When to Add CLI Commands

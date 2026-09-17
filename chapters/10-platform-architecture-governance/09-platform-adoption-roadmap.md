@@ -1,5 +1,7 @@
 # Platform Adoption Roadmap
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Do not try to introduce every engineering practice in one release. Start with the controls that reduce immediate risk, then make the process more automated as the team gains confidence.
 
 ## First 30 Days: Establish a Safe Baseline

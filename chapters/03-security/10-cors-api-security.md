@@ -1,5 +1,7 @@
 # CORS & API Security
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Cross-Origin Resource Sharing (CORS) is a browser policy controlled by HTTP response headers. It decides whether JavaScript from one origin may read a response from another; it does not replace authentication, authorization or server-side input validation.
 
 ## When CORS Is Needed

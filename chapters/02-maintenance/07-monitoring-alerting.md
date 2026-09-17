@@ -1,5 +1,7 @@
 # Monitoring & Alerting
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 You can't fix what you don't know is broken. Monitoring tells you when something goes wrong — ideally before users notice. The goal isn't dashboards for their own sake; it's getting the right alert to the right person at the right time.
 
 ## What to Monitor
@@ -89,11 +91,11 @@ Key dashboards for WordPress servers:
 
 APM tools trace individual requests through your application, showing exactly where time is spent:
 
-| Service | Cost | WordPress Integration |
+| Service | Plan details to verify | WordPress Integration |
 |---------|------|----------------------|
-| **New Relic** | Free tier (100GB/month) | PHP agent + WordPress plugin |
+| **New Relic** | Current ingest, retention and user limits | PHP agent + WordPress plugin |
 | **Query Monitor** | Free plugin | Development only (not production) |
-| **Perfmatters** | $24.95/year | Built-in performance tracking |
+| **Perfmatters** | Current license and feature scope | Built-in performance tracking |
 
 New Relic's PHP agent is the most thorough — it shows time spent in each function, database query timing, and external HTTP call latency. The free tier is generous for single-site monitoring.
 
@@ -129,11 +131,11 @@ The `debug.log` file grows unbounded. Manage it:
 
 For sites where you need more than log files:
 
-| Service | Cost | Features |
+| Service | Plan details to verify | Features |
 |---------|------|----------|
-| **Sentry** | Free (5K errors/month) | Stack traces, context, release tracking |
-| **Bugsnag** | Free (7.5K events/month) | Error grouping, breadcrumbs |
-| **Rollbar** | Free (5K events/month) | Real-time alerts, deploy tracking |
+| **Sentry** | Current event, retention and privacy limits | Stack traces, context, release tracking |
+| **Bugsnag** | Current event, retention and privacy limits | Error grouping, breadcrumbs |
+| **Rollbar** | Current event, retention and privacy limits | Real-time alerts, deploy tracking |
 
 ### WP-CLI Log Monitoring
 

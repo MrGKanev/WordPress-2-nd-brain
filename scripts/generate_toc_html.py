@@ -1,4 +1,5 @@
 """Generate a Table of Contents HTML from SUMMARY.md + print.html anchor IDs."""
+from html import escape
 import re
 import sys
 
@@ -60,6 +61,7 @@ def generate_html(entries, id_lookup):
         key = normalize(title)
         anchor = id_lookup.get(key, '')
         href = f'href="#{anchor}"' if anchor else ''
+        title = escape(title)
 
         if indent == 0:
             lines.append(

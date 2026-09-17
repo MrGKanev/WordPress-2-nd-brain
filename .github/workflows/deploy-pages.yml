@@ -28,6 +28,16 @@ jobs:
       - name: Set up Pages
         uses: actions/configure-pages@v5
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Verify generated table of contents
+        run: |
+          python3 scripts/generate_summary.py
+          git diff --exit-code -- SUMMARY.md
+
       - name: Install pinned mdBook version
         shell: bash
         run: |
@@ -42,6 +52,9 @@ jobs:
 
       - name: Build HTML book
         run: mdbook build
+
+      - name: Validate local links
+        run: python3 scripts/check_markdown_links.py --html book
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

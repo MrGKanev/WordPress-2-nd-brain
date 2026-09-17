@@ -1,5 +1,7 @@
 # Lab: Rehearse a Release & Rollback
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 This lab turns a release checklist into a safe rehearsal. Use staging and a harmless version change such as a visible template string or a non-critical plugin release.
 
 ## Before the Rehearsal

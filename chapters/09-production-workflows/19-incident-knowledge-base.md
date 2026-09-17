@@ -1,5 +1,7 @@
 # Incident Knowledge Base
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Postmortems describe a single event. An incident knowledge base turns repeated lessons into faster future response. It should be searchable, concise and grounded in verified evidence rather than folklore.
 
 ## What to Capture

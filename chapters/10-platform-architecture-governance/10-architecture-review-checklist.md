@@ -1,5 +1,7 @@
 # Architecture Review Checklist
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Use this checklist before a new major feature, host move, commerce integration, headless frontend or large redesign. The purpose is to expose assumptions early, not to delay ordinary content work.
 
 ## Problem and Scope

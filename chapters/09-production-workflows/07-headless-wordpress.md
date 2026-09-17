@@ -1,5 +1,7 @@
 # Headless WordPress
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Headless WordPress uses WordPress as a content and commerce backend while a separate frontend renders the visitor experience. It can improve frontend flexibility, but it also moves familiar WordPress features—preview, caching, authentication and routing—into custom architecture.
 
 ## When It Fits

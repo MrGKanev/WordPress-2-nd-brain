@@ -1,5 +1,7 @@
 # Performance Optimization for SEO
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Google has been saying "speed matters" for years. Core Web Vitals are used in Google's ranking systems, but this is not about chasing a perfect PageSpeed score or expecting a guaranteed ranking boost. It is about delivering a better experience, meeting useful thresholds and avoiding performance as a competitive disadvantage.
 
 For the actual implementation details (OPcache, image compression, lazy loading), see [Core Web Vitals Optimization](../04-performance/08-core-web-vitals-optimizations.md). This section focuses on *why* specific performance metrics matter for search rankings.

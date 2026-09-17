@@ -1,5 +1,7 @@
 # Tax Compliance
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Tax is the part of e-commerce nobody enjoys but everybody needs. Get it wrong and you're either overcharging customers (lost sales) or undercharging them (you owe the difference). The complexity multiplies when you sell across borders—different rates, different rules, different reporting requirements.
 
 ## Tax Fundamentals for WooCommerce
@@ -53,7 +55,7 @@ You only need to collect sales tax in states where you have "nexus"—a signific
 | Nexus Type | Examples |
 |-----------|---------|
 | **Physical** | Office, warehouse, employees in the state |
-| **Economic** | $100K+ in sales or 200+ transactions in the state (varies) |
+| **Economic** | State-specific sales, revenue or transaction thresholds that change over time |
 | **Marketplace** | Selling on Amazon/eBay (marketplace handles tax) |
 
 After the 2018 Supreme Court ruling (*South Dakota v. Wayfair*), most states can require collection based on economic nexus alone.
@@ -62,14 +64,17 @@ After the 2018 Supreme Court ruling (*South Dakota v. Wayfair*), most states can
 
 Manual tax rates for the US are impractical. Use an automated service:
 
-| Service | Cost | Integration |
-|---------|------|------------|
-| **WooCommerce Tax** (powered by Jetpack) | Free | Built into WooCommerce |
-| **TaxJar** | From $19/month | WooCommerce plugin, auto-filing |
-| **Avalara AvaTax** | Custom pricing | Enterprise, auto-calculation and filing |
-| **TaxCloud** | Free (for basic) | API-based, supports exemptions |
+| Service | Verify | Integration |
+|---------|--------|------------|
+| **WooCommerce Tax** | Current eligibility, coverage and account requirements | WooCommerce integration |
+| **TaxJar** | Current calculation/filing coverage and pricing | WooCommerce plugin, auto-filing |
+| **Avalara AvaTax** | Current jurisdiction coverage and pricing | Enterprise calculation and filing |
+| **TaxCloud** | Current state coverage, filing scope and pricing | API-based, supports exemptions |
 
-**WooCommerce Tax** is free and handles rate calculation automatically via Jetpack's tax API. It's sufficient for most small-medium US stores. TaxJar adds automated filing and reporting.
+Tax services differ in jurisdiction coverage, filing responsibility, exemption
+handling and evidence retention. Confirm scope with the vendor and a qualified
+tax adviser; installing a calculator does not transfer the merchant's legal
+responsibility automatically.
 
 ## EU VAT
 
@@ -78,9 +83,9 @@ Manual tax rates for the US are impractical. Use an automated service:
 | Scenario | Rule |
 |----------|------|
 | **Sell physical goods within your country** | Charge your country's VAT rate |
-| **Sell physical goods to EU consumers** | Charge your country's rate (under €10,000 threshold) |
-| **Sell physical goods above threshold** | Register for OSS, charge customer's country rate |
-| **Sell digital products to EU consumers** | Always charge customer's country rate (no threshold) |
+| **Sell physical goods to EU consumers** | Apply current destination-VAT and OSS rules for the merchant's circumstances |
+| **Cross the applicable distance-sales threshold** | Assess OSS registration and destination-country rates |
+| **Sell digital products to EU consumers** | Apply the current digital-services VAT rules |
 | **Sell to EU businesses with valid VAT number** | 0% (reverse charge mechanism) |
 
 ### One-Stop Shop (OSS)

@@ -1,5 +1,7 @@
 # Production Observability
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Monitoring tells you that a service is down. Observability helps explain why a specific request, checkout or background task is slow or failing.
 
 ## Signals to Collect

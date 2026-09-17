@@ -1,5 +1,7 @@
 # Privacy & Data Governance
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Privacy work begins with knowing what data exists, why it is processed, where it goes and how long it remains accessible. A privacy policy alone does not answer these operational questions.
 
 ## Data Map

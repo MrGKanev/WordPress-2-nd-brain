@@ -50,23 +50,23 @@ with the path closest to the work you are doing.
 
 ### I maintain a WordPress site
 
-Start with [WordPress Fundamentals](chapters/01-wordpress-fundamentals/README.md), then read [Maintenance](chapters/02-maintenance/README.md) and [Security](chapters/03-security/README.md). Use the Performance and SEO chapters when a measured problem or goal requires them.
+Start with [WordPress Fundamentals](chapters/01-wordpress-fundamentals/), then read [Maintenance](chapters/02-maintenance/) and [Security](chapters/03-security/). Use the Performance and SEO chapters when a measured problem or goal requires them.
 
 ### I build client sites
 
-Read Fundamentals, [Theme Development](chapters/07-theme-development/README.md), Maintenance, Security and [WordPress Optimization](chapters/04-performance/README.md). Before launch, use the checklists in the maintenance and security introductions.
+Read Fundamentals, [Theme Development](chapters/07-theme-development/), Maintenance, Security and [WordPress Optimization](chapters/04-performance/). Before launch, use the checklists in the maintenance and security introductions.
 
 ### I build plugins or integrations
 
-Read Fundamentals, [WordPress Plugin Architecture](chapters/08-plugin-development/README.md) and Security first. Add [E-commerce with WordPress](chapters/06-e-commerce/README.md) when the plugin touches WooCommerce.
+Read Fundamentals, [WordPress Plugin Architecture](chapters/08-plugin-development/) and Security first. Add [E-commerce with WordPress](chapters/06-e-commerce/) when the plugin touches WooCommerce.
 
 ### I need to improve an existing site
 
-Measure before changing anything. Begin with the debugging and profiling material in [WordPress Optimization](chapters/04-performance/README.md), then make the smallest targeted change and test it on staging.
+Measure before changing anything. Begin with the debugging and profiling material in [WordPress Optimization](chapters/04-performance/), then make the smallest targeted change and test it on staging.
 
 ### I need a practical exercise
 
-Use [Hands-On Labs](chapters/11-hands-on-labs/README.md) for small, repeatable exercises covering site plugins, webhook processing, cache correctness and release verification.
+Use [Hands-On Labs](chapters/11-hands-on-labs/) for small, repeatable exercises covering site plugins, webhook processing, cache correctness and release verification.
 
 ## Reliability Notes
 

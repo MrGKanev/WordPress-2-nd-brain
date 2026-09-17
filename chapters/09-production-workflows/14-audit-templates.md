@@ -1,5 +1,7 @@
 # Audit Templates
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Audits turn a broad concern into evidence, findings and owned follow-up work. Use these templates as a starting point; tailor the depth to the site's risk and complexity.
 
 ## Performance Audit

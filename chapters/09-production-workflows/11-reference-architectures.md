@@ -1,5 +1,7 @@
 # Reference Architectures
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Reference architectures turn principles into a starting point that a team can review, adapt and operate. They are not vendor prescriptions: the right design depends on traffic, data sensitivity, editor workflow, budget and the cost of downtime.
 
 ## 1. Small Editorial Site

@@ -1,5 +1,7 @@
 # Plugin Testing
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Untested code is code you hope works. Tested code is code you know works. WordPress plugin testing isn't glamorous, but it catches bugs before users do—especially the subtle ones that only appear when WooCommerce is active, or when the site runs PHP 8.2, or when another plugin filters the same hook.
 
 ## Testing Levels

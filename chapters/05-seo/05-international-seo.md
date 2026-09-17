@@ -1,5 +1,7 @@
 # International SEO
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Serving content in multiple languages or targeting multiple countries requires more than translating text. Search engines need explicit signals about which language and region each page targets, and incorrect implementation can split your authority across duplicate versions or show the wrong language to visitors.
 
 ## Hreflang Tags
@@ -50,13 +52,13 @@ Language codes use ISO 639-1 (two-letter). Region codes use ISO 3166-1 Alpha 2. 
 
 ### Plugin Comparison
 
-| Plugin | Approach | Cost | Best For |
-|--------|----------|------|----------|
-| **WPML** | Separate posts per language | $39-$159/year | Established sites, full translation control |
-| **Polylang** | Separate posts per language | Free / $99+/year (Pro) | Budget-conscious, simpler needs |
-| **TranslatePress** | Visual translation on frontend | Free / $89+/year | Non-technical users, visual editing |
-| **Weglot** | SaaS-based auto-translation | From $15/month | Quick setup, low maintenance |
-| **MultilingualPress** | Multisite-based (separate site per language) | $199+/year | Enterprise, full separation |
+| Plugin | Approach | Operational trade-off | Best For |
+|--------|----------|-----------------------|----------|
+| **WPML** | Separate posts per language | Verify current add-on and translation-service requirements | Established sites, full translation control |
+| **Polylang** | Separate posts per language | Verify which workflow features require a paid plan | Simpler editorial workflows |
+| **TranslatePress** | Visual translation on frontend | Verify language and automation limits | Visual editing workflows |
+| **Weglot** | SaaS-based auto-translation | Recurring service, word and language limits | Quick managed setup |
+| **MultilingualPress** | Multisite-based (separate site per language) | Multisite operational overhead | Enterprise separation |
 
 ### WPML
 

@@ -1,5 +1,7 @@
 # Advanced Plugin Engineering
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 As a custom plugin grows, organize it around clear services and boundaries rather than a large collection of hooks in one file. Good structure makes features testable, upgrade-safe and easier to disable or replace.
 
 ## Suggested Structure

@@ -1,5 +1,7 @@
 # WooCommerce Fundamentals
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Understanding WooCommerce architecture will save you hours of debugging. Here's the knowledge that's usually learned the hard way.
 
 ## Architectural Philosophy

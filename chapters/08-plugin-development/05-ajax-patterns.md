@@ -1,5 +1,7 @@
 # AJAX Patterns in WordPress
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Any time your plugin needs to talk to the server without a full page reload—loading more posts, submitting a form, running a live search—you're doing AJAX. WordPress routes these requests through `admin-ajax.php`, a system that's been around since WordPress 2.1. It's not elegant, but it's reliable and every WordPress developer needs to know how it works.
 
 ## How WordPress AJAX Works

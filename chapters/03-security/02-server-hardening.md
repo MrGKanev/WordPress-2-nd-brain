@@ -1,5 +1,9 @@
 # Server-Level Security Hardening
 
+> Last reviewed: 2026-09
+> Tested with: Documentation review only; paths, service users and firewall rules require staging validation.
+> Risk: High — permission, web-server and firewall changes can lock out operators or take the site offline.
+
 Security implemented at the server level stops attacks before they reach PHP, making it far more efficient than plugin-based solutions.
 
 ## Why Server-Level Security Matters
@@ -101,13 +105,12 @@ WordPress is a PHP application that runs under your web server's user account (t
 ### Standard Permission Setup
 
 ```bash
-# Set ownership to web server user
-# All files should be owned by www-data so the web server can read them
-sudo chown -R www-data:www-data /var/www/wordpress
+# Keep code owned by the deployment account, readable by the web-server group.
+# Replace deploy and www-data with the accounts used by your host.
+sudo chown -R deploy:www-data /var/www/wordpress
 
 # Files: 644 (owner read/write, everyone else read-only)
-# This allows www-data to read PHP files but prevents modification
-# except through legitimate channels (FTP, SSH, deployment tools)
+# This allows the web server to read code without owning or modifying it.
 sudo find /var/www/wordpress -type f -exec chmod 644 {} \;
 
 # Directories: 755 (owner full access, everyone else read/execute)
@@ -115,14 +118,19 @@ sudo find /var/www/wordpress -type f -exec chmod 644 {} \;
 # Without execute, you can't cd into a directory or list its files
 sudo find /var/www/wordpress -type d -exec chmod 755 {} \;
 
-# wp-config.php: 400 (owner read-only, no one else)
-# This file contains database credentials and security keys
-# It never needs to be written to during normal operation
-# 400 is the most restrictive permission that still works
-sudo chmod 400 /var/www/wordpress/wp-config.php
+# Grant the web-server group write access only where WordPress stores media.
+sudo chown -R deploy:www-data /var/www/wordpress/wp-content/uploads
+sudo find /var/www/wordpress/wp-content/uploads -type d -exec chmod 2775 {} \;
+sudo find /var/www/wordpress/wp-content/uploads -type f -exec chmod 664 {} \;
+
+# wp-config.php must remain readable by the PHP-FPM account.
+sudo chmod 640 /var/www/wordpress/wp-config.php
 ```
 
-**Why 400 for wp-config.php?** This file contains your database password, authentication keys, and security salts. If an attacker can read this file, they have your database credentials. If they can write to it, they can add malicious code that executes on every page load. The `400` permission means only the file owner (www-data) can read it, and even the owner can't write to it without first changing permissions.
+Grant write access only to directories that actually need it, commonly
+`wp-content/uploads` and host-specific cache directories. Exact ownership varies
+by deployment model; confirm effective access with the PHP-FPM user before ending
+the maintenance window.
 
 ### Permission Reference
 
@@ -130,9 +138,9 @@ sudo chmod 400 /var/www/wordpress/wp-config.php
 |------|------------|---------|-----|
 | Files | 644 | Owner read/write, others read | Web server can read PHP to execute, but can't modify |
 | Directories | 755 | Owner all, others read/traverse | Web server can list and enter directories |
-| wp-config.php | 400 | Owner read only | Maximum protection for credentials |
+| wp-config.php | 640 | Owner read/write, server group read | PHP can read credentials without public access |
 | .htaccess | 644 | Owner read/write, others read | Apache needs to read, shouldn't be modified |
-| uploads/ | 755 | Owner all, others read/traverse | WordPress writes uploaded files here |
+| uploads/ | 2775 dirs, 664 files | Deployment owner and server group can write | WordPress can store media without write access to application code |
 
 ## wp-config.php Hardening
 
@@ -410,10 +418,6 @@ add_header X-Frame-Options "SAMEORIGIN" always;
 # served as text/plain, enabling certain XSS attacks
 add_header X-Content-Type-Options "nosniff" always;
 
-# X-XSS-Protection: Legacy XSS filter (mostly for older browsers)
-# Modern browsers have built-in XSS protection, but this doesn't hurt
-add_header X-XSS-Protection "1; mode=block" always;
-
 # Referrer-Policy: Controls what information is sent in the Referer header
 # "strict-origin-when-cross-origin" means:
 # - Full URL sent for same-origin requests
@@ -440,10 +444,11 @@ If MySQL is running but port 3306 is firewalled, attackers can't connect to your
 
 UFW is Ubuntu/Debian's default firewall management tool. It's a frontend for the more complex `iptables`:
 
-```bash
-# Reset removes all existing rules (careful on production!)
-sudo ufw reset
+Do not reset a remote server's firewall during routine hardening. Keep the
+current SSH session open, allow the verified SSH port first, and arrange
+console access or a provider recovery path before enabling new rules.
 
+```bash
 # Default policies:
 # Deny incoming = block all inbound traffic unless explicitly allowed
 # Allow outgoing = let the server make outbound connections (updates, APIs)
@@ -652,4 +657,5 @@ Regular audits catch problems before attackers do. Schedule these reviews:
 - [Cloudflare Hardening](./01-cloudflare-hardening.md) - Network-level protection with WAF rules and DDoS mitigation
 - [wp-config.php Optimization](../04-performance/01-wp-config-optimization.md) - Performance settings that also affect security
 - [Hosting Selection](../02-maintenance/02-hosting-selection.md) - Choosing hosts with good security practices
+- [Hardening WordPress](https://developer.wordpress.org/advanced-administration/security/hardening/) - Official WordPress guidance
 - [Tai Hoang's WordPress Security Guide](https://taihoang.com/articles/wordpress-security-in-good-hands/) - Comprehensive handbook on layered WordPress security that informed this guide

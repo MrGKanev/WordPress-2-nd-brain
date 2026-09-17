@@ -10,6 +10,13 @@ import re
 from pathlib import Path
 import argparse
 
+PROJECT_PAGES = (
+    "CONTRIBUTING.md",
+    "EDITORIAL-GUIDE.md",
+    "EDITORIAL-REVIEW-BACKLOG.md",
+    "CHANGELOG.md",
+)
+
 def extract_title(file_path):
     """Extract the title from a markdown file (first # heading)."""
     try:
@@ -85,6 +92,11 @@ def generate_summary(book_root, output_file, exclude=None, indent_level=0):
                         section_title = extract_title(md_file)
                         section_path = md_file.relative_to(book_root)
                         content.append(f"  * [{section_title}]({section_path})\n")
+
+        for filename in PROJECT_PAGES:
+            page = book_root / filename
+            if page.exists():
+                content.append(f"* [{extract_title(page)}]({filename})\n")
     else:
         # If no chapters directory, just find all markdown files in the root
         md_files = sorted([f for f in book_root.glob('*.md') 

@@ -1,5 +1,7 @@
 # Installation, Configuration & Environments
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 A WordPress installation becomes maintainable when code, configuration and content are treated differently. Code should be repeatable, configuration should vary safely by environment, and content should be backed up and migrated deliberately.
 
 ## Environment Model

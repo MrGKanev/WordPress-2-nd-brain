@@ -1,5 +1,7 @@
 # Core Web Vitals Optimization
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Core Web Vitals are Google's user experience metrics for loading, interactivity and visual stability. Google uses them in its ranking systems, but passing the thresholds does not guarantee a higher position: relevant, helpful content and the wider page experience still matter. Unlike general performance scores, these metrics measure what users actually experience.
 
 ## Understanding Core Web Vitals
@@ -652,9 +654,9 @@ After each change:
 
 | Plugin | Strength | Caveat |
 |--------|----------|--------|
-| **WP Rocket** | All-in-one, Critical CSS, delay JS | Paid ($59/year) |
-| **FlyingPress** | INP-focused, lighter | Paid ($60/year) |
-| **Perfmatters** | Granular script control | Paid ($24.95/year) |
+| **WP Rocket** | All-in-one, Critical CSS, delay JS | Verify current license and feature scope |
+| **FlyingPress** | INP-focused, lighter | Verify current license and feature scope |
+| **Perfmatters** | Granular script control | Verify current license and feature scope |
 | **LiteSpeed Cache** | Free, requires LiteSpeed server | Server-specific |
 | **W3 Total Cache** | Free, highly configurable | Complex setup |
 

@@ -1,5 +1,7 @@
 # Benchmarking & Capacity Planning
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Performance work needs a baseline. A benchmark without a defined scenario, environment and success criterion cannot show whether a change helped or merely moved work elsewhere.
 
 ## Define Representative Scenarios

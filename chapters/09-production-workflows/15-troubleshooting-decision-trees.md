@@ -1,5 +1,7 @@
 # Troubleshooting Decision Trees
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Decision trees prevent a stressful incident from becoming random configuration changes. Start with user impact, collect evidence, change one variable at a time and preserve a recovery path.
 
 ## Site Is Slow

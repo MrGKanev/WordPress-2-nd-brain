@@ -1,5 +1,9 @@
 # PHP-FPM Optimization for Low-Resource VPS
 
+> Last reviewed: 2026-09
+> Tested with: Documentation review only; measure process memory and load-test staging before applying values.
+> Risk: High — an undersized or oversized pool can cause timeouts, swapping or an outage.
+
 PHP-FPM manages the pool of PHP processes that handle your WordPress requests. Get the settings wrong and you either waste RAM on idle processes or run out of workers during traffic spikes. On a 2-core VPS with 4GB RAM, every process counts.
 
 ## Process Manager Selection
@@ -14,7 +18,8 @@ PHP-FPM offers three process management methods:
 
 ### ondemand Configuration
 
-For a 2-core VPS with 4GB RAM (like in the case study), the `ondemand` process manager is ideal:
+For a low-traffic 2-core VPS with 4GB RAM, `ondemand` is a reasonable starting
+candidate. Compare it with `dynamic` under representative traffic before choosing:
 
 ```ini
 ; Set in /etc/php/8.x/fpm/pool.d/www.conf

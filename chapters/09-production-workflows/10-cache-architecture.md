@@ -1,5 +1,7 @@
 # Cache Architecture & Invalidation
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Caching is an architecture decision across browser, CDN, page, object and database layers. The hard part is defining who may receive a cached response and exactly when it becomes invalid.
 
 ## Cache Design Questions

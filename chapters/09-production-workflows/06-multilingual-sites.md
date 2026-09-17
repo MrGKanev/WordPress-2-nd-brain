@@ -1,5 +1,7 @@
 # Multilingual WordPress Sites
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Multilingual projects need a source-of-truth language, a translation workflow and consistent URLs—not just a language switcher. Content, media, menus, strings, SEO metadata and WooCommerce data all need an explicit ownership model.
 
 ## Design Decisions

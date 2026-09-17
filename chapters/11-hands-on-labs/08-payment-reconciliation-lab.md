@@ -1,5 +1,7 @@
 # Lab: Reconcile WooCommerce Payments
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 This lab compares WooCommerce orders with a payment provider's sandbox records after a controlled test run. It demonstrates why retries and refunds must be reconciled rather than guessed.
 
 ## Prepare Test Cases

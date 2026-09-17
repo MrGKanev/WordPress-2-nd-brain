@@ -1,5 +1,7 @@
 # WordPress Coding Standards
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 WordPress has official coding standards for PHP, JavaScript, HTML, and CSS. Following them isn't about style preferences — it's about writing code that other WordPress developers can read, review, and maintain. If you submit to WordPress.org or contribute to core, these are mandatory. Even for private projects, they catch real bugs.
 
 ## Why Standards Matter

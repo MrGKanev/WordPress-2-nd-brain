@@ -1,5 +1,7 @@
 # Debugging & Profiling Tools
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Don't guess at performance problems. A site slow because of a bad database query won't get faster from image optimization. Profile first, then fix what the data tells you to fix. This section covers the tools that show you exactly where time is being wasted.
 
 ## WordPress Debug Mode

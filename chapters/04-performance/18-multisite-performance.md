@@ -1,5 +1,7 @@
 # Multisite Performance
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Running 50 sites from one WordPress installation sounds efficient—until `switch_to_blog()` calls start stacking up, the global `wp_users` table hits a million rows, and your object cache keys collide across sites. Multisite has performance traps that single-site installations never encounter.
 
 ## Multisite Architecture

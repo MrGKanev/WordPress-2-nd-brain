@@ -1,5 +1,7 @@
 # OWASP Threat Modeling for WordPress
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 The OWASP Top 10 is an awareness framework, not a WordPress configuration checklist. Use it to ask how a feature could be misused, which data would be affected and what control reduces the risk before code is deployed.
 
 ## Map Common Risks to WordPress Work

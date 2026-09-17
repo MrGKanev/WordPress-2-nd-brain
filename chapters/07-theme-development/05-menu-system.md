@@ -1,5 +1,7 @@
 # Menu System Deep Dive
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 WordPress's menu system handles everything from simple navigation bars to complex mega menus. It's built on `wp_nav_menu()`, a deceptively simple function that outputs navigation HTML. The real power (and complexity) comes from walker classes and the various filters available at each rendering stage.
 
 ## Registering Menu Locations

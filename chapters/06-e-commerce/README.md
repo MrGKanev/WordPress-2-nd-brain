@@ -1,5 +1,7 @@
 # E-commerce with WordPress
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 A practical guide to building and optimizing online stores with WordPress and WooCommerce.
 
 ## Why WooCommerce?

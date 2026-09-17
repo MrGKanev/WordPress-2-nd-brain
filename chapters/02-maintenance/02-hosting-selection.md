@@ -1,5 +1,7 @@
 # Hosting Selection and Optimization
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Your hosting is the foundation of WordPress performance. No amount of optimization, caching, or plugin tuning can fix a slow server. If your server takes 500ms to respond before WordPress even starts processing, you've already lost half a second before any code runs.
 
 This guide covers how to choose hosting, when to upgrade, and how to migrate without downtime.
@@ -11,7 +13,7 @@ This guide covers how to choose hosting, when to upgrade, and how to migrate wit
 Multiple websites share one server's resources (CPU, RAM, disk).
 
 **Pros:**
-- Cheapest option ($3-15/month)
+- Usually the lowest entry price; verify renewal and resource limits
 - No server management required
 - Sufficient for small, low-traffic sites
 
@@ -35,7 +37,7 @@ WordPress-optimized environment with specialized support and features.
 - Better performance than shared hosting
 
 **Cons:**
-- Higher cost ($15-100+/month)
+- Higher cost tied to traffic, storage, sites and support scope
 - May restrict certain plugins
 - Less flexibility for non-WordPress needs
 
@@ -68,7 +70,7 @@ An entire physical server exclusively for your sites.
 - No shared resources or noisy neighbors
 
 **Cons:**
-- High cost ($100-500+/month)
+- Higher cost tied to hardware, management and compliance scope
 - Full responsibility for management
 - Overkill for most WordPress sites
 
@@ -95,38 +97,36 @@ Scalable infrastructure with pay-as-you-go pricing.
 
 ## Provider Comparison Matrix
 
+Vendor plans, ownership and regional availability change frequently. The table
+deliberately omits prices; verify current limits and renewal terms directly.
+
 ### Managed WordPress Hosting
 
-| Provider | Starting Price | Strengths | Weaknesses | Best For |
-|----------|---------------|-----------|------------|----------|
-| **Kinsta** | $35/month | Google Cloud infrastructure, excellent support, dev tools | Expensive for small sites | Agencies, high-traffic sites |
-| **WP Engine** | $20/month | Reliable, good staging, strong security | Can be slow to adopt new PHP | Enterprise, agencies |
-| **Cloudways** | $11/month | Flexible (choose cloud provider), good performance | Less WordPress-specific than competitors | Developers wanting managed cloud |
-| **Flywheel** | $13/month | Designer-focused, beautiful dashboard | Owned by WP Engine, limited plans | Designers, small agencies |
-| **SiteGround** | $15/month | Good support, easy staging | Performance varies by plan | Small businesses, beginners |
-| **Rocket.net** | $25/month | Cloudflare Enterprise included, fast | Newer provider, smaller track record | Performance-focused sites |
+| Provider | Verify before choosing | Best For |
+|----------|------------------------|----------|
+| **Kinsta** | Current limits, overages, regions and support scope | Managed WordPress operations |
+| **WP Engine / Flywheel** | Product differences, limits and supported workflows | Agencies and managed sites |
+| **Cloudways** | Underlying provider, support boundary and backup policy | Managed cloud flexibility |
+| **SiteGround** | Renewal terms, resource limits and staging features | Smaller managed sites |
+| **Rocket.net** | Regions, included edge services and support scope | Edge-cached WordPress sites |
 
 ### VPS / Cloud Providers
 
-| Provider | Starting Price | Strengths | Weaknesses | Best For |
-|----------|---------------|-----------|------------|----------|
-| **DigitalOcean** | $6/month | Simple, predictable pricing, good docs | Basic support | Developers, small projects |
-| **Vultr** | $6/month | Many locations, high-frequency CPUs | Dashboard less polished | Performance-focused VPS |
-| **Linode** | $5/month | Reliable, good support | Fewer features than competitors | Budget VPS |
-| **Hetzner** | €4/month | Excellent price/performance | EU locations only (mostly) | European sites, budget |
-| **AWS Lightsail** | $5/month | AWS integration, predictable pricing | Limited compared to full AWS | AWS ecosystem users |
+| Provider | Verify before choosing | Best For |
+|----------|------------------------|----------|
+| **DigitalOcean / Vultr / Akamai Cloud** | Regions, backups, transfer and support | General-purpose VPS hosting |
+| **Hetzner** | Available regions, support and data-location needs | Cost-sensitive European workloads |
+| **AWS Lightsail** | Transfer limits and integration requirements | Teams already operating on AWS |
 
 ### Budget Shared Hosting (Use with Caution)
 
-| Provider | Verdict | Notes |
-|----------|---------|-------|
-| **GoDaddy** | ⚠️ Avoid | Oversells servers, aggressive upselling, poor support |
-| **Bluehost** | ⚠️ Avoid | Owned by EIG, performance issues, misleading pricing |
-| **HostGator** | ⚠️ Avoid | EIG-owned, same issues as Bluehost |
-| **SiteGround** | ✅ Acceptable | One of the better shared options |
-| **Namecheap** | ✅ Acceptable | Decent shared hosting, reasonable pricing |
+Do not choose from a static blacklist. Test support response, backups, restore
+access, staging, resource limits, renewal terms and cancellation/export before
+committing production data.
 
-**Note:** Many "top hosting" lists are affiliate-driven. Research actual user experiences on Reddit r/webhosting and WordPress forums.
+Treat affiliate rankings and unsourced provider comparisons as marketing, not
+operational evidence. Run a small representative site through a restore and
+support exercise before committing.
 
 ---
 
@@ -508,7 +508,7 @@ staging.yourdomain.com → separate WordPress install
 
 ### Contract Gotchas
 
-- **Renewal pricing** — Many hosts advertise $3/month but renew at $15/month
+- **Renewal pricing** — Introductory and renewal prices may differ substantially
 - **"Free domain" lock-in** — Domain transfer fees if you leave
 - **Backup charges** — "Backups included" but restoration costs extra
 - **Resource limits** — "Unlimited" hosting with hidden CPU/memory caps

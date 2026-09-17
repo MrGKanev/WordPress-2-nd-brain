@@ -1,4 +1,6 @@
 .DS_Store
 /book
+/book.pdf
+__pycache__/
 *.txt
 /.playwright-mcp

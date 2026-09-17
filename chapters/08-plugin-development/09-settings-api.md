@@ -1,5 +1,7 @@
 # Settings API
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Every non-trivial plugin needs a settings page. WordPress provides a structured API for this—`register_setting()`, `add_settings_section()`, `add_settings_field()`. It handles sanitization, nonce verification, and option storage automatically. The alternative—building forms from scratch with `$_POST` handling—is more code, more bugs, and more security surface.
 
 ## When to Use the Settings API

@@ -1,5 +1,7 @@
 # Lab: Run a Safe WP-CLI URL Migration
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 This lab rehearses a common migration operation without corrupting serialized WordPress data. Run it on staging first and take a verified backup before any non-dry-run command.
 
 ## Dry Run

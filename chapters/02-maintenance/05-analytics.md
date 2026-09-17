@@ -1,5 +1,7 @@
 # Analytics for WordPress
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 You need to know what's happening on your site. The question is how much you need to know, and what you're willing to trade for that knowledge—your visitors' privacy, your page load speed, your legal compliance.
 
 Google Analytics is the default choice, but it's increasingly the wrong one. EU regulators have declared it illegal without explicit consent, consent banners tank your opt-in rates, and the 45KB tracking script slows your pages for data you probably never look at. There are better options now.
@@ -107,7 +109,8 @@ Plausible is a paid service that provides clean, focused analytics:
 - EU-hosted option available
 - Simple dashboard focused on actionable metrics
 
-Cost: From €9/month. Worth it if you value simplicity and don't want to manage infrastructure.
+Check current pricing, retention and data-processing terms. It is useful when
+you value simplicity and do not want to manage infrastructure.
 
 ### Fathom Analytics
 
@@ -119,7 +122,7 @@ Fathom emphasizes privacy and simplicity:
 - Uptime monitoring included
 - Event tracking for goals
 
-Cost: From $14/month.
+Check current pricing, retention and data-processing terms.
 
 ### Comparison Table
 

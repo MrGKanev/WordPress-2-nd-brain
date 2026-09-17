@@ -1,5 +1,7 @@
 # SVG in WordPress
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 SVG (Scalable Vector Graphics) is the ideal format for logos, icons, illustrations, and UI elements — it scales to any size without quality loss and is typically much smaller than equivalent PNGs. But WordPress blocks SVG uploads by default because SVG files can contain JavaScript, making them a potential XSS vector.
 
 ## Why WordPress Blocks SVGs

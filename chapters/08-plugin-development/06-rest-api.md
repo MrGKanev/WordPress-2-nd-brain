@@ -1,5 +1,7 @@
 # WordPress REST API
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 The REST API is how the block editor talks to WordPress under the hood, and it's available for your plugins too. Every post, page, user, and taxonomy is accessible as a JSON endpoint at `/wp-json/wp/v2/`. You can register your own endpoints, build headless frontends that consume WordPress data, or let external services push content into your site. If `admin-ajax.php` is the old way of doing server communication, the REST API is the modern one—structured, discoverable, and built on HTTP standards that any language or framework can consume.
 
 ## REST API Basics

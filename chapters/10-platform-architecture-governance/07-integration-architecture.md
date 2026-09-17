@@ -1,5 +1,7 @@
 # Integration Architecture
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 An integration is a contract between systems with different failure modes, data models and release schedules. Design for authentication, retries, rate limits and partial failure before treating an API request as a simple function call.
 
 ## Contract First

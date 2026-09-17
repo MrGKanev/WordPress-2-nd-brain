@@ -1,5 +1,7 @@
 # Users, Roles & Capabilities
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 WordPress authorization is based on capabilities, not only role names. A role is a bundle of capabilities; plugins may add their own capabilities, and custom workflows can grant a specific action without granting broad administrator access.
 
 ## Default Roles

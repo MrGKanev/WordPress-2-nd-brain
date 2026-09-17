@@ -1,7 +1,7 @@
 # Deployment & Configuration Management
 
-> Last reviewed: 2026-07
-> Tested with: Git-based WordPress theme/plugin and WP-CLI workflows; hosting-specific release tools differ.
+> Last reviewed: 2026-09
+> Tested with: Documentation review only; validate commands against the target host on staging.
 > Risk: High — a deployment can change live code, schema and customer-facing behavior.
 
 Deployment is the controlled movement of a verified change into production. It
@@ -203,3 +203,4 @@ turns a deployment into an operational learning loop.
 - [Development Workflow](../04-performance/05-development-workflow.md) — Local tooling, Git and testing practices
 - [Database Migrations](../08-plugin-development/11-database-migrations.md) — Plugin schema migration patterns
 - [WP-CLI](https://developer.wordpress.org/cli/commands/) — Official command reference
+- [WordPress environment types](https://developer.wordpress.org/reference/functions/wp_get_environment_type/) — Official behavior and accepted values

@@ -1,5 +1,7 @@
 # Accessibility Basics
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 15-20% of people have some form of disability. Add everyone on a slow connection, using a phone in bright sunlight, or navigating with a broken hand, and "accessible" stops being a niche concern. HTML was designed to be accessible out of the box—most accessibility problems come from developers overriding sensible defaults or using the wrong elements for the job.
 
 ## Why Accessibility Matters
@@ -350,5 +352,5 @@ These address the most common issues and provide the foundation for deeper acces
 - [WebAIM](https://webaim.org/) - Accessibility education and resources
 - [WAI-ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/) - Patterns for accessible components
 - [WordPress Accessibility Handbook](https://make.wordpress.org/accessibility/handbook/) - Official WordPress guidance
-- [Theme Development](./README.md) - Building accessible themes
+- [Theme Development](./) - Building accessible themes
 - [WCAG Quick Reference](https://www.w3.org/WAI/WCAG21/quickref/) - Full WCAG criteria

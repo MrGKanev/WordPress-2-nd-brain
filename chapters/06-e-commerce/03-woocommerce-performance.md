@@ -1,44 +1,32 @@
 # WooCommerce Performance
 
+> Last reviewed: 2026-09
+> Tested with: Documentation review only; benchmark the actual catalog, extensions and checkout flow on staging.
+> Risk: High — cache, cron, storage and database changes can affect orders and checkout correctness.
+
 WooCommerce stores have specific performance challenges that standard WordPress optimizations don't address. Understanding why stores are slower leads to better solutions.
 
 ## Why WooCommerce is Slower
 
 | Reason | What Happens | Impact |
 |--------|--------------|--------|
-| More database queries | Cart, session, prices - every page load | 100-200+ queries vs 20-30 for blogs |
+| More database work | Cart, session and price data vary by shopper | More uncached work than a typical content page |
 | Complex product queries | Variable products, attributes, stock checks | JOINs across multiple tables |
 | Real-time calculations | Shipping, taxes, discounts | Cannot cache, must compute |
 | No page caching | Cart, checkout are dynamic | Full PHP execution every request |
 | Heavy admin | Product lists, order management | Slow backend frustrates staff |
 
-### The Query Reality
+### Measure the Query Workload
 
-**A typical blog page:** 20-30 database queries
-- Posts, meta, terms, options
-
-**A typical WooCommerce shop page:** 100-200+ database queries
-- Everything above PLUS:
-- Product meta (price, stock, attributes)
-- Variable product data (each variation)
-- Session data (cart contents)
-- Customer data (if logged in)
-- Shipping zone matching
-- Tax calculations
-
-**A cart/checkout page:** 200-400+ queries
-- All product data for cart items
-- Stock verification
-- Coupon validation
-- Shipping rate calculations
-- Payment gateway initialization
-- Session read/write
-
-**Why this matters:** You can't just "install a caching plugin" and expect good performance. WooCommerce requires strategic optimization at multiple levels.
+Query counts vary with the theme, catalog, extensions, shopper state and cache
+warmth. Profile representative shop, product, cart and checkout requests; use
+query time and repeated query patterns rather than a generic count as the signal.
 
 ## System Cron for WooCommerce
 
-WooCommerce relies heavily on scheduled tasks. The default HTTP-triggered cron is problematic:
+WooCommerce relies heavily on scheduled tasks. On sites where request-driven
+WP-Cron is late or adds noticeable request work, replace it with a monitored
+system scheduler:
 
 ```php
 // In wp-config.php - disable HTTP cron
@@ -60,10 +48,7 @@ define( 'DISABLE_WP_CRON', true );
 WooCommerce's Action Scheduler handles background jobs. Run it via CLI instead of HTTP:
 
 ```bash
-# Install the plugin to disable default queue runner
-# https://github.com/developer developer/action-scheduler-disable-default-runner
-
-# Add to system cron
+# After confirming the command exists for the installed Action Scheduler version:
 * * * * * nice -n 15 wp action-scheduler run --path=/PATH/TO/WP/ --quiet
 ```
 
@@ -153,11 +138,9 @@ wp_wc_orders_meta: Only order-specific meta
 wp_wc_order_addresses: Structured address data
 ```
 
-**Measured improvements:**
-- Order list admin page: 5-10x faster
-- Order search: 3-5x faster
-- Reports generation: Significantly faster
-- Reduced database lock contention
+HPOS avoids using posts and post meta as the primary order store. The actual
+performance change depends on order volume, queries and extension compatibility;
+benchmark it rather than assuming a multiplier.
 
 ### HPOS Compatibility Mode and Synchronization
 
@@ -764,13 +747,10 @@ add_filter( 'woocommerce_admin_disabled', '__return_true' );
 
 ### Minimum Requirements for WooCommerce
 
-| Resource | Minimum | Recommended | Why |
-|----------|---------|-------------|-----|
-| PHP Memory | 256MB | 512MB+ | Variable products, cart calculations |
-| PHP Workers | 4 | 8+ | Checkout can't wait, needs workers |
-| MySQL | 5.7 | 8.0+ | Better JSON support, performance |
-| Object Cache | Optional | Required | Essential for logged-in users |
-| PHP Version | 7.4 | 8.1+ | Significant performance gains |
+Use WooCommerce's current server requirements as the compatibility floor, not
+fixed values copied into an operations guide. Size memory and PHP workers from
+observed peak usage, queueing and checkout latency. Add a persistent object cache
+only when measurements show repeated cacheable work and monitor its hit rate.
 
 ### PHP-FPM Tuning
 
@@ -920,14 +900,11 @@ curl -o /dev/null -s -w "%{time_total}\n" "https://store.com/product/?test=2"
 curl -o /dev/null -s -w "%{time_total}\n" "https://store.com/product/?test=3"
 ```
 
-### TTFB Benchmarks
+### TTFB Baseline
 
-| TTFB | Rating |
-|------|--------|
-| < 250ms | Good |
-| < 500ms | OK |
-| < 1000ms | Needs work |
-| > 1000ms | Critical |
+Record time to first byte (TTFB) for the same URLs, cache state, location and
+concurrency before and after a change. Use the site's own service objective and
+historical baseline instead of universal thresholds.
 
 ### Performance-First Development
 
@@ -963,7 +940,7 @@ Small slowdowns add up. Track cumulative impact.
 
 Before diving into complex optimization, check these:
 
-- [ ] **Enable HPOS** for orders (5-10x faster order admin)
+- [ ] **Evaluate HPOS** on staging and verify every order integration
 - [ ] **Finish HPOS compatibility checks** before disabling legacy synchronization
 - [ ] **Disable cart fragments** on non-WooCommerce pages (fewer AJAX requests)
 - [ ] **Install Redis/Memcached** object cache (dramatic improvement for logged-in users)
@@ -975,7 +952,7 @@ Before diving into complex optimization, check these:
 - [ ] **Regenerate lookup tables** (WooCommerce > Status > Tools)
 - [ ] **Review session and Action Scheduler table growth**
 - [ ] **Clean autoloaded options** (if over 1MB)
-- [ ] **Update PHP version** (8.1 is 20-30% faster than 7.4)
+- [ ] **Use a supported PHP version** after extension compatibility and staging tests
 
 ## Further Reading
 
@@ -983,4 +960,6 @@ Before diving into complex optimization, check these:
 - [Database Optimization](../04-performance/07-database-optimizations.md) - General DB tips
 - [PHP-FPM Optimization](../04-performance/03-php-fpm-optimization.md) - Server tuning
 - [Core Web Vitals](../04-performance/08-core-web-vitals-optimizations.md) - Frontend metrics
+- [WooCommerce HPOS](https://developer.woocommerce.com/docs/features/high-performance-order-storage/) - Official storage and compatibility guidance
+- [Action Scheduler WP-CLI](https://actionscheduler.org/wp-cli/) - Official runner commands and options
 - [Servebolt WooCommerce Guide](https://servebolt.com/articles/how-to-speed-up-woocommerce/) - Comprehensive optimization article

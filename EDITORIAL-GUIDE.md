@@ -14,6 +14,14 @@ Add review metadata to new or substantially revised pages when the topic is vers
 
 Do not invent tested versions. If a command is untested in the repository, state its assumptions and label the validation the reader must perform.
 
+Legacy pages that have not received this review must say:
+
+```md
+> Review status: Unverified — validate version-sensitive guidance before production use.
+```
+
+Replace that marker with dated metadata only after an evidence-backed review.
+
 ## Writing Pattern
 
 Use this sequence when it fits:

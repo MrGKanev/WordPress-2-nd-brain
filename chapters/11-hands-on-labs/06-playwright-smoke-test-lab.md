@@ -1,5 +1,7 @@
 # Lab: Add a Playwright Smoke Test
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 This lab adds a minimal browser test for a public page. Run it against a local or staging URL, never against a production checkout that could trigger real integrations.
 
 ## Test File

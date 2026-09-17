@@ -1,5 +1,7 @@
 # Transactional Email Authentication
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 WordPress email is part of the security boundary: password resets, order confirmations and account notices must be delivered from an authenticated domain. Use a transactional email provider or correctly configured SMTP service instead of relying on an unverified server mail setup.
 
 ## Authentication Layers

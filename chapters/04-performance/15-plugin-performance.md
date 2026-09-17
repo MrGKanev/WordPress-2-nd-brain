@@ -1,5 +1,7 @@
 # Plugin Performance Evaluation
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 That "lightweight" plugin you installed last month? It might be adding 300ms and 15 database queries to every page load. You won't know until you measure. This section shows you how to profile individual plugin impact and make informed decisions about what stays and what goes.
 
 ## The True Cost of Plugins

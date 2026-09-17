@@ -1,5 +1,7 @@
 # CI/CD & Quality Gates
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Continuous integration turns routine checks into a requirement for every change. Continuous delivery makes releases repeatable rather than a sequence of manual server edits.
 
 ## Minimum Pipeline

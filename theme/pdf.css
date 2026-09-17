@@ -17,6 +17,19 @@
   @bottom-center { content: none; }
 }
 
+.pdf-cover {
+  page-break-after: always;
+  margin: -15mm;
+  overflow: hidden;
+}
+
+.pdf-cover img {
+  display: block;
+  width: 210mm;
+  height: 297mm;
+  object-fit: cover;
+}
+
 /* Main text styling */
 body {
   font-family: "DejaVu Serif", serif;

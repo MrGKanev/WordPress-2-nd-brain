@@ -1,5 +1,7 @@
 # Commerce Operations II: Returns, Fraud & Marketplaces
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 Payments and fulfilment are only part of store operations. Returns, chargebacks, fraud signals and marketplace feeds require clear policies and data ownership to avoid financial loss and poor customer support.
 
 ## Returns and Exchanges

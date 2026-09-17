@@ -1,5 +1,7 @@
 # WordPress Fundamentals
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 ## What is WordPress?
 
 WordPress is an open-source CMS written in PHP that runs roughly 43% of the web. That number isn't a marketing gimmick—it reflects two decades of pragmatic decisions: easy hosting on cheap LAMP/LEMP stacks, a plugin system that lets non-developers add features, and a theme layer that separates design from logic.
@@ -268,13 +270,13 @@ Managing WordPress dependencies with Composer. Covers WPackagist, Bedrock, autol
 
 After this chapter, proceed in this order:
 
-1. **[Maintenance](../02-maintenance/README.md)** - Learn to manage WordPress sites
-2. **[Security](../03-security/README.md)** - Understand security basics
-3. **[Performance](../04-performance/README.md)** - Optimize your sites
-4. **[SEO](../05-seo/README.md)** - Search engine optimization
-5. **[E-commerce](../06-e-commerce/README.md)** - WooCommerce basics
-6. **[Theme Development](../07-theme-development/README.md)** - Build themes
-7. **[Plugin Development](../08-plugin-development/README.md)** - Build plugins
+1. **[Maintenance](../02-maintenance/)** - Learn to manage WordPress sites
+2. **[Security](../03-security/)** - Understand security basics
+3. **[Performance](../04-performance/)** - Optimize your sites
+4. **[SEO](../05-seo/)** - Search engine optimization
+5. **[E-commerce](../06-e-commerce/)** - WooCommerce basics
+6. **[Theme Development](../07-theme-development/)** - Build themes
+7. **[Plugin Development](../08-plugin-development/)** - Build plugins
 
 ## Further Reading
 
@@ -282,4 +284,4 @@ After this chapter, proceed in this order:
 - [Developer Resources](https://developer.wordpress.org/)
 - [Learn WordPress](https://learn.wordpress.org/) - Free official courses
 - [Database Operations](../08-plugin-development/03-database-operations.md) - Advanced queries and custom tables
-- [Plugin Development](../08-plugin-development/README.md) - Custom capabilities, CPTs, and the full hooks system
+- [Plugin Development](../08-plugin-development/) - Custom capabilities, CPTs, and the full hooks system

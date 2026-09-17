@@ -1,5 +1,7 @@
 # XML Sitemaps and Structured Data
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 XML sitemaps help search engines discover your content. Structured data helps them understand it. Together, they form the foundation of technical SEO communication with search engines.
 
 ## XML Sitemaps

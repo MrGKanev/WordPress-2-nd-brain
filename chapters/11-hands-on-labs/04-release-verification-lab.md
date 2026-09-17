@@ -1,5 +1,7 @@
 # Lab: Verify a Release
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 This lab turns a deployment into an observable, reversible operation. Run it after a staging or production release with an agreed owner and rollback path.
 
 ## Release Flow

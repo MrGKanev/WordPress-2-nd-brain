@@ -1,5 +1,7 @@
 # Database Optimization
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 ## Overview
 
 The database is often the hidden bottleneck in WordPress performance. Every page load triggers multiple database queries—fetching posts, loading options, checking user sessions. When these queries slow down, everything slows down.

@@ -1,5 +1,7 @@
 # Lab: Design a Webhook Processor
 
+> Review status: Unverified — validate version-sensitive guidance before production use.
+
 This lab models the safe path for an external event. It does not connect to a live provider; use a provider's sandbox documentation for the exact signature format and event schema.
 
 ## Event Path
